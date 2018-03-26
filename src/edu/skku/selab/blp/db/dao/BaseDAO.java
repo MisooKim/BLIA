@@ -29,11 +29,8 @@ public class BaseDAO {
 	final public static int INVALID = -1;
 	final static String DEFAULT_DB_NAME = "sample";
 	
-	protected StatementSet psSet = new StatementSet();
-	
 	
 	public BaseDAO() throws Exception {
-		
 		
 		Property property = Property.getInstance(); 
 		
@@ -56,7 +53,6 @@ public class BaseDAO {
 	
 	public static void openConnection(String dbName) throws Exception {
 		openEvaluationDbConnection();
-		
 		if (null == analysisDbConnection) {
 			Class.forName("org.h2.Driver");
 			String connectionURL = "jdbc:h2:file:./db/" + dbName;

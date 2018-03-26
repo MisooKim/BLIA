@@ -62,6 +62,7 @@ public class BLP {
 		long startTime = System.currentTimeMillis();
 		logger.trace("[START] BLIA Evaluation START");
 		Property prop = Property.loadInstance();
+		logger.info("[DATA] "+prop.getProductName()+" " +prop.getAlpha()+" "+prop.getBeta());
 		logger.trace("Start InitializeDB");
 		// initialize DB and create all tables.
 		initializeDB();

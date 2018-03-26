@@ -37,12 +37,13 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int insertStructuredBug(Bug bug) {
-		
+		String sql = "INSERT INTO BUG_INFO (BUG_ID, OPEN_DATE, FIXED_DATE, SMR_COR, DESC_COR, CMT_COR, TOT_CNT, VER)" +
+					 " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		// releaseDate format : "2004-10-18 17:40:00"
 		try {
-			ps = psSet.getPS("insertStructuredBug");
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, bug.getID());
 			ps.setString(2, bug.getOpenDateString());
 			ps.setString(3, bug.getFixedDateString());
@@ -78,7 +79,7 @@ public class BugDAO extends BaseDAO {
 		int returnValue = INVALID;
 		
 		try {
-			ps = psSet.getPS("deleteAllBugs");
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -90,9 +91,11 @@ public class BugDAO extends BaseDAO {
 	
 	public HashMap<Integer, Bug> getBugs() {
 		HashMap<Integer, Bug> bugs = new HashMap<Integer, Bug>();
-			
+		
+		String sql = "SELECT BUG_ID, OPEN_DATE, FIXED_DATE, COR, SMR_COR, DESC_COR, TOT_CNT, COR_NORM, SMR_COR_NORM, DESC_COR_NORM, VER FROM BUG_INFO";
+		
 		try {
-			ps = psSet.getPS("getBugs");
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			Bug bug = null;
 			rs = ps.executeQuery();
@@ -130,7 +133,9 @@ public class BugDAO extends BaseDAO {
 	
 	public ArrayList<Bug> getAllBugs(boolean orderedByFixedDate) {
 		ArrayList<Bug> bugs = new ArrayList<Bug>();
-			
+		
+		String sql = "SELECT BUG_ID, OPEN_DATE, FIXED_DATE, COR, SMR_COR, DESC_COR, CMT_COR, TOT_CNT, COR_NORM, SMR_COR_NORM, DESC_COR_NORM, VER FROM BUG_INFO ";
+		
 		if (orderedByFixedDate) {
 			sql += "ORDER BY FIXED_DATE";
 		}
