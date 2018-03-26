@@ -19,10 +19,6 @@ import java.util.Properties;
 
 
 public class Property {
-	final static public String ASPECTJ = "aspectj";
-	final static public String ECLIPSE = "eclipse";
-	final static public String SWT = "swt";
-	final static public String ZXING = "zxing";
 	
 	final static public int THREAD_COUNT = Integer.parseInt(Property.readProperty("THREAD_COUNT"));
 	final static private String WORK_DIR = Property.readProperty("WORK_DIR");

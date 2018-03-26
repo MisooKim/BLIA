@@ -1,0 +1,38 @@
+2018-03-26 22:31:01,257 [main] TRACE  edu.skku.selab.blp.BLP - [START] BLIA Evaluation START
+2018-03-26 22:31:01,264 [main] INFO   edu.skku.selab.blp.BLP - [DATA] zxing 0.2 0.0 commit
+2018-03-26 22:31:01,265 [main] TRACE  edu.skku.selab.blp.BLP - Start InitializeDB
+2018-03-26 22:31:01,486 [main] TRACE  edu.skku.selab.blp.BLP - Finish InitializeDB
+2018-03-26 22:31:01,486 [main] TRACE  edu.skku.selab.blp.BLP - Start BLIA with COMMIT VERSION 
+2018-03-26 22:31:01,499 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - zxing 0.2 0.0
+2018-03-26 22:31:01,499 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] BLIA prepareAnalysisData().
+2018-03-26 22:31:01,500 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug corpus creating.
+2018-03-26 22:31:01,867 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug corpus creating.(0.366 sec)
+2018-03-26 22:31:01,867 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug vector creating.
+2018-03-26 22:31:02,109 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug vector creating.(0.242 sec)
+2018-03-26 22:31:02,109 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Commit log collecting.
+2018-03-26 22:31:02,232 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe [git, --version],C:\Program Files\Git\cmd
+2018-03-26 22:31:02,278 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe may return 'git version 2.11.0.windows.1'
+2018-03-26 22:31:02,278 [main] DEBUG  org.eclipse.jgit.util.FS - remaining output:
+
+2018-03-26 22:31:02,282 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe [git, config, --system, --edit],C:\Program Files\Git\cmd
+2018-03-26 22:31:02,347 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe may return 'C:/Program Files/Git/mingw64/etc/gitconfig'
+2018-03-26 22:31:02,347 [main] DEBUG  org.eclipse.jgit.util.FS - remaining output:
+
+2018-03-26 22:31:03,958 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Commit log collecting: Commit Force = false(1.849 sec)
+2018-03-26 22:31:04,067 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 364
+2018-03-26 22:31:06,381 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(4.272 sec)
+2018-03-26 22:31:06,383 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating. for 364
+2018-03-26 22:31:08,103 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.720 sec)
+2018-03-26 22:31:08,104 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating. for 364
+2018-03-26 22:31:08,122 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.18 sec)
+2018-03-26 22:31:08,122 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 383
+2018-03-26 22:31:09,911 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.807 sec)
+2018-03-26 22:31:09,911 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating. for 383
+2018-03-26 22:31:10,705 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(0.794 sec)
+2018-03-26 22:31:10,705 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating. for 383
+2018-03-26 22:31:10,715 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.10 sec)
+2018-03-26 22:31:10,715 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 357
+2018-03-26 22:31:11,789 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.84 sec)
+2018-03-26 22:31:11,789 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating. for 357
+2018-03-26 22:31:12,731 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(0.941 sec)
+2018-03-26 22:31:12,731 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating. for 357

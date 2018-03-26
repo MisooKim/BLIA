@@ -41,7 +41,7 @@ public class BliaTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		String targetProduct = Property.ZXING;
+		String targetProduct = "zxing";
 		Property prop = Property.loadInstance(targetProduct);
 		double alpha = 0.41;
 		double beta = 0.13;

@@ -1,0 +1,41 @@
+2018-03-26 20:59:49,299 [main] TRACE  edu.skku.selab.blp.BLP - [START] BLIA Evaluation START
+2018-03-26 20:59:49,308 [main] INFO   edu.skku.selab.blp.BLP - [DATA] zxing 0.2 0.0 commit
+2018-03-26 20:59:49,309 [main] TRACE  edu.skku.selab.blp.BLP - Start InitializeDB
+2018-03-26 20:59:49,499 [main] TRACE  edu.skku.selab.blp.BLP - Finish InitializeDB
+2018-03-26 20:59:49,499 [main] TRACE  edu.skku.selab.blp.BLP - Start BLIA with COMMIT VERSION 
+2018-03-26 20:59:49,513 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - zxing 0.2 0.0
+2018-03-26 20:59:49,513 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] BLIA prepareAnalysisData().
+2018-03-26 20:59:49,514 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug corpus creating.
+2018-03-26 20:59:49,911 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug corpus creating.(0.397 sec)
+2018-03-26 20:59:49,911 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug vector creating.
+2018-03-26 20:59:50,149 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug vector creating.(0.237 sec)
+2018-03-26 20:59:50,149 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Commit log collecting.
+2018-03-26 20:59:50,272 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe [git, --version],C:\Program Files\Git\cmd
+2018-03-26 20:59:50,303 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe may return 'git version 2.11.0.windows.1'
+2018-03-26 20:59:50,303 [main] DEBUG  org.eclipse.jgit.util.FS - remaining output:
+
+2018-03-26 20:59:50,307 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe [git, config, --system, --edit],C:\Program Files\Git\cmd
+2018-03-26 20:59:50,360 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe may return 'C:/Program Files/Git/mingw64/etc/gitconfig'
+2018-03-26 20:59:50,360 [main] DEBUG  org.eclipse.jgit.util.FS - remaining output:
+
+2018-03-26 20:59:53,309 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Commit log collecting: Commit Force = false(3.160 sec)
+2018-03-26 20:59:53,394 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 364
+2018-03-26 20:59:53,401 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 383
+2018-03-26 20:59:53,403 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 357
+2018-03-26 20:59:53,405 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 411
+2018-03-26 20:59:53,407 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 412
+2018-03-26 20:59:53,409 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 407
+2018-03-26 20:59:53,411 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 432
+2018-03-26 20:59:53,413 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 363
+2018-03-26 20:59:53,415 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 475
+2018-03-26 20:59:53,416 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating. for 469
+2018-03-26 20:59:53,418 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] BLIA prepareAnalysisData().(Total 3.905 sec)
+2018-03-26 20:59:53,418 [main] TRACE  edu.skku.selab.blp.BLP - Finish BLIA
+2018-03-26 20:59:53,418 [main] TRACE  edu.skku.selab.blp.BLP - Start Evaluator for File Level
+2018-03-26 20:59:53,419 [main] TRACE  e.s.selab.blp.evaluation.Evaluator - [STARTED] Evaluator.evaluate().
+2018-03-26 20:59:53,435 [main] INFO   e.s.selab.blp.evaluation.Evaluator - [BLIA_File] Top1: 0, Top5: 0, Top10: 0, Top1Rate: 0.0, Top5Rate: 0.0, Top10Rate:0.0
+2018-03-26 20:59:53,436 [main] INFO   e.s.selab.blp.evaluation.Evaluator - MRR: 0.0
+2018-03-26 20:59:53,436 [main] INFO   e.s.selab.blp.evaluation.Evaluator - MAP: 0.0
+2018-03-26 20:59:53,437 [main] TRACE  e.s.selab.blp.evaluation.Evaluator - [DONE] Evaluator.evaluate().(Total 0.18 sec)
+2018-03-26 20:59:53,437 [main] TRACE  edu.skku.selab.blp.BLP - Finish Evaluator for File Level
+2018-03-26 20:59:53,437 [main] TRACE  edu.skku.selab.blp.BLP - [DONE] BLIA Evaluation FINISH(Total 4.139  sec)

@@ -1,0 +1,205 @@
+2018-03-26 19:35:58,537 [main] TRACE  edu.skku.selab.blp.BLP - [START] BLIA Evaluation START
+2018-03-26 19:35:58,545 [main] INFO   edu.skku.selab.blp.BLP - [DATA] zxing 0.2 0.0 commit
+2018-03-26 19:35:58,546 [main] TRACE  edu.skku.selab.blp.BLP - Start InitializeDB
+2018-03-26 19:35:58,767 [main] TRACE  edu.skku.selab.blp.BLP - Finish InitializeDB
+2018-03-26 19:35:58,768 [main] TRACE  edu.skku.selab.blp.BLP - Start BLIA with COMMIT VERSION 
+2018-03-26 19:35:58,780 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - zxing 0.2 0.0
+2018-03-26 19:35:58,780 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] BLIA prepareAnalysisData().
+2018-03-26 19:35:58,782 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug corpus creating.
+2018-03-26 19:35:59,169 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug corpus creating.(0.387 sec)
+2018-03-26 19:35:59,169 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug vector creating.
+2018-03-26 19:35:59,397 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug vector creating.(0.228 sec)
+2018-03-26 19:35:59,397 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Commit log collecting.
+2018-03-26 19:35:59,509 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe [git, --version],C:\Program Files\Git\cmd
+2018-03-26 19:35:59,548 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe may return 'git version 2.11.0.windows.1'
+2018-03-26 19:35:59,548 [main] DEBUG  org.eclipse.jgit.util.FS - remaining output:
+
+2018-03-26 19:35:59,551 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe [git, config, --system, --edit],C:\Program Files\Git\cmd
+2018-03-26 19:35:59,607 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe may return 'C:/Program Files/Git/mingw64/etc/gitconfig'
+2018-03-26 19:35:59,607 [main] DEBUG  org.eclipse.jgit.util.FS - remaining output:
+
+2018-03-26 19:36:02,998 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Commit log collecting: Commit Force = false(3.601 sec)
+2018-03-26 19:36:03,199 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:04,675 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(5.278 sec)
+2018-03-26 19:36:04,676 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:06,156 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.480 sec)
+2018-03-26 19:36:06,156 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:06,174 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.18 sec)
+2018-03-26 19:36:06,174 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:07,288 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.132 sec)
+2018-03-26 19:36:07,289 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:08,306 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.17 sec)
+2018-03-26 19:36:08,306 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:08,323 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.17 sec)
+2018-03-26 19:36:08,324 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:09,277 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(0.971 sec)
+2018-03-26 19:36:09,277 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:10,368 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.91 sec)
+2018-03-26 19:36:10,368 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:10,383 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.15 sec)
+2018-03-26 19:36:10,384 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:11,281 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(0.913 sec)
+2018-03-26 19:36:11,282 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:12,333 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.51 sec)
+2018-03-26 19:36:12,333 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:12,346 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.12 sec)
+2018-03-26 19:36:12,346 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:13,337 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.3 sec)
+2018-03-26 19:36:13,338 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:14,714 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.376 sec)
+2018-03-26 19:36:14,714 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:14,728 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.14 sec)
+2018-03-26 19:36:14,728 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:15,833 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.119 sec)
+2018-03-26 19:36:15,834 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:17,096 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.262 sec)
+2018-03-26 19:36:17,096 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:17,110 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.14 sec)
+2018-03-26 19:36:17,110 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:18,351 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.255 sec)
+2018-03-26 19:36:18,352 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:19,712 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.360 sec)
+2018-03-26 19:36:19,712 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:19,725 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.13 sec)
+2018-03-26 19:36:19,725 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:20,744 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.32 sec)
+2018-03-26 19:36:20,745 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:22,083 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.338 sec)
+2018-03-26 19:36:22,084 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:22,099 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.15 sec)
+2018-03-26 19:36:22,099 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:23,187 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.103 sec)
+2018-03-26 19:36:23,187 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:24,655 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.468 sec)
+2018-03-26 19:36:24,655 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:24,669 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.14 sec)
+2018-03-26 19:36:24,669 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:25,858 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.203 sec)
+2018-03-26 19:36:25,858 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:27,556 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.698 sec)
+2018-03-26 19:36:27,556 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:27,575 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.19 sec)
+2018-03-26 19:36:27,575 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:28,658 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.102 sec)
+2018-03-26 19:36:28,659 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:30,443 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.784 sec)
+2018-03-26 19:36:30,443 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:30,460 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.17 sec)
+2018-03-26 19:36:30,460 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:31,546 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.103 sec)
+2018-03-26 19:36:31,547 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:33,161 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.614 sec)
+2018-03-26 19:36:33,161 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:33,176 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.15 sec)
+2018-03-26 19:36:33,176 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:34,269 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.108 sec)
+2018-03-26 19:36:34,270 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:35,926 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.656 sec)
+2018-03-26 19:36:35,927 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:35,941 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.14 sec)
+2018-03-26 19:36:35,941 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:37,034 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.107 sec)
+2018-03-26 19:36:37,035 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:38,870 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.835 sec)
+2018-03-26 19:36:38,870 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:38,886 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.16 sec)
+2018-03-26 19:36:38,886 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:39,939 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.69 sec)
+2018-03-26 19:36:39,939 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:41,810 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.871 sec)
+2018-03-26 19:36:41,810 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:41,832 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.22 sec)
+2018-03-26 19:36:41,832 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:42,938 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.128 sec)
+2018-03-26 19:36:42,938 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:45,033 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(2.95 sec)
+2018-03-26 19:36:45,034 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:45,048 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.14 sec)
+2018-03-26 19:36:45,048 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:46,189 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.155 sec)
+2018-03-26 19:36:46,189 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:48,399 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(2.210 sec)
+2018-03-26 19:36:48,399 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:48,415 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.16 sec)
+2018-03-26 19:36:48,415 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:49,547 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.148 sec)
+2018-03-26 19:36:49,550 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:51,895 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(2.345 sec)
+2018-03-26 19:36:51,895 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:51,910 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.15 sec)
+2018-03-26 19:36:51,910 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:53,050 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.155 sec)
+2018-03-26 19:36:53,050 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:55,606 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(2.556 sec)
+2018-03-26 19:36:55,606 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:55,623 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.17 sec)
+2018-03-26 19:36:55,623 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 19:36:56,827 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(1.221 sec)
+2018-03-26 19:36:56,828 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 19:36:59,469 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(2.641 sec)
+2018-03-26 19:36:59,469 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 19:36:59,485 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.16 sec)
+2018-03-26 19:36:59,486 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] BLIA prepareAnalysisData().(Total 60.706 sec)
+2018-03-26 19:36:59,486 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] BLIA pre-anlaysis.
+2018-03-26 19:36:59,487 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file analysis.
+2018-03-26 19:36:59,984 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file analysis.(0.497 sec)
+2018-03-26 19:36:59,985 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug repository analysis.
+2018-03-26 19:37:00,029 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug repository analysis.(0.44 sec)
+2018-03-26 19:37:00,029 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Stack-trace analysis.
+2018-03-26 19:37:00,037 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Stack-trace analysis.(0.8 sec)
+2018-03-26 19:37:00,037 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Scm repository analysis.
+2018-03-26 19:37:00,859 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Scm repository analysis.(0.822 sec)
+2018-03-26 19:37:00,859 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] BLIA pre-anlaysis.(Total 62.79 sec)
+2018-03-26 19:37:00,859 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] BLIA anlaysis.
+2018-03-26 19:37:00,859 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] BLIA.anlayze()
+2018-03-26 19:37:00,885 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [0] Bug ID: 364 (0.26 sec)
+2018-03-26 19:37:00,895 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [1] Bug ID: 383 (0.10 sec)
+2018-03-26 19:37:00,910 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [2] Bug ID: 357 (0.14 sec)
+2018-03-26 19:37:00,922 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [3] Bug ID: 411 (0.12 sec)
+2018-03-26 19:37:00,932 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [4] Bug ID: 412 (0.10 sec)
+2018-03-26 19:37:00,945 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [5] Bug ID: 407 (0.13 sec)
+2018-03-26 19:37:00,951 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [6] Bug ID: 432 (0.6 sec)
+2018-03-26 19:37:00,964 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [7] Bug ID: 363 (0.13 sec)
+2018-03-26 19:37:00,975 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [8] Bug ID: 475 (0.11 sec)
+2018-03-26 19:37:00,988 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [9] Bug ID: 469 (0.13 sec)
+2018-03-26 19:37:01,000 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [10] Bug ID: 512 (0.11 sec)
+2018-03-26 19:37:01,014 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [11] Bug ID: 511 (0.14 sec)
+2018-03-26 19:37:01,024 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [12] Bug ID: 508 (0.10 sec)
+2018-03-26 19:37:01,038 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [13] Bug ID: 492 (0.13 sec)
+2018-03-26 19:37:01,055 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [14] Bug ID: 507 (0.17 sec)
+2018-03-26 19:37:01,065 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [15] Bug ID: 519 (0.10 sec)
+2018-03-26 19:37:01,072 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [16] Bug ID: 524 (0.7 sec)
+2018-03-26 19:37:01,093 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [17] Bug ID: 537 (0.21 sec)
+2018-03-26 19:37:01,106 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [18] Bug ID: 548 (0.13 sec)
+2018-03-26 19:37:01,120 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [19] Bug ID: 376 (0.14 sec)
+2018-03-26 19:37:01,487 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [0] Bug ID: 364 (0.7 sec)
+2018-03-26 19:37:01,492 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [1] Bug ID: 383 (0.5 sec)
+2018-03-26 19:37:01,496 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [2] Bug ID: 357 (0.4 sec)
+2018-03-26 19:37:01,501 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [3] Bug ID: 411 (0.5 sec)
+2018-03-26 19:37:01,507 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [4] Bug ID: 412 (0.5 sec)
+2018-03-26 19:37:01,513 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [5] Bug ID: 407 (0.6 sec)
+2018-03-26 19:37:01,520 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [6] Bug ID: 432 (0.7 sec)
+2018-03-26 19:37:01,523 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [7] Bug ID: 363 (0.3 sec)
+2018-03-26 19:37:01,530 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [8] Bug ID: 475 (0.7 sec)
+2018-03-26 19:37:01,541 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [9] Bug ID: 469 (0.11 sec)
+2018-03-26 19:37:01,547 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [10] Bug ID: 512 (0.5 sec)
+2018-03-26 19:37:01,551 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [11] Bug ID: 511 (0.4 sec)
+2018-03-26 19:37:01,558 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [12] Bug ID: 508 (0.7 sec)
+2018-03-26 19:37:01,565 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [13] Bug ID: 492 (0.7 sec)
+2018-03-26 19:37:01,570 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [14] Bug ID: 507 (0.4 sec)
+2018-03-26 19:37:01,574 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [15] Bug ID: 519 (0.4 sec)
+2018-03-26 19:37:01,578 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [16] Bug ID: 524 (0.4 sec)
+2018-03-26 19:37:01,582 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [17] Bug ID: 537 (0.4 sec)
+2018-03-26 19:37:01,585 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [18] Bug ID: 548 (0.3 sec)
+2018-03-26 19:37:01,589 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [19] Bug ID: 376 (0.4 sec)
+2018-03-26 19:37:01,589 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] BLIA.anlayze()
+2018-03-26 19:37:01,589 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] BLIA anlaysis.(Total 0.730 sec)
+2018-03-26 19:37:01,589 [main] TRACE  edu.skku.selab.blp.BLP - Finish BLIA
+2018-03-26 19:37:01,590 [main] TRACE  edu.skku.selab.blp.BLP - Start Evaluator for File Level
+2018-03-26 19:37:01,590 [main] TRACE  e.s.selab.blp.evaluation.Evaluator - [STARTED] Evaluator.evaluate().
+2018-03-26 19:37:01,609 [main] INFO   e.s.selab.blp.evaluation.Evaluator - [BLIA_File] Top1: 0, Top5: 0, Top10: 0, Top1Rate: 0.0, Top5Rate: 0.0, Top10Rate:0.0
+2018-03-26 19:37:01,609 [main] INFO   e.s.selab.blp.evaluation.Evaluator - MRR: 0.0035714285714285713
+2018-03-26 19:37:01,609 [main] INFO   e.s.selab.blp.evaluation.Evaluator - MAP: 0.0029403177964482186
+2018-03-26 19:37:01,610 [main] TRACE  e.s.selab.blp.evaluation.Evaluator - [DONE] Evaluator.evaluate().(Total 0.20 sec)
+2018-03-26 19:37:01,610 [main] TRACE  edu.skku.selab.blp.BLP - Finish Evaluator for File Level
+2018-03-26 19:37:01,610 [main] TRACE  edu.skku.selab.blp.BLP - [DONE] BLIA Evaluation FINISH(Total 63.74  sec)

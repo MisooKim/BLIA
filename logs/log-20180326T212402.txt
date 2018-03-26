@@ -1,0 +1,91 @@
+2018-03-26 21:24:02,244 [main] TRACE  edu.skku.selab.blp.BLP - [START] BLIA Evaluation START
+2018-03-26 21:24:02,253 [main] INFO   edu.skku.selab.blp.BLP - [DATA] zxing 0.2 0.0 release
+2018-03-26 21:24:02,253 [main] TRACE  edu.skku.selab.blp.BLP - Start InitializeDB
+2018-03-26 21:24:02,463 [main] TRACE  edu.skku.selab.blp.BLP - Finish InitializeDB
+2018-03-26 21:24:02,464 [main] TRACE  edu.skku.selab.blp.BLP - Start BLIA with RELEASE VERSION 
+2018-03-26 21:24:02,478 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - zxing 0.2 0.0
+2018-03-26 21:24:02,478 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] BLIA prepareAnalysisData().
+2018-03-26 21:24:02,478 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 21:24:04,714 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(2.236 sec)
+2018-03-26 21:24:04,714 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 21:24:06,719 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(2.5 sec)
+2018-03-26 21:24:06,719 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug corpus creating.
+2018-03-26 21:24:06,930 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug corpus creating.(0.211 sec)
+2018-03-26 21:24:06,930 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug vector creating.
+2018-03-26 21:24:07,038 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug vector creating.(0.108 sec)
+2018-03-26 21:24:07,039 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Commit log collecting.
+2018-03-26 21:24:07,119 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe [git, --version],C:\Program Files\Git\cmd
+2018-03-26 21:24:07,164 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe may return 'git version 2.11.0.windows.1'
+2018-03-26 21:24:07,165 [main] DEBUG  org.eclipse.jgit.util.FS - remaining output:
+
+2018-03-26 21:24:07,168 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe [git, config, --system, --edit],C:\Program Files\Git\cmd
+2018-03-26 21:24:07,231 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe may return 'C:/Program Files/Git/mingw64/etc/gitconfig'
+2018-03-26 21:24:07,231 [main] DEBUG  org.eclipse.jgit.util.FS - remaining output:
+
+2018-03-26 21:24:08,002 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Commit log collecting: Commit Force = false(0.963 sec)
+2018-03-26 21:24:08,002 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug-Source file vector creating.
+2018-03-26 21:24:08,065 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug-Source file vector creating.(0.63 sec)
+2018-03-26 21:24:08,066 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] BLIA prepareAnalysisData().(Total 5.588 sec)
+2018-03-26 21:24:08,066 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] BLIA pre-anlaysis.
+2018-03-26 21:24:08,067 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file analysis.
+2018-03-26 21:24:08,590 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file analysis.(0.523 sec)
+2018-03-26 21:24:08,590 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug repository analysis.
+2018-03-26 21:24:08,650 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug repository analysis.(0.60 sec)
+2018-03-26 21:24:08,650 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Stack-trace analysis.
+2018-03-26 21:24:08,665 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Stack-trace analysis.(0.15 sec)
+2018-03-26 21:24:08,665 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Scm repository analysis.
+2018-03-26 21:24:08,764 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Scm repository analysis.(0.99 sec)
+2018-03-26 21:24:08,764 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] BLIA pre-anlaysis.(Total 6.286 sec)
+2018-03-26 21:24:08,764 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] BLIA anlaysis.
+2018-03-26 21:24:08,764 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] BLIA.anlayze()
+2018-03-26 21:24:08,767 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [0] Bug ID: 364 (0.3 sec)
+2018-03-26 21:24:08,770 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [1] Bug ID: 383 (0.3 sec)
+2018-03-26 21:24:08,771 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [2] Bug ID: 357 (0.1 sec)
+2018-03-26 21:24:08,773 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [3] Bug ID: 411 (0.1 sec)
+2018-03-26 21:24:08,775 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [4] Bug ID: 412 (0.2 sec)
+2018-03-26 21:24:08,776 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [5] Bug ID: 407 (0.1 sec)
+2018-03-26 21:24:08,778 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [6] Bug ID: 432 (0.1 sec)
+2018-03-26 21:24:08,781 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [7] Bug ID: 363 (0.3 sec)
+2018-03-26 21:24:08,783 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [8] Bug ID: 475 (0.2 sec)
+2018-03-26 21:24:08,784 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [9] Bug ID: 469 (0.1 sec)
+2018-03-26 21:24:08,786 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [10] Bug ID: 512 (0.2 sec)
+2018-03-26 21:24:08,788 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [11] Bug ID: 511 (0.2 sec)
+2018-03-26 21:24:08,790 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [12] Bug ID: 508 (0.2 sec)
+2018-03-26 21:24:08,792 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [13] Bug ID: 492 (0.2 sec)
+2018-03-26 21:24:08,794 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [14] Bug ID: 507 (0.2 sec)
+2018-03-26 21:24:08,796 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [15] Bug ID: 519 (0.2 sec)
+2018-03-26 21:24:08,799 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [16] Bug ID: 524 (0.3 sec)
+2018-03-26 21:24:08,802 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [17] Bug ID: 537 (0.3 sec)
+2018-03-26 21:24:08,805 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [18] Bug ID: 548 (0.3 sec)
+2018-03-26 21:24:08,808 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaSourceFileScore()] [19] Bug ID: 376 (0.2 sec)
+2018-03-26 21:24:09,199 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [0] Bug ID: 364 (0.7 sec)
+2018-03-26 21:24:09,206 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [1] Bug ID: 383 (0.7 sec)
+2018-03-26 21:24:09,209 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [2] Bug ID: 357 (0.3 sec)
+2018-03-26 21:24:09,214 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [3] Bug ID: 411 (0.5 sec)
+2018-03-26 21:24:09,219 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [4] Bug ID: 412 (0.5 sec)
+2018-03-26 21:24:09,224 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [5] Bug ID: 407 (0.5 sec)
+2018-03-26 21:24:09,229 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [6] Bug ID: 432 (0.5 sec)
+2018-03-26 21:24:09,232 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [7] Bug ID: 363 (0.3 sec)
+2018-03-26 21:24:09,236 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [8] Bug ID: 475 (0.4 sec)
+2018-03-26 21:24:09,242 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [9] Bug ID: 469 (0.5 sec)
+2018-03-26 21:24:09,243 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [10] Bug ID: 512 (0.0 sec)
+2018-03-26 21:24:09,246 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [11] Bug ID: 511 (0.2 sec)
+2018-03-26 21:24:09,247 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [12] Bug ID: 508 (0.1 sec)
+2018-03-26 21:24:09,249 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [13] Bug ID: 492 (0.2 sec)
+2018-03-26 21:24:09,250 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [14] Bug ID: 507 (0.1 sec)
+2018-03-26 21:24:09,252 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [15] Bug ID: 519 (0.2 sec)
+2018-03-26 21:24:09,253 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [16] Bug ID: 524 (0.1 sec)
+2018-03-26 21:24:09,256 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [17] Bug ID: 537 (0.3 sec)
+2018-03-26 21:24:09,258 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [18] Bug ID: 548 (0.1 sec)
+2018-03-26 21:24:09,266 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - [calculateBliaMethodScore()] [19] Bug ID: 376 (0.8 sec)
+2018-03-26 21:24:09,266 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] BLIA.anlayze()
+2018-03-26 21:24:09,266 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] BLIA anlaysis.(Total 0.502 sec)
+2018-03-26 21:24:09,266 [main] TRACE  edu.skku.selab.blp.BLP - Finish BLIA
+2018-03-26 21:24:09,267 [main] TRACE  edu.skku.selab.blp.BLP - Start Evaluator for File Level
+2018-03-26 21:24:09,268 [main] TRACE  e.s.selab.blp.evaluation.Evaluator - [STARTED] Evaluator.evaluate().
+2018-03-26 21:24:09,280 [main] INFO   e.s.selab.blp.evaluation.Evaluator - [BLIA_File] Top1: 11, Top5: 15, Top10: 16, Top1Rate: 0.55, Top5Rate: 0.75, Top10Rate:0.8
+2018-03-26 21:24:09,280 [main] INFO   e.s.selab.blp.evaluation.Evaluator - MRR: 0.6382509157509156
+2018-03-26 21:24:09,280 [main] INFO   e.s.selab.blp.evaluation.Evaluator - MAP: 0.6199297924297924
+2018-03-26 21:24:09,281 [main] TRACE  e.s.selab.blp.evaluation.Evaluator - [DONE] Evaluator.evaluate().(Total 0.13 sec)
+2018-03-26 21:24:09,281 [main] TRACE  edu.skku.selab.blp.BLP - Finish Evaluator for File Level
+2018-03-26 21:24:09,281 [main] TRACE  edu.skku.selab.blp.BLP - [DONE] BLIA Evaluation FINISH(Total 7.38  sec)

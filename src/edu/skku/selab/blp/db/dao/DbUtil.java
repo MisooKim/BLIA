@@ -257,11 +257,7 @@ public class DbUtil {
 		Property prop = Property.loadInstance();
 		
 		DbUtil dbUtil = new DbUtil();
-		String productName[] = {
-				Property.ASPECTJ,
-				Property.ECLIPSE,
-				Property.SWT,
-				Property.ZXING,
+		String productName[] = {"aspectj","eclipse","swt","zxing",
 				BaseDAO.DEFAULT_DB_NAME};
 		
 		for (int i = 0; i < productName.length; i++) {

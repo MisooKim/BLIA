@@ -1,0 +1,3 @@
+2018-03-26 19:15:15,245 [main] TRACE  edu.skku.selab.blp.BLP - [START] BLIA Evaluation START
+2018-03-26 19:15:15,252 [main] INFO   edu.skku.selab.blp.BLP - [DATA] zxing 0.2 0.0 commit
+2018-03-26 19:15:15,253 [main] TRACE  edu.skku.selab.blp.BLP - Start InitializeDB

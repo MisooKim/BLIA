@@ -51,7 +51,7 @@ public class ScmRepoAnalyzerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		Property prop = Property.loadInstance(Property.SWT);
+		Property prop = Property.loadInstance("swt");
 		prop.setAlpha(0.2f);
 		prop.setBeta(0.3f);
 		prop.setPastDays(15);

@@ -1,0 +1,24 @@
+2018-03-26 21:18:55,454 [main] TRACE  edu.skku.selab.blp.BLP - [START] BLIA Evaluation START
+2018-03-26 21:18:55,462 [main] INFO   edu.skku.selab.blp.BLP - [DATA] zxing 0.2 0.0 release
+2018-03-26 21:18:55,462 [main] TRACE  edu.skku.selab.blp.BLP - Start InitializeDB
+2018-03-26 21:18:55,681 [main] TRACE  edu.skku.selab.blp.BLP - Finish InitializeDB
+2018-03-26 21:18:55,681 [main] TRACE  edu.skku.selab.blp.BLP - Start BLIA with RELEASE VERSION 
+2018-03-26 21:18:55,693 [main] INFO   e.skku.selab.blp.blia.analysis.BLIA - zxing 0.2 0.0
+2018-03-26 21:18:55,693 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] BLIA prepareAnalysisData().
+2018-03-26 21:18:55,694 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file corpus creating.
+2018-03-26 21:18:58,669 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file corpus creating.(2.975 sec)
+2018-03-26 21:18:58,669 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Source file vector creating.
+2018-03-26 21:19:00,293 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Source file vector creating.(1.624 sec)
+2018-03-26 21:19:00,293 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug corpus creating.
+2018-03-26 21:19:00,510 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug corpus creating.(0.217 sec)
+2018-03-26 21:19:00,510 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Bug vector creating.
+2018-03-26 21:19:00,629 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [DONE] Bug vector creating.(0.118 sec)
+2018-03-26 21:19:00,629 [main] TRACE  e.skku.selab.blp.blia.analysis.BLIA - [STARTED] Commit log collecting.
+2018-03-26 21:19:00,704 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe [git, --version],C:\Program Files\Git\cmd
+2018-03-26 21:19:00,733 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe may return 'git version 2.11.0.windows.1'
+2018-03-26 21:19:00,734 [main] DEBUG  org.eclipse.jgit.util.FS - remaining output:
+
+2018-03-26 21:19:00,737 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe [git, config, --system, --edit],C:\Program Files\Git\cmd
+2018-03-26 21:19:00,791 [main] DEBUG  org.eclipse.jgit.util.FS - readpipe may return 'C:/Program Files/Git/mingw64/etc/gitconfig'
+2018-03-26 21:19:00,791 [main] DEBUG  org.eclipse.jgit.util.FS - remaining output:
+

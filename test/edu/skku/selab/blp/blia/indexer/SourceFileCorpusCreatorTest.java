@@ -43,7 +43,7 @@ public class SourceFileCorpusCreatorTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		Property prop = Property.loadInstance(Property.ZXING);
+		Property prop = Property.loadInstance("zxing");
 		prop.setAlpha(0.2f);
 		prop.setBeta(0.3f);
 		prop.setPastDays(15);

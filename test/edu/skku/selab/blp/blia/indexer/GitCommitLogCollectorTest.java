@@ -48,7 +48,7 @@ public class GitCommitLogCollectorTest {
 		double beta = 0.3;
 		int pastDays = 15;
 		
-		Property prop = Property.loadInstance(Property.ZXING);
+		Property prop = Property.loadInstance("zxing");
 		prop.setAlpha(alpha);
 		prop.setBeta(beta);
 		prop.setPastDays(pastDays);

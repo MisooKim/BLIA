@@ -22,15 +22,11 @@ import edu.skku.selab.blp.utils.Util;
  */
 public class BLP {
 	final static Logger logger = LoggerFactory.getLogger(BLP.class);
-	private static void initializeDB() throws Exception {
+	private static void initializeDB(String product) throws Exception {
 		Property prop = Property.getInstance();
 		
 		DbUtil dbUtil = new DbUtil();
-		String productName[] = {
-				Property.ASPECTJ,
-				Property.ECLIPSE,
-				Property.SWT,
-				Property.ZXING};
+		String productName[] = {product};
 		
 		for (int i = 0; i < productName.length; i++) {
 			dbUtil.openConnetion(productName[i]);
@@ -65,7 +61,7 @@ public class BLP {
 		logger.info("[DATA] "+prop.getProductName()+" " +prop.getAlpha()+" "+prop.getBeta());
 		logger.trace("Start InitializeDB");
 		// initialize DB and create all tables.
-		initializeDB();
+		initializeDB(prop.getProductName());
 		logger.trace("Finish InitializeDB");
 
 		logger.trace("Start BLIA");

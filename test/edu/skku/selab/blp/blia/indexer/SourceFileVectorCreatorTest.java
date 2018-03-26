@@ -49,7 +49,7 @@ public class SourceFileVectorCreatorTest {
 		double beta = 0.13;
 		int pastDays = 60;
 		
-		Property prop = Property.loadInstance(Property.ZXING);
+		Property prop = Property.loadInstance("zxing");
 		prop.setAlpha(alpha);
 		prop.setBeta(beta);
 		prop.setPastDays(pastDays);

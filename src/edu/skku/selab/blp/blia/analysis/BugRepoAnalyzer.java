@@ -28,6 +28,7 @@ import edu.skku.selab.blp.db.IntegratedAnalysisValue;
 import edu.skku.selab.blp.db.SimilarBugInfo;
 import edu.skku.selab.blp.db.dao.BugDAO;
 import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -308,4 +309,122 @@ public class BugRepoAnalyzer {
 		
 		return bugVectors;
 	}
+
+	 
+
+	/**
+	 * Analyze similarity between a bug report and its previous bug reports. Then write similarity scores to SimiScore.txt
+	 * ex.) Bug ID; Target bug ID#1:Similarity score	Target big ID#2:Similarity score 
+	 * 
+	 * (non-Javadoc)
+	 * @see edu.skku.selab.blp.analysis.IAnalyzer#analyze()
+	 */
+	public void analyzeForCommit() throws Exception {
+		computeSimilarity();
+		prepareData();
+		
+		ExecutorService executor = Executors.newFixedThreadPool(Property.THREAD_COUNT);
+
+		for (int i = 0; i < bugs.size(); i++) {
+			// calculate term count, IDC, TF and IDF
+			Runnable worker = new WorkerThreadForCommit(bugs.get(i));
+			executor.execute(worker);
+		}
+		executor.shutdown();
+		while (!executor.isTerminated()) {
+		}
+	}
+	
+	private class WorkerThreadForCommit implements Runnable {
+    	private Bug bug;
+    	
+        public WorkerThreadForCommit(Bug bug){
+            this.bug = bug;
+        }
+     
+        @Override
+        public void run() {
+			// Compute similarity between Bug report & source files
+        	
+        	try {
+        		calculateSimilarScore(bug);
+        	} catch (Exception e) {
+        		e.printStackTrace();
+        	}
+        }
+        
+        private void calculateSimilarScore(Bug bug) throws Exception {
+    		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
+    		
+    		int bugID = bug.getID();
+    		HashMap<Integer, Double> similarScores = new HashMap<Integer, Double>(); 
+    		HashSet<SimilarBugInfo> similarBugInfos = similarBugInfosMap.get(bugID);
+    		if (null != similarBugInfos) {
+    			Iterator<SimilarBugInfo> similarBugInfosIter = similarBugInfos.iterator();
+    			while (similarBugInfosIter.hasNext()) {
+    				SimilarBugInfo similarBugInfo = similarBugInfosIter.next();
+    				
+    				HashSet<SourceFile> fixedFiles = fixedFilesMap.get(similarBugInfo.getSimilarBugID());
+    				if (null != fixedFiles) {
+    					int fixedFilesCount = fixedFiles.size();
+    					double singleValue = similarBugInfo.getSimilarityScore() / fixedFilesCount;
+    					Iterator<SourceFile> fixedFilesIter = fixedFiles.iterator();
+    					while (fixedFilesIter.hasNext()) {
+    						SourceFile fixedFile = fixedFilesIter.next();
+    						
+    						int sourceFileVersionID = fixedFile.getSourceFileVersionID();
+    						if (null != similarScores.get(sourceFileVersionID)) {
+    							double similarScore = similarScores.get(sourceFileVersionID).doubleValue() + singleValue;
+    							similarScores.remove(sourceFileVersionID);
+    							similarScores.put(sourceFileVersionID, Double.valueOf(similarScore));
+    						} else {
+    							similarScores.put(sourceFileVersionID, Double.valueOf(singleValue));
+    						}
+    					}				
+    				}
+    			}
+    			
+    	   		TreeSet<Double> simiScoreSet = new TreeSet<Double>();
+        		LinkedList<IntegratedAnalysisValue> integratedAnalysisValueList = new LinkedList<IntegratedAnalysisValue>();
+    			
+    			Iterator<Integer> similarScoresIter = similarScores.keySet().iterator();
+    			while (similarScoresIter.hasNext()) {
+    				int sourceFileVersionID = similarScoresIter.next();
+    				double similarScore = similarScores.get(sourceFileVersionID).doubleValue();
+    				
+    				IntegratedAnalysisValue integratedAnalysisValue = new IntegratedAnalysisValue();
+    				integratedAnalysisValue.setBugID(bugID);
+    				integratedAnalysisValue.setSourceFileVersionID(sourceFileVersionID);
+    				integratedAnalysisValue.setSimilarityScore(similarScore);
+
+    				simiScoreSet.add(similarScore);
+    				integratedAnalysisValueList.add(integratedAnalysisValue);
+    				
+    			}
+    			
+        		double limitSimiScore = 0;
+        		int candidateLimitSize = Integer.MAX_VALUE;
+        		if (Property.getInstance().getCandidateLimitRate() != 1.0) {
+        			candidateLimitSize = (int) (Property.getInstance().getFileCount() * Property.getInstance().getCandidateLimitRate());
+        		}
+        		
+        		if (simiScoreSet.size() > candidateLimitSize) {
+        			limitSimiScore = (Double) (simiScoreSet.descendingSet().toArray()[candidateLimitSize -1]);
+        		}
+        		
+        		for (IntegratedAnalysisValue integratedAnalysisValue:integratedAnalysisValueList) {
+    				if (integratedAnalysisValue.getVsmScore() >= limitSimiScore) {					
+    					int updatedColumenCount = integratedAnalysisDAO.updateSimilarScore(integratedAnalysisValue);
+    					
+    					if (0 == updatedColumenCount) {
+    						integratedAnalysisDAO.insertAnalysisVaule(integratedAnalysisValue);
+    					}
+    				}
+    			}
+    		}
+        }
+
+    }
+    
+	
 }

@@ -54,7 +54,7 @@ public class BugCorpusCreatorTest {
 		double beta = 0.5f;
 		int pastDays = 50;
 		
-		Property prop = Property.loadInstance(Property.ZXING);
+		Property prop = Property.loadInstance("zxing");
 		prop.setAlpha(alpha);
 		prop.setBeta(beta);
 		prop.setPastDays(pastDays);
