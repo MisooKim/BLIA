@@ -16,7 +16,11 @@ import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.skku.selab.blp.Property;
+import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.common.SourceFileCorpus;
 import edu.skku.selab.blp.db.AnalysisValue;
 import edu.skku.selab.blp.db.dao.SourceFileDAO;
@@ -26,6 +30,7 @@ import edu.skku.selab.blp.db.dao.SourceFileDAO;
  *
  */
 public class SourceFileVectorCreator {
+	static final Logger logger = LoggerFactory.getLogger(SourceFileVectorCreator.class);
 	private HashMap<String, Integer> totalCorpusLengths = null;
 	private HashMap<String, SourceFileCorpus> sourceFileCorpusMap = null;
 	private int fileCount = 0; 
@@ -282,7 +287,7 @@ public class SourceFileVectorCreator {
 				HashMap<String, AnalysisValue> sourceFileTermMap = sourceFileDAO.getTermMap(fileName, version);
 				if (sourceFileTermMap == null) {
 					// debug code
-					System.out.printf("[SourceFileVectorCreator.create()] The file name that has no valid terms: %s\n", fileName);
+					logger.debug("[SourceFileVectorCreator.create()] The file name that has no valid terms: %s", fileName);
 					return;
 				}
 

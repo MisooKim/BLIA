@@ -14,6 +14,9 @@ import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.udo.cs.wvtool.config.WVTConfigException;
 import edu.udo.cs.wvtool.config.WVTConfiguration;
 import edu.udo.cs.wvtool.config.WVTConfigurationFact;
@@ -28,6 +31,7 @@ import edu.udo.cs.wvtool.main.WVTFileInputList;
 import edu.udo.cs.wvtool.main.WVTool;
 import edu.udo.cs.wvtool.wordlist.WVTWordList;
 import edu.skku.selab.blp.Property;
+import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.db.AnalysisValue;
 import edu.skku.selab.blp.db.dao.BugDAO;
 
@@ -38,6 +42,7 @@ import edu.skku.selab.blp.db.dao.BugDAO;
 public class BugVectorCreator {
 	private static final String HOME_FOLDER = (new StringBuilder(String.valueOf(Property.getInstance().getWorkDir()))).append(Property.getInstance().getSeparator()).toString();
     private static final String BUG_CORPUS_FOLDER = (new StringBuilder("BugCorpus")).append(Property.getInstance().getSeparator()).toString();
+	static final Logger logger = LoggerFactory.getLogger(BLIA.class);
 	
 	
 	public void create() throws Exception {

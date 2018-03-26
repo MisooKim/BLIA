@@ -29,6 +29,8 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -36,6 +38,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import edu.skku.selab.blp.Property;
+import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.common.ASTCreator;
 import edu.skku.selab.blp.common.Bug;
 import edu.skku.selab.blp.common.BugCorpus;
@@ -58,6 +61,7 @@ import edu.skku.selab.blp.utils.Stopword;
  *
  */
 public class BugCorpusCreator {
+	static final Logger logger = LoggerFactory.getLogger(BugCorpusCreator.class);
 	private String stemContent(String content[]) {
 		StringBuffer contentBuf = new StringBuffer();
 		for (int i = 0; i < content.length; i++) {
@@ -208,7 +212,7 @@ public class BugCorpusCreator {
         		fileName = methodName.substring(0, methodName.lastIndexOf("$"));
         	} else {
         		if (-1 == methodName.lastIndexOf(".")) {
-        			System.err.printf("[BugCorpusCreator.extractClassName()] BugID: %d, Wrong stack trace: %s\n", bugID, foundLine);
+        			logger.warn("[BugCorpusCreator.extractClassName()] BugID: "+bugID+", Wrong stack trace: "+foundLine+"\n");
         		} else {
         			fileName = methodName.substring(0, methodName.lastIndexOf("."));
         		}
@@ -339,7 +343,7 @@ public class BugCorpusCreator {
 //														}
 								
 														// debug code
-														System.out.printf("[BugCorpusCreator.parseXML()] BugID: %d, Fixed file name: %s\n", bug.getID(), fixedFileName);
+														logger.warn("[BugCorpusCreator.parseXML()] BugID: "+bug.getID()+", Fixed file name: "+fixedFileName);
 													}
 													bug.addFixedFile(fixedFileName);
 													

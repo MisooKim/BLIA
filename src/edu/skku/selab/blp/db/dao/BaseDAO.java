@@ -10,6 +10,7 @@ package edu.skku.selab.blp.db.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 
 import org.h2.jdbcx.JdbcConnectionPool;
 
@@ -24,11 +25,16 @@ public class BaseDAO {
 	protected static Connection evaluationDbConnection = null;
 	protected PreparedStatement ps = null;
 	protected ResultSet rs = null;
-	
+		
 	final public static int INVALID = -1;
 	final static String DEFAULT_DB_NAME = "sample";
 	
+	protected StatementSet psSet = new StatementSet();
+	
+	
 	public BaseDAO() throws Exception {
+		
+		
 		Property property = Property.getInstance(); 
 		
 		String dbName = BaseDAO.DEFAULT_DB_NAME;

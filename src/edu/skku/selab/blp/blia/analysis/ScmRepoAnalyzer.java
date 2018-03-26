@@ -16,6 +16,9 @@ import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.common.Bug;
 import edu.skku.selab.blp.common.CommitInfo;
@@ -34,6 +37,7 @@ import edu.skku.selab.blp.db.dao.SourceFileDAO;
  *
  */
 public class ScmRepoAnalyzer {
+	static final Logger logger = LoggerFactory.getLogger(ScmRepoAnalyzer.class);
 	private ArrayList<Bug> bugs;
 	private int pastDays;
 	private ArrayList<ExtendedCommitInfo> filteredCommitInfos = null;

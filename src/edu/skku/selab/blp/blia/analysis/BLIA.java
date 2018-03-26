@@ -13,6 +13,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.blia.indexer.BugCorpusCreator;
 import edu.skku.selab.blp.blia.indexer.BugVectorCreator;
@@ -29,12 +32,15 @@ import edu.skku.selab.blp.db.dao.DbUtil;
 import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
 import edu.skku.selab.blp.db.dao.SourceFileDAO;
 import edu.skku.selab.blp.utils.Util;
+import logging.Foo;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
  *
  */
 public class BLIA {
+	static final Logger logger = LoggerFactory.getLogger(BLIA.class);
+	  
 	private final String version = SourceFileDAO.DEFAULT_VERSION_STRING;
 	private ArrayList<Bug> bugs = null;
 	private double alpha = 0;
@@ -53,7 +59,7 @@ public class BLIA {
 	}
 	
 	public void prepareAnalysisData(boolean useStrucrutedInfo, Date commitSince, Date commitUntil) throws Exception {
-		System.out.printf("[STARTED] Source file corpus creating.\n");
+		logger.trace("[STARTED] Source file corpus creating.");
 		long startTime = System.currentTimeMillis();
 		if (!useStrucrutedInfo) {
 			SourceFileCorpusCreator sourceFileCorpusCreator = new SourceFileCorpusCreator();
@@ -62,44 +68,44 @@ public class BLIA {
 			StructuredSourceFileCorpusCreator structuredSourceFileCorpusCreator = new StructuredSourceFileCorpusCreator();
 			structuredSourceFileCorpusCreator.create(version);
 		}
-		System.out.printf("[DONE] Source file corpus creating.(%s sec)\n", getElapsedTimeSting(startTime));
+		logger.trace("[DONE] Source file corpus creating.("+getElapsedTimeSting(startTime)+" sec)");
 
-		System.out.printf("[STARTED] Source file vector creating.\n");
+		logger.trace("[STARTED] Source file vector creating.");
 		startTime = System.currentTimeMillis();
 		SourceFileVectorCreator sourceFileVectorCreator = new SourceFileVectorCreator();
 		sourceFileVectorCreator.createIndex(version);
 		sourceFileVectorCreator.computeLengthScore(version);
 		sourceFileVectorCreator.create(version);
-		System.out.printf("[DONE] Source file vector creating.(%s sec)\n", getElapsedTimeSting(startTime));
+		logger.trace("[DONE] Source file vector creating.("+getElapsedTimeSting(startTime)+" sec)");
 		
 		// Create SordtedID.txt
-		System.out.printf("[STARTED] Bug corpus creating.\n");
+		logger.trace("[STARTED] Bug corpus creating.");
 		startTime = System.currentTimeMillis();
 		BugCorpusCreator bugCorpusCreator = new BugCorpusCreator();
 		boolean stackTraceAnaysis = true;
 		bugCorpusCreator.create(stackTraceAnaysis);
-		System.out.printf("[DONE] Bug corpus creating.(%s sec)\n", getElapsedTimeSting(startTime));
+		logger.trace("[DONE] Bug corpus creating.("+ getElapsedTimeSting(startTime)+" sec)");
 		
-		System.out.printf("[STARTED] Bug vector creating.\n");
+		logger.trace("[STARTED] Bug vector creating.");
 		startTime = System.currentTimeMillis();
 		BugVectorCreator bugVectorCreator = new BugVectorCreator();
 		bugVectorCreator.create();
-		System.out.printf("[DONE] Bug vector creating.(%s sec)\n", getElapsedTimeSting(startTime));
-
-		System.out.printf("[STARTED] Commit log collecting.\n");
+		logger.trace("[DONE] Bug vector creating.("+getElapsedTimeSting(startTime)+" sec)");
+		
+		logger.trace("[STARTED] Commit log collecting.");
 		startTime = System.currentTimeMillis();
 		String repoDir = Property.getInstance().getRepoDir();
 		GitCommitLogCollector gitCommitLogCollector = new GitCommitLogCollector(repoDir);
 		
 		boolean collectForcely = false;
 		gitCommitLogCollector.collectCommitLog(commitSince, commitUntil, collectForcely);
-		System.out.printf("[DONE] Commit log collecting.(%s sec)\n", getElapsedTimeSting(startTime));
+		logger.trace("[DONE] Commit log collecting: Commit Force = "+ collectForcely+"("+getElapsedTimeSting(startTime)+" sec)");
 		
-		System.out.printf("[STARTED] Bug-Source file vector creating.\n");
+		logger.trace("[STARTED] Bug-Source file vector creating.");
 		startTime = System.currentTimeMillis();
 		BugSourceFileVectorCreator bugSourceFileVectorCreator = new BugSourceFileVectorCreator(); 
 		bugSourceFileVectorCreator.create(version);
-		System.out.printf("[DONE] Bug-Source file vector creating.(%s sec)\n", getElapsedTimeSting(startTime));
+		logger.trace("[DONE] Bug-Source file vector creating.("+ getElapsedTimeSting(startTime)+" sec)");
 	}
 	
 	public void preAnalyze() throws Exception {
@@ -108,33 +114,33 @@ public class BLIA {
 		bugs = bugDAO.getAllBugs(orderedByFixedDate);
 
 		// VSM_SCORE
-		System.out.printf("[STARTED] Source file analysis.\n");
+		logger.trace("[STARTED] Source file analysis.");
 		long startTime = System.currentTimeMillis();
 		SourceFileAnalyzer sourceFileAnalyzer = new SourceFileAnalyzer(bugs);
 		boolean useStructuredInformation = true;
 		sourceFileAnalyzer.analyze(version, useStructuredInformation);
-		System.out.printf("[DONE] Source file analysis.(%s sec)\n", getElapsedTimeSting(startTime));
+		logger.trace("[DONE] Source file analysis.("+getElapsedTimeSting(startTime)+" sec)");
 
 		// SIMI_SCORE
-		System.out.printf("[STARTED] Bug repository analysis.\n");
+		logger.trace("[STARTED] Bug repository analysis.");
 		startTime = System.currentTimeMillis();
 		BugRepoAnalyzer bugRepoAnalyzer = new BugRepoAnalyzer(bugs);
 		bugRepoAnalyzer.analyze();
-		System.out.printf("[DONE] Bug repository analysis.(%s sec)\n", getElapsedTimeSting(startTime));
+		logger.trace("[DONE] Bug repository analysis.("+getElapsedTimeSting(startTime)+" sec)");
 		
 		// STRACE_SCORE
-		System.out.printf("[STARTED] Stack-trace analysis.\n");
+		logger.trace("[STARTED] Stack-trace analysis.");
 		startTime = System.currentTimeMillis();
 		StackTraceAnalyzer stackTraceAnalyzer = new StackTraceAnalyzer(bugs);
 		stackTraceAnalyzer.analyze();
-		System.out.printf("[DONE] Stack-trace analysis.(%s sec)\n", getElapsedTimeSting(startTime));
+		logger.trace("[DONE] Stack-trace analysis.("+getElapsedTimeSting(startTime)+" sec)");
 		
 		// COMM_SCORE
-		System.out.printf("[STARTED] Scm repository analysis.\n");
+		logger.trace("[STARTED] Scm repository analysis.");
 		startTime = System.currentTimeMillis();
 		ScmRepoAnalyzer scmRepoAnalyzer = new ScmRepoAnalyzer(bugs);
 		scmRepoAnalyzer.analyze(version);
-		System.out.printf("[DONE] Scm repository analysis.(%s sec)\n", getElapsedTimeSting(startTime));
+		logger.trace("[DONE] Scm repository analysis.("+getElapsedTimeSting(startTime)+" sec)");
 	}
 	
 	// TODO: will be removed after testing complete
@@ -244,8 +250,8 @@ public class BLIA {
 			int updatedColumnCount = integratedAnalysisDAO.updateBliaSourceFileScore(integratedAnalysisValue);
 //			System.out.printf("After updateBliaSourceFileScore(), count: %d/%d\n", count, sourceFileCount);
 			if (0 == updatedColumnCount) {
-				System.err.printf("[ERROR] BLIA.analyze(): BLIA and BugLocator score update failed! BugID: %s, sourceFileVersionID: %d\n",
-						integratedAnalysisValue.getBugID(), integratedAnalysisValue.getSourceFileVersionID());
+				logger.error("[ERROR] BLIA.analyze(): BLIA and BugLocator score update failed! BugID: "+integratedAnalysisValue.getBugID()
+					+", sourceFileVersionID: "+integratedAnalysisValue.getSourceFileVersionID());
 
 				// remove following line after testing.
 //				integratedAnalysisDAO.insertAnalysisVaule(integratedAnalysisValue);
@@ -276,8 +282,8 @@ public class BLIA {
 			int updatedColumnCount = integratedAnalysisDAO.updateBliaMethodScore(integratedMethodAnalysisValue);
 //			System.out.printf("After updateBLIAScore(), count: %d/%d\n", count, sourceFileCount);
 			if (0 == updatedColumnCount) {
-				System.err.printf("[ERROR] BLIA.analyze(): BLIA and BugLocator score update failed! BugID: %s, methodID: %d\n",
-						integratedMethodAnalysisValue.getBugID(), integratedMethodAnalysisValue.getMethodID());
+				logger.error("[ERROR] BLIA.analyze(): BLIA and BugLocator score update failed! BugID: "+integratedMethodAnalysisValue.getBugID()+
+						", methodID: "+integratedMethodAnalysisValue.getMethodID());
 
 				// remove following line after testing.
 //				integratedAnalysisDAO.insertAnalysisVaule(integratedAnalysisValue);
@@ -310,14 +316,14 @@ public class BLIA {
 //			}
 //		}
 		
-		System.out.printf("[STARTED] BLIA.anlayze()\n");
+		logger.trace("[STARTED] BLIA.anlayze()");
 //		ExecutorService executor = Executors.newFixedThreadPool(Property.THREAD_COUNT);
 //		ExecutorService executor = Executors.newFixedThreadPool(4);
 		for (int i = 0; i < bugs.size(); i++) {
 			long startTime = System.currentTimeMillis();
 			int bugID = bugs.get(i).getID();
 			calculateBliaSourceFileScore(bugID, includeStackTrace);
-			System.out.printf("[calculateBliaSourceFileScore()] [%d] Bug ID: %d (%s sec)\n", i, bugID, Util.getElapsedTimeSting(startTime));
+			logger.info("[calculateBliaSourceFileScore()] ["+i+"] Bug ID: "+bugID+" ("+Util.getElapsedTimeSting(startTime)+" sec)");
 //			Runnable worker = new WorkerThread(bugs.get(i).getID());
 //			executor.execute(worker);
 		}
@@ -330,7 +336,7 @@ public class BLIA {
 				long startTime = System.currentTimeMillis();
 				int bugID = bugs.get(i).getID();
 				calculateBliaMethodScore(bugID);
-				System.out.printf("[calculateBliaMethodScore()] [%d] Bug ID: %d (%s sec)\n", i, bugID, Util.getElapsedTimeSting(startTime));
+				logger.info("[calculateBliaMethodScore()] ["+i+"] Bug ID: "+bugID+" ("+Util.getElapsedTimeSting(startTime)+" sec)");
 //				Runnable worker = new WorkerThread(bugs.get(i).getID());
 //				executor.execute(worker);
 			}
@@ -340,7 +346,7 @@ public class BLIA {
 //			}
 		}
 		
-		System.out.printf("[DONE] BLIA.anlayze()\n");
+		logger.trace("[DONE] BLIA.anlayze()");
 	}
 	
 	/**
@@ -529,10 +535,10 @@ public class BLIA {
 		}
 		
 		if (false == dir.mkdir()) {
-			System.err.println(workDir + " can't be created!");
+			logger.error(workDir + " can't be created!");
 			
 			if (false == dir.mkdir()) {
-				System.err.println(workDir + " can't be created again");
+				logger.error(workDir + " can't be created again");
 			}
 		}
 	}
@@ -555,19 +561,19 @@ public class BLIA {
 		boolean commitDataIncluded = true;
 		dbUtil.initializeAllData(commitDataIncluded);
 		dbUtil.closeConnection();
-
-		startTime = System.currentTimeMillis();	
-		System.out.printf("[STARTED] BLIA prepareAnalysisData().\n");
+		logger.info(prop.getProductName()+" "+prop.getAlpha()+" "+prop.getBeta());
+		startTime = System.currentTimeMillis();
+		logger.trace("[STARTED] BLIA prepareAnalysisData().");
 		blia.prepareAnalysisData(useStrucrutedInfo, prop.getSince().getTime(), prop.getUntil().getTime());
-		System.out.printf("[DONE] BLIA prepareAnalysisData().(Total %s sec)\n", Util.getElapsedTimeSting(startTime));
+		logger.trace("[DONE] BLIA prepareAnalysisData().(Total "+Util.getElapsedTimeSting(startTime)+" sec)");
 			
-		System.out.printf("[STARTED] BLIA pre-anlaysis.\n");
+		logger.trace("[STARTED] BLIA pre-anlaysis.");
 		blia.preAnalyze();
-		System.out.printf("[DONE] BLIA pre-anlaysis.(Total %s sec)\n", Util.getElapsedTimeSting(startTime));
+		logger.trace("[DONE] BLIA pre-anlaysis.(Total "+Util.getElapsedTimeSting(startTime)+" sec)");
 		
-		System.out.printf("[STARTED] BLIA anlaysis.\n");
+		logger.trace("[STARTED] BLIA anlaysis.");
 		startTime = System.currentTimeMillis();
 		blia.analyze(version, includeStackTrace, includeMethodAnalyze);
-		System.out.printf("[DONE] BLIA anlaysis.(Total %s sec)\n", Util.getElapsedTimeSting(startTime));
+		logger.trace("[DONE] BLIA anlaysis.(Total "+ Util.getElapsedTimeSting(startTime)+" sec)");
 	}
 }

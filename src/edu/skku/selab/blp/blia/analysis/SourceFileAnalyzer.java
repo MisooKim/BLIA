@@ -16,6 +16,9 @@ import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.common.Bug;
 import edu.skku.selab.blp.common.BugCorpus;
@@ -31,6 +34,7 @@ import edu.skku.selab.blp.db.dao.SourceFileDAO;
  *
  */
 public class SourceFileAnalyzer {
+	static final Logger logger = LoggerFactory.getLogger(SourceFileAnalyzer.class);
 	protected ArrayList<Bug> bugs;
 	private HashMap<String, Integer> sourceFileVersionIDs;
 	private HashMap<Integer, HashMap<String, AnalysisValue>> sourceFileAllTermMaps;
@@ -70,7 +74,7 @@ public class SourceFileAnalyzer {
 			
 			HashMap<String, AnalysisValue> sourceFileTermMap = sourceFileDAO.getTermMap(sourceFileVersionID);
 			if (sourceFileTermMap == null) {
-				System.err.printf("Wrong source file version ID: %d\n", sourceFileVersionID);
+				logger.error("Wrong source file version ID: "+sourceFileVersionID);
 			}
 			sourceFileAllTermMaps.put(sourceFileVersionID, sourceFileTermMap);
 			
@@ -219,7 +223,7 @@ public class SourceFileAnalyzer {
     					for (int k = 0; k < sourceFileTerms.length; k++) {
     						if (bugTermSet.contains(sourceFileTerms[k])) {
     							if (null == sourceFileTermMap.get(sourceFileTerms[k])) {
-    								System.out.printf("Exception occurred term: %s\n", sourceFileTerms[k]);
+    								logger.error("Exception occurred term: %s", sourceFileTerms[k]);
     								continue;
     							}
     							

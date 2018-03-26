@@ -2,6 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="rose"/>
+	<classpathentry kind="src" path="resource"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/args4j-2.0.6.jar"/>
@@ -75,7 +77,10 @@
 	<classpathentry kind="lib" path="lib/xml-apis-1.4.01.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.jgit.source_4.3.0.201602121639.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.jgit_4.3.0.201602121639.jar" sourcepath="lib/org.eclipse.jgit.source_4.3.0.201602121639.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.7.16.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-simple-1.7.16.jar"/>
+	<classpathentry kind="lib" path="lib/logback-access-1.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/logback-classic-1.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/logback-core-1.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.7.25.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-simple-1.7.25.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

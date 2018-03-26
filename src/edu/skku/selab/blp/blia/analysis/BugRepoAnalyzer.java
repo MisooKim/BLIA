@@ -17,6 +17,9 @@ import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.common.Bug;
 import edu.skku.selab.blp.common.SourceFile;
@@ -31,6 +34,7 @@ import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
  *
  */
 public class BugRepoAnalyzer {
+	static final Logger logger = LoggerFactory.getLogger(BugRepoAnalyzer.class);
 	private ArrayList<Bug> bugs;
 	private HashMap<Integer, HashSet<SourceFile>> fixedFilesMap;
 	private HashMap<Integer, HashSet<SimilarBugInfo>> similarBugInfosMap;
