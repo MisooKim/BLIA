@@ -20,11 +20,11 @@ import java.util.Properties;
 
 public class Property {
 	
-	final static public int THREAD_COUNT = Integer.parseInt(Property.readProperty("THREAD_COUNT"));
-	final static private String WORK_DIR = Property.readProperty("WORK_DIR");
-	final static private String OUTPUT_FILE = Property.readProperty("OUTPUT_FILE");
-	final static private boolean STRACE_SCORE_INCLUDED = Property.readProperty("STRACE_SCORE_INCLUDED").equalsIgnoreCase("TRUE");
-	final static private boolean NEW_BUG_COMMENTS_INCLUDED = Property.readProperty("NEW_BUG_COMMENTS_INCLUDED").equalsIgnoreCase("TRUE");
+	static public int THREAD_COUNT = 0;
+	 static private String WORK_DIR = "";
+	 static private String OUTPUT_FILE = "";
+	 static private boolean STRACE_SCORE_INCLUDED;
+	 static private boolean NEW_BUG_COMMENTS_INCLUDED;
 	
 	final static public String RUN_LEVEL_FILE = "FILE";
 	final static public String RUN_LEVEL_METHOD = "METHOD";
@@ -50,6 +50,28 @@ public class Property {
 	private Calendar until = null;
 	private String repoDir;
 	private double candidateLimitRate = 1.0;
+	
+
+	private static double startPercent = 0;
+	private static double endPercent = 0;
+	
+	public double getStartPercent() {
+		return startPercent;
+	}
+
+	public void setStartPercent(double startPercent) {
+		this.startPercent = startPercent;
+	}
+
+	public double getEndPercent() {
+		return endPercent;
+	}
+
+	public void setEndPercent(double endPercent) {
+		this.endPercent = endPercent;
+	}
+
+	static String propertyFileName = "";
 	
 	private String runLevel;
 
@@ -96,7 +118,7 @@ public class Property {
 	private static String readProperty(String key) {
 		Properties properties = new Properties();
 		try {
-			properties.load(new FileInputStream("blp.properties"));
+			properties.load(new FileInputStream(propertyFileName));
 		} catch (IOException e) {
 		}
 
@@ -118,7 +140,23 @@ public class Property {
 		// Do nothing
 	}
 	
+
+	Property(String file) {
+		propertyFileName = file;
+		
+		THREAD_COUNT = Integer.parseInt(Property.readProperty("THREAD_COUNT"));
+		WORK_DIR = Property.readProperty("WORK_DIR");
+		OUTPUT_FILE = Property.readProperty("OUTPUT_FILE");
+		STRACE_SCORE_INCLUDED = Property.readProperty("STRACE_SCORE_INCLUDED").equalsIgnoreCase("TRUE");
+		NEW_BUG_COMMENTS_INCLUDED = Property.readProperty("NEW_BUG_COMMENTS_INCLUDED").equalsIgnoreCase("TRUE");
+		startPercent = Double.parseDouble(Property.readProperty("START_PERCENT"));
+		endPercent = Double.parseDouble(Property.readProperty("END_PERCENT"));
+		
+	}
+	
+	
 	public static Property loadInstance(String targetProduct) throws Exception {
+		
 		if (null == p) {
 			p = new Property();
 		}
@@ -147,6 +185,13 @@ public class Property {
 		p.setRunLevel(Property.readProperty("RUN_LEVEL"));
 		
 		return p;
+	}
+	
+
+	public Property loadInstanceForJar(String blpName) throws Exception {
+		
+		String targetProduct = Property.readProperty("TARGET_PRODUCT");
+		return loadInstance(targetProduct);
 	}
 	
 	public static Property loadInstance() throws Exception {

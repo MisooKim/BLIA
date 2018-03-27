@@ -51,6 +51,14 @@ public class ScmRepoAnalyzer {
 		pastDays = Property.getInstance().getPastDays();
     }
     
+
+    public ScmRepoAnalyzer(Bug bug) {
+    	this.bugs = new ArrayList<Bug>();
+    	bugs.add(bug);
+		pastDays = Property.getInstance().getPastDays();
+    }
+    
+    
     private class WorkerThread implements Runnable {
     	private Bug bug;
     	private String version;
@@ -67,7 +75,7 @@ public class ScmRepoAnalyzer {
         	try {
         		insertDataToDb();
         	} catch (Exception e) {
-        		e.printStackTrace();
+        		logger.error(e.getMessage());
         	}
         }
         
@@ -125,7 +133,7 @@ public class ScmRepoAnalyzer {
 						int methodID = methodDAO.getMethodID(method);
 
 						if (methodID == BaseDAO.INVALID) {
-							int sourceFileVersionID = sourceFileDAO.getSourceFileVersionID(commitFileName, SourceFileDAO.DEFAULT_VERSION_STRING);
+							int sourceFileVersionID = sourceFileDAO.getSourceFileVersionID(commitFileName, BLIA.version);
 							method.setSourceFileVersionID(sourceFileVersionID);
 							methodID = methodDAO.insertMethod(method);
 						}

@@ -103,7 +103,7 @@ public class BugSourceFileVectorCreator {
 				
 				// test code
 //				System.out.println("bugTerm:" + bugTerm);
-				if (sourceFileTermMap.containsKey(bugTerm)) {
+				if (sourceFileTermMap.containsKey(bugTerm) && inverseDocCountTable.containsKey(bugTerm)) {
 					bugTermCount = bugTermTable.get(bugTerm);
 					inverseDocCount = inverseDocCountTable.get(bugTerm).intValue();
 					

@@ -13,6 +13,9 @@ import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.common.Bug;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
@@ -25,6 +28,7 @@ import edu.skku.selab.blp.db.dao.SourceFileDAO;
  *
  */
 public class StackTraceAnalyzer {
+	static final Logger logger = LoggerFactory.getLogger(StackTraceAnalyzer.class);
 	private final static double DEFAULT_BOOST_SCORE = 0.1;
 	private ArrayList<Bug> bugs;
 	private HashMap<String, HashMap<String, String>> classNamesMap = null;
@@ -35,6 +39,12 @@ public class StackTraceAnalyzer {
 	
     public StackTraceAnalyzer(ArrayList<Bug> bugs) {
     	this.bugs = bugs;
+    }
+    
+
+    public StackTraceAnalyzer(Bug bug) {
+    	this.bugs = new ArrayList<Bug>();
+    	bugs.add(bug);
     }
     
     private class WorkerThread implements Runnable {
@@ -51,7 +61,7 @@ public class StackTraceAnalyzer {
         	try {
         		insertDataToDb();
         	} catch (Exception e) {
-        		e.printStackTrace();
+        		logger.error(e.getMessage());
         	}
         }
         

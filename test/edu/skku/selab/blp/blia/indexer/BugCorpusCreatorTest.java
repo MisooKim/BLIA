@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import edu.skku.selab.blp.*;
 import edu.skku.selab.blp.blia.indexer.SourceFileCorpusCreator;
+import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.blia.indexer.BugCorpusCreator;
 import edu.skku.selab.blp.common.Bug;
 import edu.skku.selab.blp.db.dao.DbUtil;
@@ -75,7 +76,7 @@ public class BugCorpusCreatorTest {
 
 	@Test
 	public void verifyCreateWithSourceFileCorpusCreator() throws Exception {
-		String version = SourceFileDAO.DEFAULT_VERSION_STRING;
+		String version =BLIA.version;
 		SourceFileCorpusCreator sourceFileCorpusCreator = new SourceFileCorpusCreator();
 		sourceFileCorpusCreator.create(version);
 		
@@ -89,7 +90,7 @@ public class BugCorpusCreatorTest {
 		long startTime = System.currentTimeMillis();
 
 		System.out.printf("[STARTED] StructuredSourceFileCorpusCreator.create()\n");
-		String version = SourceFileDAO.DEFAULT_VERSION_STRING;
+		String version = BLIA.version;
 		StructuredSourceFileCorpusCreator sourceFileCorpusCreator = new StructuredSourceFileCorpusCreator();
 		sourceFileCorpusCreator.create(version);
 		System.out.printf("[DONE] StructuredSourceFileCorpusCreator.create() (%s sec)\n", Util.getElapsedTimeSting(startTime));

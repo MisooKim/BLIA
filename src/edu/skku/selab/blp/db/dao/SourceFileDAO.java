@@ -7,6 +7,7 @@
  */
 package edu.skku.selab.blp.db.dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,7 +24,6 @@ import edu.skku.selab.blp.db.AnalysisValue;
  *
  */
 public class SourceFileDAO extends BaseDAO {
-	final static public String DEFAULT_VERSION_STRING = "v1.0";
 	final static public double INIT_LENGTH_SCORE = 0.0;
 	final static public int INIT_TOTAL_COUPUS_COUNT = 0;
 	
@@ -67,7 +67,10 @@ public class SourceFileDAO extends BaseDAO {
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
-			e.printStackTrace();
+			if(ErrorCode.DUPLICATE_KEY_1 == ((SQLException) e).getErrorCode()) {
+				returnValue = getSourceFileID(fileName, className);
+			}else 
+				e.printStackTrace();
 		}
 		
 		if (INVALID != returnValue) {
@@ -724,11 +727,11 @@ public class SourceFileDAO extends BaseDAO {
 			ps.setString(1, term);
 			
 			returnValue = ps.executeUpdate();
-		} catch (JdbcSQLException e) {
-			e.printStackTrace();
-			
+		} catch (JdbcSQLException e) {			
 			if (ErrorCode.DUPLICATE_KEY_1 != e.getErrorCode()) {
 				e.printStackTrace();
+			}else{
+				returnValue = 1;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

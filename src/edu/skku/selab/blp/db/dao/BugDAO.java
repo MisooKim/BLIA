@@ -7,6 +7,7 @@
  */
 package edu.skku.selab.blp.db.dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -287,9 +288,45 @@ public class BugDAO extends BaseDAO {
 		}
 		return bug;	
 	}
+	
+	public Bug getDetailBug(int bugID) {		
+		String sql = "SELECT BUG_ID, OPEN_DATE, FIXED_DATE, COR, SMR_COR, DESC_COR, CMT_COR, TOT_CNT, COR_NORM, SMR_COR_NORM, DESC_COR_NORM, VER "
+				+ "FROM BUG_INFO WHERE BUG_ID = ?";
+		Bug bug = new Bug();
+		
+		try {
+			ps = analysisDbConnection.prepareStatement(sql);
+			ps.setInt(1, bugID);
+			
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				bug.setID(rs.getInt("BUG_ID"));
+				bug.setOpenDate(rs.getTimestamp("OPEN_DATE"));
+				bug.setFixedDate(rs.getTimestamp("FIXED_DATE"));
+
+				BugCorpus bugCorpus = new BugCorpus();
+				bugCorpus.setSummaryPart(rs.getString("SMR_COR"));
+				bugCorpus.setDescriptionPart(rs.getString("DESC_COR"));
+				bugCorpus.setCommentPart(rs.getString("CMT_COR"));
+				bugCorpus.setContentNorm(rs.getDouble("COR_NORM"));
+				bugCorpus.setSummaryCorpusNorm(rs.getDouble("SMR_COR_NORM"));
+				bugCorpus.setDecriptionCorpusNorm(rs.getDouble("DESC_COR_NORM"));
+				bug.setCorpus(bugCorpus);
+
+				bug.setTotalCorpusCount(rs.getInt("TOT_CNT"));
+				bug.setVersion(rs.getString("VER"));
+			}
+			
+			bug.setStackTraceClasses(getStackTraceClasses(bugID));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bug;	
+		
+	}
 
 	
-	public int insertBugTerm(String term) {
+	public int insertBugTerm(String term) throws SQLException {
 		String sql = "INSERT INTO BUG_TERM_INFO (TERM) VALUES (?)";
 		int returnValue = INVALID;
 		
@@ -308,10 +345,19 @@ public class BugDAO extends BaseDAO {
 				returnValue = rs.getInt("BUG_TERM_ID");	
 			}
 		} catch (JdbcSQLException e) {
-			e.printStackTrace();
 			
 			if (ErrorCode.DUPLICATE_KEY_1 != e.getErrorCode()) {
 				e.printStackTrace();
+			}else{
+					
+				sql = "SELECT BUG_TERM_ID FROM BUG_TERM_INFO WHERE TERM = ?";
+				ps = analysisDbConnection.prepareStatement(sql);
+				ps.setString(1, term);
+				
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					returnValue = rs.getInt("BUG_TERM_ID");	
+				}	
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -569,7 +615,25 @@ public class BugDAO extends BaseDAO {
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
-			e.printStackTrace();
+			
+			try{
+				sql = "UPDATE BUG_SF_TERM_WGT SET (TERM_CNT, INV_DOC_CNT, TF, IDF) " +
+						"= (?, ?, ?, ?) WHERE BUG_ID = ? AND SF_TERM_ID = ?";
+			
+				ps = analysisDbConnection.prepareStatement(sql);				
+				ps.setInt(1, bugSfTermWeight.getTermCount());
+				ps.setInt(2, bugSfTermWeight.getInvDocCount());
+				ps.setDouble(3, bugSfTermWeight.getTf());
+				ps.setDouble(4, bugSfTermWeight.getIdf());
+				ps.setInt(5, bugSfTermWeight.getID());
+				ps.setInt(6, termID);
+				
+				returnValue = ps.executeUpdate();
+				
+			}catch(Exception e2){
+				
+				e2.printStackTrace();
+			}
 		}
 		
 		return returnValue;
@@ -733,7 +797,18 @@ public class BugDAO extends BaseDAO {
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
-			e.printStackTrace();
+			try{
+				sql = "UPDATE BUG_TERM_WGT SET (TW) = (?) " +
+						"WHERE BUG_ID = ? AND BUG_TERM_ID = ?";				
+				
+				ps = analysisDbConnection.prepareStatement(sql);
+				ps.setDouble(1, analysisValue.getTermWeight());
+				ps.setInt(2, analysisValue.getID());
+				ps.setInt(3, termID);
+			}catch(Exception e2){
+				e2.printStackTrace();
+			}
+			
 		}
 		
 		return returnValue;

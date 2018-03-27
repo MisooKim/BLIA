@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.jgit.api.Git;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +42,7 @@ import logging.Foo;
 public class BLIA {
 	static final Logger logger = LoggerFactory.getLogger(BLIA.class);
 	  
-	private final String version = SourceFileDAO.DEFAULT_VERSION_STRING;
+	public static String version = "v1.0";
 	private ArrayList<Bug> bugs = null;
 	private double alpha = 0;
 	private double beta = 0;
@@ -143,85 +144,6 @@ public class BLIA {
 		logger.trace("[DONE] Scm repository analysis.("+getElapsedTimeSting(startTime)+" sec)");
 	}
 	
-	// TODO: will be removed after testing complete
-//    @SuppressWarnings("unused")
-//	private class WorkerThread implements Runnable {
-//    	private int bugID;
-//    	private boolean includeStackTrace;
-//    	
-//        public WorkerThread(int bugID, boolean includeStackTrace){
-//            this.bugID = bugID;
-//            this.includeStackTrace = includeStackTrace;
-//        }
-//     
-//        @Override
-//        public void run() {
-//			// Compute similarity between Bug report & source files
-//        	
-//        	try {
-//        		insertDataToDb();
-//        	} catch (Exception e) {
-//        		e.printStackTrace();
-//        	}
-//        }
-//        
-//        private void insertDataToDb() throws Exception {
-//			long startTime = System.currentTimeMillis();
-//
-//        	IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
-//    		HashMap<Integer, IntegratedAnalysisValue> integratedAnalysisValues = integratedAnalysisDAO.getAnalysisValues(bugID);
-//    		HashMap<Integer, ExtendedIntegratedAnalysisValue> integratedMethodAnalysisValues = integratedAnalysisDAO.getMethodAnalysisValues(bugID);
-//    		if (null == integratedMethodAnalysisValues) {
-//    			return;
-//    		}
-//
-////			HashMap<Integer, IntegratedAnalysisValue> integratedAnalysisValues = integratedAnalysisValuesMap.get(bugID);
-//			// AmaLgam doesn't use normalize
-//			normalize(integratedAnalysisValues);
-//			combine(integratedAnalysisValues, alpha, beta, includeStackTrace);
-//			combineForMethodLevel(integratedAnalysisValues, integratedMethodAnalysisValues, alpha, beta, includeStackTrace);
-//			
-//			int sourceFileCount = integratedAnalysisValues.keySet().size();
-////			System.out.printf("After combine(), integratedAnalysisValues: %d\n", sourceFileCount);
-//			Iterator<Integer> integratedAnalysisValuesIter = integratedAnalysisValues.keySet().iterator();
-//			while (integratedAnalysisValuesIter.hasNext()) {
-//				int sourceFileVersionID = integratedAnalysisValuesIter.next();
-//				
-//				IntegratedAnalysisValue integratedAnalysisValue = integratedAnalysisValues.get(sourceFileVersionID);
-//				int updatedColumnCount = integratedAnalysisDAO.updateBliaSourceFileScore(integratedAnalysisValue);
-//				if (0 == updatedColumnCount) {
-//					System.err.printf("[ERROR] BLIA.analyze(): BLIA and BugLocator score update failed! BugID: %s, sourceFileVersionID: %d\n",
-//							integratedAnalysisValue.getBugID(), integratedAnalysisValue.getSourceFileVersionID());
-//
-//					// remove following line after testing.
-////					integratedAnalysisDAO.insertAnalysisVaule(integratedAnalysisValue);
-//				}
-//			}
-//			
-//			Iterator<Integer> integratedMethodAnalysisValuesIter = integratedMethodAnalysisValues.keySet().iterator();
-//			while (integratedMethodAnalysisValuesIter.hasNext()) {
-//				int methodID = integratedMethodAnalysisValuesIter.next();
-//				
-//				ExtendedIntegratedAnalysisValue integratedMethodAnalysisValue = integratedMethodAnalysisValues.get(methodID);
-////				System.out.printf("Before updateBLIAScore(), count: %d/%d\n", count++, sourceFileCount);
-//				int updatedColumnCount = integratedAnalysisDAO.updateBliaMethodScore(integratedMethodAnalysisValue);
-////				System.out.printf("After updateBLIAScore(), count: %d/%d\n", count, sourceFileCount);
-//				if (0 == updatedColumnCount) {
-//					System.err.printf("[ERROR] BLIA.analyze(): BLIA and BugLocator score update failed! BugID: %s, methodID: %d\n",
-//							integratedMethodAnalysisValue.getBugID(), integratedMethodAnalysisValue.getMethodID());
-//
-//					// remove following line after testing.
-////					integratedAnalysisDAO.insertAnalysisVaule(integratedAnalysisValue);
-//				}
-//			}
-//
-//			synchronized (completeBugIdCount) {
-//				completeBugIdCount++;
-//				System.out.printf("[Thread()] [%d] Bug ID: %s (%s sec)\n", completeBugIdCount, bugID, Util.getElapsedTimeSting(startTime));
-//			}
-//        }
-//    }
-    
     private void calculateBliaSourceFileScore(int bugID, boolean includeStackTrace) throws Exception {
 //		HashMap<Integer, IntegratedAnalysisValue> integratedAnalysisValues = integratedAnalysisValuesMap.get(bugID);
     	IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
@@ -302,23 +224,8 @@ public class BLIA {
 		beta = property.getBeta();
 		gamma = property.getGamma();
 		
-//		integratedAnalysisValuesMap = new HashMap<String, HashMap<Integer, IntegratedAnalysisValue>>();
-//		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
-//		for (int i = 0; i < bugs.size(); i++) {
-//			String bugID = bugs.get(i).getID();
-//			System.out.printf("[getAnalysisValues()] [%d] Bug ID: %s\n", i, bugID);
-//			// DB closed because of out of memory!!!
-//			
-//			try {
-//				integratedAnalysisValuesMap.put(bugID, integratedAnalysisDAO.getAnalysisValues(bugID));
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
 		
 		logger.trace("[STARTED] BLIA.anlayze()");
-//		ExecutorService executor = Executors.newFixedThreadPool(Property.THREAD_COUNT);
-//		ExecutorService executor = Executors.newFixedThreadPool(4);
 		for (int i = 0; i < bugs.size(); i++) {
 			long startTime = System.currentTimeMillis();
 			int bugID = bugs.get(i).getID();
@@ -576,4 +483,243 @@ public class BLIA {
 		blia.analyze(version, includeStackTrace, includeMethodAnalyze);
 		logger.trace("[DONE] BLIA anlaysis.(Total "+ Util.getElapsedTimeSting(startTime)+" sec)");
 	}
+
+
+	public void runForCommit() throws Exception {
+		Property prop = Property.getInstance();
+		prepareWorkingDir();
+				
+		long startTime = System.currentTimeMillis();
+		BLIA blia = new BLIA();
+		
+		boolean useStrucrutedInfo = true;
+		boolean includeStackTrace = true;
+		
+		boolean includeMethodAnalyze = prop.isMethodLevel();
+
+		DbUtil dbUtil = new DbUtil();
+		String dbName = prop.getProductName();
+		dbUtil.openConnetion(dbName);
+		boolean commitDataIncluded = false;
+		dbUtil.initializeAllData(commitDataIncluded);
+		dbUtil.closeConnection();
+		logger.info(prop.getProductName()+" "+prop.getAlpha()+" "+prop.getBeta());
+		
+		logger.trace("[STARTED] Commit log collecting.");
+		startTime = System.currentTimeMillis();
+		String repoDir = Property.getInstance().getRepoDir();
+		GitCommitLogCollector gitCommitLogCollector = new GitCommitLogCollector(repoDir);
+		
+		boolean collectForcely = false;
+		gitCommitLogCollector.collectCommitLog(prop.getSince().getTime(), prop.getUntil().getTime(), collectForcely);
+		logger.trace("[DONE] Commit log collecting: Commit Force = "+ collectForcely+"("+getElapsedTimeSting(startTime)+" sec)");
+		
+		BugCorpusCreator bcc = new BugCorpusCreator();
+		ArrayList<Bug> bugList = bcc.parseXMLforCommit(true);
+		for(int i = 0 ; i<bugList.size(); i++){
+			Bug bug = bugList.get(i);
+			double percent = (i+1.0) / bugList.size()*100;
+			
+			//String cur = String.valueOf(percent).split(".")[0];
+			String cur="";
+			
+			Git git = Git.open(new File(prop.getRepoDir().replace("\\.git", "")));
+			git.checkout().setName(bugList.get(i).getFixedCommitInfos().get(0).getCommitID()).setForce(true).call();
+			version = bugList.get(i).getVersion();
+			
+			
+			logger.trace("[STARTED] Source file corpus creating. "+version + " "+cur+" "+percent);
+			if (!useStrucrutedInfo) {
+				SourceFileCorpusCreator sourceFileCorpusCreator = new SourceFileCorpusCreator();
+				sourceFileCorpusCreator.create(version);
+			} else {
+				StructuredSourceFileCorpusCreator structuredSourceFileCorpusCreator = new StructuredSourceFileCorpusCreator();
+				structuredSourceFileCorpusCreator.createForCommit(version);
+			}
+			logger.trace("[DONE] Source file corpus creating.("+getElapsedTimeSting(startTime)+" sec)");
+		
+			logger.trace("[STARTED] Source file vector creating. "+version+ " "+cur+" "+percent);
+			startTime = System.currentTimeMillis();
+			SourceFileVectorCreator sourceFileVectorCreator = new SourceFileVectorCreator();
+			sourceFileVectorCreator.createIndex(version);
+			sourceFileVectorCreator.computeLengthScore(version);
+			sourceFileVectorCreator.create(version);
+			logger.trace("[DONE] Source file vector creating.("+getElapsedTimeSting(startTime)+" sec)");
+			
+			// Create SordtedID.txt
+			logger.trace("[STARTED] Bug corpus creating.. "+version+ " "+cur+" "+percent);
+			startTime = System.currentTimeMillis();
+			BugCorpusCreator bugCorpusCreator = new BugCorpusCreator();
+			boolean stackTraceAnaysis = true;
+			bugCorpusCreator.createForCommit(stackTraceAnaysis,bug);
+			logger.trace("[DONE] Bug corpus creating.("+ getElapsedTimeSting(startTime)+" sec)");
+			
+			logger.trace("[STARTED] Bug vector creating.. "+version+ " "+cur+" "+percent);
+			startTime = System.currentTimeMillis();
+			BugVectorCreator bugVectorCreator = new BugVectorCreator();
+			bugVectorCreator.create();
+			logger.trace("[DONE] Bug vector creating.("+getElapsedTimeSting(startTime)+" sec)");
+			
+			logger.trace("[STARTED] Bug-Source file vector creating. "+version+ " "+cur+" "+percent);
+			startTime = System.currentTimeMillis();
+			BugSourceFileVectorCreator bugSourceFileVectorCreator = new BugSourceFileVectorCreator(); 
+			bugSourceFileVectorCreator.create(bugList.get(i).getVersion());
+			logger.trace("[DONE] Bug-Source file vector creating.("+ getElapsedTimeSting(startTime)+" sec)");
+			
+			// VSM_SCORE
+			logger.trace("[STARTED] Source file analysis.. "+version+ " "+cur);
+			SourceFileAnalyzer sourceFileAnalyzer = new SourceFileAnalyzer(bug);
+			boolean useStructuredInformation = true;
+			sourceFileAnalyzer.analyze(version, useStructuredInformation);
+			logger.trace("[DONE] Source file analysis.("+getElapsedTimeSting(startTime)+" sec)");
+			
+			// STRACE_SCORE
+			logger.trace("[STARTED] Stack-trace analysis.. "+version+ " "+cur);
+			startTime = System.currentTimeMillis();
+			StackTraceAnalyzer stackTraceAnalyzer = new StackTraceAnalyzer(bug);
+			stackTraceAnalyzer.analyze();
+			logger.trace("[DONE] Stack-trace analysis.("+getElapsedTimeSting(startTime)+" sec)");
+
+			// COMM_SCORE
+			logger.trace("[STARTED] Scm repository analysis.. "+version+ " "+cur);
+			startTime = System.currentTimeMillis();
+			ScmRepoAnalyzer scmRepoAnalyzer = new ScmRepoAnalyzer(bug);
+			scmRepoAnalyzer.analyze(bug.getVersion());
+			logger.trace("[DONE] Scm repository analysis.("+getElapsedTimeSting(startTime)+" sec)");		
+		}
+		// SIMI_SCORE
+		logger.trace("[STARTED] Bug repository analysis.");
+		startTime = System.currentTimeMillis();
+		BugRepoAnalyzer bugRepoAnalyzer = new BugRepoAnalyzer(bugList);
+		bugRepoAnalyzer.analyzeForCommit();
+		logger.trace("[DONE] Bug repository analysis.("+getElapsedTimeSting(startTime)+" sec)");
+
+		blia.analyze(version, includeStackTrace, includeMethodAnalyze);
+		logger.trace("[DONE] BLIA anlaysis.(Total "+ Util.getElapsedTimeSting(startTime)+" sec)");			
+	}
+
+
+	public void runForCommitWithPercent() throws Exception {
+		Property prop = Property.getInstance();
+		prepareWorkingDir();
+				
+		long startTime = System.currentTimeMillis();
+		BLIA blia = new BLIA();
+		
+		boolean useStrucrutedInfo = true;
+		boolean includeStackTrace = true;
+		
+		boolean includeMethodAnalyze = prop.isMethodLevel();
+
+		DbUtil dbUtil = new DbUtil();
+		String dbName = prop.getProductName();
+		dbUtil.openConnetion(dbName);
+		boolean commitDataIncluded = false;
+		dbUtil.initializeAllData(commitDataIncluded);
+		dbUtil.closeConnection();
+		logger.info(prop.getProductName()+" "+prop.getAlpha()+" "+prop.getBeta());
+		
+		logger.trace("[STARTED] Commit log collecting.");
+		startTime = System.currentTimeMillis();
+		String repoDir = Property.getInstance().getRepoDir();
+		GitCommitLogCollector gitCommitLogCollector = new GitCommitLogCollector(repoDir);
+		
+		boolean collectForcely = false;
+		gitCommitLogCollector.collectCommitLog(prop.getSince().getTime(), prop.getUntil().getTime(), collectForcely);
+		logger.trace("[DONE] Commit log collecting: Commit Force = "+ collectForcely+"("+getElapsedTimeSting(startTime)+" sec)");
+		
+		BugCorpusCreator bcc = new BugCorpusCreator();
+		ArrayList<Bug> bugList = bcc.parseXMLforCommit(true);
+		int start = Math.round((float)(bugList.size()*prop.getStartPercent()));
+		int end = Math.round((float)(bugList.size()*prop.getEndPercent()));
+		for(int i = start ; i<end; i++){
+			Bug bug = bugList.get(i);
+			double percent = (i+1.0) / bugList.size()*100;
+			
+			//String cur = String.valueOf(percent).split(".")[0];
+			String cur="";
+			
+			Git git = Git.open(new File(prop.getRepoDir().replace("\\.git", "")));
+			git.checkout().setName(bugList.get(i).getFixedCommitInfos().get(0).getCommitID()).setForce(true).call();
+			version = bugList.get(i).getVersion();
+			
+			
+			logger.trace("[STARTED] Source file corpus creating. "+version + " "+cur+" "+percent);
+			if (!useStrucrutedInfo) {
+				SourceFileCorpusCreator sourceFileCorpusCreator = new SourceFileCorpusCreator();
+				sourceFileCorpusCreator.create(version);
+			} else {
+				StructuredSourceFileCorpusCreator structuredSourceFileCorpusCreator = new StructuredSourceFileCorpusCreator();
+				structuredSourceFileCorpusCreator.createForCommit(version);
+			}
+			logger.trace("[DONE] Source file corpus creating.("+getElapsedTimeSting(startTime)+" sec)");
+		
+			logger.trace("[STARTED] Source file vector creating. "+version+ " "+cur+" "+percent);
+			startTime = System.currentTimeMillis();
+			SourceFileVectorCreator sourceFileVectorCreator = new SourceFileVectorCreator();
+			sourceFileVectorCreator.createIndex(version);
+			sourceFileVectorCreator.computeLengthScore(version);
+			sourceFileVectorCreator.create(version);
+			logger.trace("[DONE] Source file vector creating.("+getElapsedTimeSting(startTime)+" sec)");
+			
+			// Create SordtedID.txt
+			logger.trace("[STARTED] Bug corpus creating.. "+version+ " "+cur+" "+percent);
+			startTime = System.currentTimeMillis();
+			BugCorpusCreator bugCorpusCreator = new BugCorpusCreator();
+			boolean stackTraceAnaysis = true;
+			bugCorpusCreator.createForCommit(stackTraceAnaysis,bug);
+			logger.trace("[DONE] Bug corpus creating.("+ getElapsedTimeSting(startTime)+" sec)");
+			
+			logger.trace("[STARTED] Bug vector creating.. "+version+ " "+cur+" "+percent);
+			startTime = System.currentTimeMillis();
+			BugVectorCreator bugVectorCreator = new BugVectorCreator();
+			bugVectorCreator.create();
+			logger.trace("[DONE] Bug vector creating.("+getElapsedTimeSting(startTime)+" sec)");
+			
+			logger.trace("[STARTED] Bug-Source file vector creating. "+version+ " "+cur+" "+percent);
+			startTime = System.currentTimeMillis();
+			BugSourceFileVectorCreator bugSourceFileVectorCreator = new BugSourceFileVectorCreator(); 
+			bugSourceFileVectorCreator.create(bugList.get(i).getVersion());
+			logger.trace("[DONE] Bug-Source file vector creating.("+ getElapsedTimeSting(startTime)+" sec)");
+			
+			// VSM_SCORE
+			logger.trace("[STARTED] Source file analysis.. "+version+ " "+cur);
+			SourceFileAnalyzer sourceFileAnalyzer = new SourceFileAnalyzer(bug);
+			boolean useStructuredInformation = true;
+			sourceFileAnalyzer.analyze(version, useStructuredInformation);
+			logger.trace("[DONE] Source file analysis.("+getElapsedTimeSting(startTime)+" sec)");
+			
+			// STRACE_SCORE
+			logger.trace("[STARTED] Stack-trace analysis.. "+version+ " "+cur);
+			startTime = System.currentTimeMillis();
+			StackTraceAnalyzer stackTraceAnalyzer = new StackTraceAnalyzer(bug);
+			stackTraceAnalyzer.analyze();
+			logger.trace("[DONE] Stack-trace analysis.("+getElapsedTimeSting(startTime)+" sec)");
+
+			// COMM_SCORE
+			logger.trace("[STARTED] Scm repository analysis.. "+version+ " "+cur);
+			startTime = System.currentTimeMillis();
+			ScmRepoAnalyzer scmRepoAnalyzer = new ScmRepoAnalyzer(bug);
+			scmRepoAnalyzer.analyze(bug.getVersion());
+			logger.trace("[DONE] Scm repository analysis.("+getElapsedTimeSting(startTime)+" sec)");		
+		}
+		// SIMI_SCORE
+		logger.trace("[STARTED] Bug repository analysis.");
+		startTime = System.currentTimeMillis();
+		ArrayList<Bug> percentBugList = new ArrayList<Bug>();
+
+		start = Math.round((float)(bugList.size()*prop.getStartPercent()));
+		end = Math.round((float)(bugList.size()*prop.getEndPercent()));
+		for(int i = start ; i<end; i++){
+			Bug bug = bugList.get(i);
+			percentBugList.add(bug);
+		}
+		BugRepoAnalyzer bugRepoAnalyzer = new BugRepoAnalyzer(bugList);
+		bugRepoAnalyzer.analyzeForCommitWithPercent();
+		logger.trace("[DONE] Bug repository analysis.("+getElapsedTimeSting(startTime)+" sec)");
+
+		blia.analyze(version, includeStackTrace, includeMethodAnalyze);
+		logger.trace("[DONE] BLIA anlaysis.(Total "+ Util.getElapsedTimeSting(startTime)+" sec)");			
+	}
 }
+

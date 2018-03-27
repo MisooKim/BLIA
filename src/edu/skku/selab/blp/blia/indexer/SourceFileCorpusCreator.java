@@ -11,7 +11,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.skku.selab.blp.Property;
+import edu.skku.selab.blp.blia.analysis.BugRepoAnalyzer;
 import edu.skku.selab.blp.common.SourceFileCorpus;
 import edu.skku.selab.blp.common.FileDetector;
 import edu.skku.selab.blp.common.FileParser;
@@ -25,6 +29,7 @@ import edu.skku.selab.blp.utils.Stopword;
  *
  */
 public class SourceFileCorpusCreator {
+	static final Logger logger = LoggerFactory.getLogger(SourceFileCorpusCreator.class);
 	public static String stemContent(String contents[]) {
 		StringBuffer contentBuf = new StringBuffer();
 		for (int i = 0; i < contents.length; i++) {
@@ -104,14 +109,14 @@ public class SourceFileCorpusCreator {
 
 				int sourceFileID = sourceFileDAO.insertSourceFile(fileName);
 				if (BaseDAO.INVALID == sourceFileID) {
-					System.err.printf("[StructuredSourceFileCorpusCreator.create()] %s insertSourceFile() failed.\n", fileName);
+					logger.warn("[StructuredSourceFileCorpusCreator.create()] %s insertSourceFile() failed.\n", fileName);
 					throw new Exception(); 
 				}
 				
 				int sourceFileVersionID = sourceFileDAO.insertCorpusSet(sourceFileID, version, corpus,
 						SourceFileDAO.INIT_TOTAL_COUPUS_COUNT, SourceFileDAO.INIT_LENGTH_SCORE);
 				if (BaseDAO.INVALID == sourceFileVersionID) {
-					System.err.printf("[StructuredSourceFileCorpusCreator.create()] %s insertCorpusSet() failed.\n", fileName);
+					logger.warn("[StructuredSourceFileCorpusCreator.create()] %s insertCorpusSet() failed.\n", fileName);
 					throw new Exception(); 
 				}
 

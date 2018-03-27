@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.skku.selab.blp.Property;
+import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.blia.indexer.SourceFileCorpusCreator;
 import edu.skku.selab.blp.db.dao.DbUtil;
 import edu.skku.selab.blp.db.dao.SourceFileDAO;
@@ -65,7 +66,7 @@ public class SourceFileCorpusCreatorTest {
 	@Test
 	public void verifyCreate() throws Exception {
 		SourceFileCorpusCreator sourceFileCorpusCreator = new SourceFileCorpusCreator();
-		String version = SourceFileDAO.DEFAULT_VERSION_STRING;
+		String version = BLIA.version;
 		sourceFileCorpusCreator.create(version);
 	}
 }

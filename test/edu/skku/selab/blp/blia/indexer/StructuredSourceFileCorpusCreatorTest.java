@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.skku.selab.blp.Property;
+import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.db.dao.DbUtil;
 import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
@@ -69,7 +70,7 @@ public class StructuredSourceFileCorpusCreatorTest {
 	@Test
 	public void verifyCreate() throws Exception {
 		StructuredSourceFileCorpusCreator structuredSourceFileCorpusCreator = new StructuredSourceFileCorpusCreator();
-		String version = SourceFileDAO.DEFAULT_VERSION_STRING;
+		String version = BLIA.version;
 		structuredSourceFileCorpusCreator.create(version);
 	}
 

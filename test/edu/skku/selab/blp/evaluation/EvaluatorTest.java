@@ -58,7 +58,7 @@ public class EvaluatorTest {
 			boolean includeStackTrace, boolean includeMethodAnalyze) throws Exception {
 		Property prop = Property.getInstance();
 				
-		String version = SourceFileDAO.DEFAULT_VERSION_STRING;
+		String version = BLIA.version;
 		long startTime = System.currentTimeMillis();
 
 		BLIA blia = new BLIA();

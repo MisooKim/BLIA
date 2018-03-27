@@ -13,6 +13,9 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import edu.skku.selab.blp.blia.analysis.BugRepoAnalyzer;
 import edu.skku.selab.blp.common.FileParser;
 import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.db.AnalysisValue;
@@ -25,6 +28,7 @@ import edu.skku.selab.blp.db.dao.SourceFileDAO;
  *
  */
 public class BugMethodVectorCreator extends BugSourceFileVectorCreator {
+	static final Logger logger = LoggerFactory.getLogger(BugRepoAnalyzer.class);
 	private HashMap<Integer, ArrayList<Method>> methodMap = null;
 	
 	public BugMethodVectorCreator(HashMap<Integer, ArrayList<Method>> methodMap) {
@@ -87,7 +91,7 @@ public class BugMethodVectorCreator extends BugSourceFileVectorCreator {
 				int sourceFileVersionID = integratedAnalysisValues.get(i).getSourceFileVersionID();
 				ArrayList<Method> methods = methodMap.get(sourceFileVersionID);
 				if (methods == null) {
-					System.err.printf("BugMethodVectorCreator.create()> File name without methods: %s, SF_VER_ID: %d\n",
+					logger.error("BugMethodVectorCreator.create()> File name without methods: %s, SF_VER_ID: %d\n",
 							sourceFileDAO.getSourceFileName(sourceFileVersionID), sourceFileVersionID);
 					continue;
 				}

@@ -67,7 +67,7 @@ public class MethodAnalyzer extends SourceFileAnalyzer {
 			int bugID = bugs.get(i).getID();
 			ArrayList<IntegratedAnalysisValue> rankedSuspiciousFileValues = integratedAnalysisDAO.getMiddleSourceFileRankedValues(bugID, limit);
 			if (null == rankedSuspiciousFileValues) {
-				System.err.println("[ERROR] Can't load rankedSuspiciousFileValues at MethodAnalyzer.analyze()");
+				logger.error("[ERROR] Can't load rankedSuspiciousFileValues at MethodAnalyzer.analyze()");
 				return;
 			}
 			
@@ -76,7 +76,7 @@ public class MethodAnalyzer extends SourceFileAnalyzer {
 		
 		bugDAO.deleteAllBugMthTermWeights();
 		BugMethodVectorCreator bugMethodVectorCreator = new BugMethodVectorCreator(methodMap);
-		bugMethodVectorCreator.create(SourceFileDAO.DEFAULT_VERSION_STRING, rankedSuspFilesMap);
+		bugMethodVectorCreator.create(BLIA.version, rankedSuspFilesMap);
 		
 		ExecutorService executor = Executors.newFixedThreadPool(Property.THREAD_COUNT);
 		for (int i = 0; i < bugs.size(); i++) {
@@ -101,7 +101,7 @@ public class MethodAnalyzer extends SourceFileAnalyzer {
         	try {
         		computeSimilarity(bug);
         	} catch (Exception e) {
-        		e.printStackTrace();
+        		logger.error(e.getMessage());
         	}
         }
         
@@ -116,7 +116,7 @@ public class MethodAnalyzer extends SourceFileAnalyzer {
     			ArrayList<Method> methods = methodMap.get(sourceFileVersionID);
     			if (methods == null) {
     				SourceFileDAO sourceFileDAO = new SourceFileDAO();
-    				System.err.printf("MethodAnalyzer.computeSimilarity()> File name without methods: %s, SF_VER_ID: %d\n",
+    				logger.error("MethodAnalyzer.computeSimilarity()> File name without methods: %s, SF_VER_ID: %d\n",
     						sourceFileDAO.getSourceFileName(sourceFileVersionID), sourceFileVersionID);
     				continue;
     			}
@@ -136,7 +136,7 @@ public class MethodAnalyzer extends SourceFileAnalyzer {
     					if (analysisValue != null) {
     						AnalysisValue methodTermAnalysisValue = bugDAO.getBugMthTermWeight(bugID, terms[k]);
     						if (methodTermAnalysisValue == null) {
-    							System.err.printf("MethodAnalyzer.computeSimilarity()> Can't find bugID: %s, term: %s\n",
+    							logger.error("MethodAnalyzer.computeSimilarity()> Can't find bugID: %s, term: %s\n",
     									bugID, terms[k]);
     							return;
     						}

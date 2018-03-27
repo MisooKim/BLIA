@@ -47,6 +47,11 @@ public class BugRepoAnalyzer {
     public BugRepoAnalyzer(ArrayList<Bug> orderedBugs) {
     	bugs = orderedBugs;
     }
+
+    public BugRepoAnalyzer(Bug bug) {
+    	bugs = new ArrayList<Bug>();
+    	bugs.add(bug);
+    }
     
     private void prepareData() throws Exception {
 		BugDAO bugDAO = new BugDAO();
@@ -77,12 +82,13 @@ public class BugRepoAnalyzer {
         	try {
         		calculateSimilarScore(bug);
         	} catch (Exception e) {
-        		e.printStackTrace();
+        		logger.error(e.getMessage());
         	}
         }
         
         private void calculateSimilarScore(Bug bug) throws Exception {
     		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();	
+    		SourceFileDAO sourceFileDAO = new SourceFileDAO(); 
     		
     		int bugID = bug.getID();
     		HashMap<Integer, Double> similarScores = new HashMap<Integer, Double>(); 
@@ -210,6 +216,40 @@ public class BugRepoAnalyzer {
         }
 	}
 	
+	public void computeSimilarityForCommitWithPercent() throws Exception {
+		BugDAO bugDAO = new BugDAO();
+		HashMap<Integer, ArrayList<AnalysisValue>> bugVectorsExceptComments = getVectorsExceptCommentsForCommitWithPercent();
+		HashMap<Integer, ArrayList<AnalysisValue>> bugVectors = getVectors();
+
+		int start = Math.round((float)(bugs.size()*Property.getInstance().getStartPercent()));
+		int end = Math.round((float)(bugs.size()*Property.getInstance().getEndPercent()));
+		for(int i = start ; i<end; i++){
+        	Bug bug = bugs.get(i);
+        	int firstBugID = bug.getID();
+        	ArrayList<AnalysisValue> firstBugVector = bugVectorsExceptComments.get(firstBugID);
+        	
+        	String openDateString = bug.getOpenDateString();
+        	ArrayList<Bug> targetBugs = null;
+        	int targetIndex = 0;
+        	if (1 < bugDAO.getBugCountWithDate(openDateString)) {
+        		targetBugs = bugDAO.getPreviousFixedBugs(openDateString, firstBugID);
+        		targetIndex = targetBugs.size();
+        	} else {
+        		targetBugs = bugs;
+        		targetIndex = i;
+        	}
+        	
+            for(int j = start; j < targetIndex; j++) {
+            	int secondBugID = targetBugs.get(j).getID();
+            	ArrayList<AnalysisValue> secondBugVector = bugVectors.get(secondBugID);
+            	
+            	double similarityScore = getCosineValue(firstBugVector, secondBugVector);
+            	
+            	bugDAO.insertSimilarBugInfo(firstBugID, secondBugID, similarityScore);
+            }
+        }
+	}
+	
 	/**
 	 * Get cosine value from two vectors
 	 * 
@@ -281,7 +321,43 @@ public class BugRepoAnalyzer {
 	public HashMap<Integer, ArrayList<AnalysisValue>> getVectorsExceptComments() throws Exception {
 		BugDAO bugDAO = new BugDAO();
 		HashMap<Integer, ArrayList<AnalysisValue>> bugVectors = new HashMap<Integer, ArrayList<AnalysisValue>>();
-		for (int i = 0; i < bugs.size(); i++) {
+		
+		for(int i = 0 ; i<bugs.size(); i++){
+			Bug currentBug = bugs.get(i);
+			int bugID = currentBug.getID();
+			
+			String descriptionPart = currentBug.getCorpus().getDescriptionPart();
+			HashSet<String> descriptionCorpus = null;
+			if (descriptionPart.length() > 0) {
+				descriptionPart = descriptionPart.trim();
+				String[] commentCorpusList = descriptionPart.split(" ");
+				descriptionCorpus = new HashSet<String>();
+
+				for (int j = 0; j < commentCorpusList.length; j++) {
+					descriptionCorpus.add(commentCorpusList[j]);
+				}
+			}
+			
+			ArrayList<AnalysisValue> bugTermWeightList = bugDAO.getBugTermWeightList(bugID);
+			for (int j = 0; j < bugTermWeightList.size(); j++) {
+				if (descriptionCorpus != null && !descriptionCorpus.contains(bugTermWeightList.get(j).getTerm())) {
+					bugTermWeightList.remove(j--);
+				}
+			}
+			
+			bugVectors.put(bugID, bugDAO.getBugTermWeightList(bugID));			
+		}
+		
+		return bugVectors;
+	}
+
+	public HashMap<Integer, ArrayList<AnalysisValue>> getVectorsExceptCommentsForCommitWithPercent() throws Exception {
+		BugDAO bugDAO = new BugDAO();
+		HashMap<Integer, ArrayList<AnalysisValue>> bugVectors = new HashMap<Integer, ArrayList<AnalysisValue>>();
+		
+		int start = Math.round((float)(bugs.size()*Property.getInstance().getStartPercent()));
+		int end = Math.round((float)(bugs.size()*Property.getInstance().getEndPercent()));
+		for(int i = start ; i<end; i++){
 			Bug currentBug = bugs.get(i);
 			int bugID = currentBug.getID();
 			
@@ -312,6 +388,7 @@ public class BugRepoAnalyzer {
 
 	 
 
+
 	/**
 	 * Analyze similarity between a bug report and its previous bug reports. Then write similarity scores to SimiScore.txt
 	 * ex.) Bug ID; Target bug ID#1:Similarity score	Target big ID#2:Similarity score 
@@ -335,6 +412,23 @@ public class BugRepoAnalyzer {
 		}
 	}
 	
+	public void analyzeForCommitWithPercent() throws Exception {
+		computeSimilarityForCommitWithPercent();
+		prepareData();
+		
+		ExecutorService executor = Executors.newFixedThreadPool(Property.THREAD_COUNT);
+		int start = Math.round((float)(bugs.size()*Property.getInstance().getStartPercent()));
+		int end = Math.round((float)(bugs.size()*Property.getInstance().getEndPercent()));
+		for(int i = start ; i<end; i++){
+			// calculate term count, IDC, TF and IDF
+			Runnable worker = new WorkerThreadForCommit(bugs.get(i));
+			executor.execute(worker);
+		}
+		executor.shutdown();
+		while (!executor.isTerminated()) {
+		}
+	}
+	
 	private class WorkerThreadForCommit implements Runnable {
     	private Bug bug;
     	
@@ -349,12 +443,14 @@ public class BugRepoAnalyzer {
         	try {
         		calculateSimilarScore(bug);
         	} catch (Exception e) {
-        		e.printStackTrace();
+        		logger.error(e.getMessage());
         	}
         }
         
         private void calculateSimilarScore(Bug bug) throws Exception {
     		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
+    		SourceFileDAO sourceFileDAO = new SourceFileDAO(); 
+			BugDAO bugDAO = new BugDAO();
     		
     		int bugID = bug.getID();
     		HashMap<Integer, Double> similarScores = new HashMap<Integer, Double>(); 
@@ -371,14 +467,15 @@ public class BugRepoAnalyzer {
     					Iterator<SourceFile> fixedFilesIter = fixedFiles.iterator();
     					while (fixedFilesIter.hasNext()) {
     						SourceFile fixedFile = fixedFilesIter.next();
+    						int sourceFileID = sourceFileDAO.getSourceFileID(fixedFile.getName());
     						
     						int sourceFileVersionID = fixedFile.getSourceFileVersionID();
     						if (null != similarScores.get(sourceFileVersionID)) {
     							double similarScore = similarScores.get(sourceFileVersionID).doubleValue() + singleValue;
     							similarScores.remove(sourceFileVersionID);
-    							similarScores.put(sourceFileVersionID, Double.valueOf(similarScore));
+    							similarScores.put(sourceFileID, Double.valueOf(similarScore));
     						} else {
-    							similarScores.put(sourceFileVersionID, Double.valueOf(singleValue));
+    							similarScores.put(sourceFileID, Double.valueOf(singleValue));
     						}
     					}				
     				}
@@ -389,12 +486,12 @@ public class BugRepoAnalyzer {
     			
     			Iterator<Integer> similarScoresIter = similarScores.keySet().iterator();
     			while (similarScoresIter.hasNext()) {
-    				int sourceFileVersionID = similarScoresIter.next();
-    				double similarScore = similarScores.get(sourceFileVersionID).doubleValue();
+    				int sourceFileID = similarScoresIter.next();
+    				double similarScore = similarScores.get(sourceFileID).doubleValue();
     				
     				IntegratedAnalysisValue integratedAnalysisValue = new IntegratedAnalysisValue();
     				integratedAnalysisValue.setBugID(bugID);
-    				integratedAnalysisValue.setSourceFileVersionID(sourceFileVersionID);
+    				integratedAnalysisValue.setSourceFileVersionID(sourceFileID);
     				integratedAnalysisValue.setSimilarityScore(similarScore);
 
     				simiScoreSet.add(similarScore);
@@ -413,12 +510,13 @@ public class BugRepoAnalyzer {
         		}
         		
         		for (IntegratedAnalysisValue integratedAnalysisValue:integratedAnalysisValueList) {
-    				if (integratedAnalysisValue.getVsmScore() >= limitSimiScore) {					
+    				if (integratedAnalysisValue.getVsmScore() >= limitSimiScore) {
+    					int sourceFileID = integratedAnalysisValue.getSourceFileVersionID();
+    					int sourceFileVerID = sourceFileDAO.getSourceFileVersionID(sourceFileID, bug.getVersion());
+    					integratedAnalysisValue.setSourceFileVersionID(sourceFileVerID);
     					int updatedColumenCount = integratedAnalysisDAO.updateSimilarScore(integratedAnalysisValue);
     					
-    					if (0 == updatedColumenCount) {
-    						integratedAnalysisDAO.insertAnalysisVaule(integratedAnalysisValue);
-    					}
+    					
     				}
     			}
     		}

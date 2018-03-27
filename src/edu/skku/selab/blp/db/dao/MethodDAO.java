@@ -32,7 +32,10 @@ public class MethodDAO extends BaseDAO {
 		try {
 			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, method.getSourceFileVersionID());
-			ps.setString(2, method.getName());
+			if(method.getName().length() > 126){
+				method.setName(method.getName().substring(0, 126));
+			}
+			ps.setString(2, method.getName());			
 			ps.setString(3, method.getReturnType());
 			ps.setString(4, method.getParams());
 			ps.setString(5, method.getHashKey());

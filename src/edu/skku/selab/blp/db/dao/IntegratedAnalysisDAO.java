@@ -10,7 +10,11 @@ package edu.skku.selab.blp.db.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.skku.selab.blp.Property;
+import edu.skku.selab.blp.blia.analysis.BugRepoAnalyzer;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
 import edu.skku.selab.blp.db.ExtendedIntegratedAnalysisValue;
 
@@ -19,7 +23,8 @@ import edu.skku.selab.blp.db.ExtendedIntegratedAnalysisValue;
  *
  */
 public class IntegratedAnalysisDAO extends BaseDAO {
-	
+
+	static final Logger logger = LoggerFactory.getLogger(IntegratedAnalysisDAO.class);
 	public final static int INVALID_SCORE = -1;
 
 	/**
@@ -60,6 +65,7 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 		
 		return returnValue;
 	}
+	
 	
 	public int insertMethodAnalysisVaule(ExtendedIntegratedAnalysisValue integratedMethodAnalysisValue) {
 		String sql = "INSERT INTO INT_MTH_ANALYSIS (BUG_ID, MTH_ID, VSM_SCORE, COMM_SCORE, BLIA_MTH_SCORE) "+
@@ -135,7 +141,6 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 		
 		return returnValue;
 	}
-	
 	public int updateBugLocatorScore(IntegratedAnalysisValue integratedAnalysisValue) {
 		String sql = "UPDATE INT_ANALYSIS SET BL_SCORE = ? WHERE BUG_ID = ? AND SF_VER_ID = ?";
 		int returnValue = INVALID;
@@ -287,21 +292,21 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 			} else if (-1 != fixedFileName.lastIndexOf("org.apache")) {
 				fixedFileName = fixedFileName.substring(fixedFileName.lastIndexOf("org.osgi"), fixedFileName.length());
 			} else {
-				System.err.printf("Wrong fixed file that is not source file: %s\n", fixedFileName);
+				logger.error("Wrong fixed file that is not source file: %s\n", fixedFileName);
 			}
 			break;
 		case "swt":
 			if (-1 != fixedFileName.lastIndexOf("org.eclipse.swt")) {
 				fixedFileName = fixedFileName.substring(fixedFileName.lastIndexOf("org.eclipse.swt"), fixedFileName.length());
 			} else {
-				System.err.printf("Wrong fixed file that is not source file: %s\n", fixedFileName);
+				logger.error("Wrong fixed file that is not source file: %s\n", fixedFileName);
 			}
 			break;
 		case "zxing":
 			if (-1 != fixedFileName.lastIndexOf("com.google.zxing")) {
 				fixedFileName = fixedFileName.substring(fixedFileName.lastIndexOf("com.google.zxing"), fixedFileName.length());
 			} else {
-				System.err.printf("Wrong fixed file that is not source file: %s\n", fixedFileName);
+				logger.error("Wrong fixed file that is not source file: %s\n", fixedFileName);
 			}
 			break;
 		default:

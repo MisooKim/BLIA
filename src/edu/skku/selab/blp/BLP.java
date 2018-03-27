@@ -54,23 +54,45 @@ public class BLP {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
+		String propertyFile = "blp.properties";
+		String type = "commit";
+		if(args.length > 0){
+			propertyFile = args[0];
+//			propertyFile = "c:\\blp.properties";
+			type = args[1].toLowerCase(); //release, commit, commitWithPercent
+		}				
 		// Load properties data to run BLIA
 		long startTime = System.currentTimeMillis();
+		logger.info(propertyFile+" "+type);
 		logger.trace("[START] BLIA Evaluation START");
-		Property prop = Property.loadInstance();
+		Property prop = new Property(propertyFile);
+		prop = prop.loadInstanceForJar(propertyFile);
 		logger.info("[DATA] "+prop.getProductName()+" " +prop.getAlpha()+" "+prop.getBeta());
 		logger.trace("Start InitializeDB");
 		// initialize DB and create all tables.
 		initializeDB(prop.getProductName());
 		logger.trace("Finish InitializeDB");
 
-		logger.trace("Start BLIA");
-		// Run BLIA algorithm
 		BLIA blia = new BLIA();
-		blia.run();
-		logger.trace("Finish BLIA");
-		
-		
+		if(type.equals("release")){
+			logger.trace("Start BLIA");
+			// Run BLIA algorithm			
+			blia.run();
+			logger.trace("Finish BLIA");			
+		}else if(type.equals("commit")){
+			blia.runForCommit();
+		}else if(type.equals("commitwithpercent")){
+			if(prop.getStartPercent() >= prop.getEndPercent()){
+				logger.error("START PERCENT => END PERCENT");
+				return;
+			}
+				
+			blia.runForCommitWithPercent();
+		}else{
+			logger.error("NO INPUT FOR EVALUATION TYPE");
+			return;
+		}
+
 		String algorithmDescription = "[BLIA] alpha: " + prop.getAlpha() +
 				", beta: " + prop.getBeta() + ", gamma: " + prop.getGamma() + ", pastDays: " + prop.getPastDays() +
 				", cadidateLimitRate: " + prop.getCandidateLimitRate();
@@ -82,14 +104,17 @@ public class BLP {
 				prop.getCandidateLimitRate());
 		evaluator1.evaluate();
 		logger.trace("Finish Evaluator for File Level");
-		
-		logger.trace("Start Evaluator for Method Level");
-		Evaluator evaluator2 = new EvaluatorForMethodLevel(prop.getProductName(),
-				EvaluatorForMethodLevel.ALG_BLIA_METHOD, algorithmDescription, prop.getAlpha(),
-				prop.getBeta(), prop.getGamma(), prop.getPastDays(),
-				prop.getCandidateLimitRate());
-		evaluator2.evaluate();
-		logger.trace("Finish Evaluator for Method Level");
+
+		if(prop.isMethodLevel()){
+			logger.trace("Start Evaluator for Method Level");
+			Evaluator evaluator2 = new EvaluatorForMethodLevel(prop.getProductName(),
+					EvaluatorForMethodLevel.ALG_BLIA_METHOD, algorithmDescription, prop.getAlpha(),
+					prop.getBeta(), prop.getGamma(), prop.getPastDays(),
+					prop.getCandidateLimitRate());
+			evaluator2.evaluate();
+			logger.trace("Finish Evaluator for Method Level");
+		}
 		logger.trace("[DONE] BLIA Evaluation FINISH(Total "+Util.getElapsedTimeSting(startTime)+"  sec)");
 	}
+
 }

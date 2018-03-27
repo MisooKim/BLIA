@@ -27,6 +27,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.common.Bug;
 import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
@@ -119,7 +120,7 @@ public class BugRepositoryUtil {
 						}
 						
 						// TODO: set version with default version because there is not affected version for the bug.
-						bug.setVersion(SourceFileDAO.DEFAULT_VERSION_STRING);
+						bug.setVersion(BLIA.version);
 						
 						list.add(bug);
 					}

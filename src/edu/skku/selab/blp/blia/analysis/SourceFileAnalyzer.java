@@ -57,12 +57,22 @@ public class SourceFileAnalyzer {
     	sourceFileLengthScoreMap = null;
     }
     
+    public SourceFileAnalyzer(Bug bug) {
+    	bugs = new ArrayList<Bug>();
+    	bugs.add(bug);
+    	sourceFileVersionIDs = null;
+    	sourceFileAllTermMaps = null;
+    	sourceFileCorpusMap = null;
+    	sourceFileLengthScoreMap = null;
+    }
+    
 	/**
 	 * Calculate VSM score between source files and each bug report 
 	 * 
 	 */
 	public void analyze(String version, boolean useStructuredInfo) throws Exception {
 		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+		BugDAO bugDAO = new BugDAO();
 		sourceFileVersionIDs = sourceFileDAO.getSourceFileVersionIDs(version);
 		sourceFileAllTermMaps = new HashMap<Integer, HashMap<String, AnalysisValue>>();
 		sourceFileCorpusMap = new HashMap<Integer, SourceFileCorpus>();
@@ -89,7 +99,7 @@ public class SourceFileAnalyzer {
 
 		for (int i = 0; i < bugs.size(); i++) {
 			// calculate term count, IDC, TF and IDF
-			Runnable worker = new WorkerThread(bugs.get(i), version, useStructuredInfo);
+			Runnable worker = new WorkerThread(bugDAO.getDetailBug(bugs.get(i).getID()), version, useStructuredInfo);
 			executor.execute(worker);
 		}
 		executor.shutdown();
@@ -119,7 +129,7 @@ public class SourceFileAnalyzer {
     				computeSimilarity(bug, version);
     			}
         	} catch (Exception e) {
-        		e.printStackTrace();
+        		logger.error(e.getMessage());
         	}
         }
         
@@ -198,6 +208,7 @@ public class SourceFileAnalyzer {
     			sourceFileNormSet[2] = corpus.getVariableCorpusNorm();
     			sourceFileNormSet[3] = corpus.getCommentCorpusNorm();
     			
+    			
     			BugCorpus bugCorpus = bug.getCorpus();
     			String[] bugCorpusParts = new String[2];
     			bugCorpusParts[0] = bugCorpus.getSummaryPart();
@@ -205,13 +216,13 @@ public class SourceFileAnalyzer {
     			double[] bugNormSet = new double[2];
     			bugNormSet[0] = bugCorpus.getSummaryCorpusNorm();
     			bugNormSet[1] = bugCorpus.getDecriptionCorpusNorm();
+    			
     					
     			for (int i = 0; i < sourceFileCorpusSet.length; i++) {
     				for (int j = 0; j < bugCorpusParts.length; j++) {
     					if (sourceFileCorpusSet[i] == "" || bugCorpusParts[j] == "") {
     						continue;
     					}
-    					
     					String[] sourceFileTerms = sourceFileCorpusSet[i].split(" ");
     					String[] bugTerms = bugCorpusParts[j].split(" ");
     					HashSet<String> bugTermSet = new HashSet<String>();
@@ -226,7 +237,7 @@ public class SourceFileAnalyzer {
     								logger.error("Exception occurred term: %s", sourceFileTerms[k]);
     								continue;
     							}
-    							
+
     							AnalysisValue sourceFileTermValue = sourceFileTermMap.get(sourceFileTerms[k]);
     							double sourceFileTermWeight = sourceFileTermValue.getIdf() * sourceFileTermValue.getIdf();
     							
@@ -297,6 +308,7 @@ public class SourceFileAnalyzer {
 //    			System.out.printf(">>> candidateLimitSize: %d\n", candidateLimitSize);
     			limitVsmScore = (Double) (vsmScoreSet.descendingSet().toArray()[candidateLimitSize -1]);
     		}
+    		
     		
 //    		System.out.printf(">>> limitVsmScore: %f\n", limitVsmScore);
 //    		int count = 0; // for test

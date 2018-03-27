@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.skku.selab.blp.Property;
+import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.blia.indexer.SourceFileCorpusCreator;
 import edu.skku.selab.blp.blia.indexer.SourceFileVectorCreator;
 import edu.skku.selab.blp.db.dao.DbUtil;
@@ -70,7 +71,7 @@ public class SourceFileVectorCreatorTest {
 
 	@Test
 	public void verifyCreateWithSourceFileCorpusCreator() throws Exception {
-		String version = SourceFileDAO.DEFAULT_VERSION_STRING;
+		String version =BLIA.version;
 		SourceFileCorpusCreator sourceFileCorpusCreator = new SourceFileCorpusCreator();
 		sourceFileCorpusCreator.create(version);
 		
@@ -81,7 +82,7 @@ public class SourceFileVectorCreatorTest {
 	
 	@Test
 	public void verifyCreateWithStructuredSourceFileCorpusCreator() throws Exception {
-		String version = SourceFileDAO.DEFAULT_VERSION_STRING;
+		String version = BLIA.version;
 
 		long startTime = System.currentTimeMillis();
 		System.out.printf("[STARTED] StructuredSourceFileCorpusCreator.create()\n");
@@ -109,7 +110,7 @@ public class SourceFileVectorCreatorTest {
 	@Test
 	public void verifyCreateIndex() throws Exception {
 		// Following function is needed to set file count for Property.getFileCount() at BugRepoAnalyzer
-		String version = SourceFileDAO.DEFAULT_VERSION_STRING;
+		String version = BLIA.version;
 		SourceFileCorpusCreator sourceFileCorpusCreator = new SourceFileCorpusCreator();
 		sourceFileCorpusCreator.create(version);
 		
