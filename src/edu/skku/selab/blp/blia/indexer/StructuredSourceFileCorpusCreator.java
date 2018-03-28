@@ -181,6 +181,8 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 		File files[] = detector.detect(property.getRepoDir().replace(toggle, ""));
 		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		MethodDAO methodDAO = new MethodDAO();
+		sourceFileDAO.deleteAllCorpusesByVersion(version);
+		methodDAO.deleteAllMethods();
 		
 		String productName = property.getProductName();
 		int totalCoupusCount = SourceFileDAO.INIT_TOTAL_COUPUS_COUNT;

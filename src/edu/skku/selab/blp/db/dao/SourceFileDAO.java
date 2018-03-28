@@ -424,6 +424,37 @@ public class SourceFileDAO extends BaseDAO {
 		
 		return returnValue;
 	}
+	
+	public int deleteAllCorpusesByVersion(String version) {
+		String sql = "UPDATE SF_VER_INFO "
+				+ "SET COR =null, "
+				+ "CLS_COR=null, "
+				+ "MTH_COR=null,"
+				+ "VAR_COR=null,"
+				+ "CMT_COR=null,"
+				+ "TOT_CNT=null,"
+				+ "LEN_SCORE=null,"
+				+ "COR_NORM=null,"
+				+ "CLS_COR_NORM=null,"
+				+ "MTH_COR_NORM=null,"
+				+ "VAR_COR_NORM=null,"
+				+ "CMT_COR_NORM=null "
+				+ "WHERE VER <> ?";
+				
+		int returnValue = INVALID;
+		
+		try {
+			ps = analysisDbConnection.prepareStatement(sql);
+			ps.setString(1, version);
+			
+			returnValue = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return returnValue;
+	}
+
 
 	/**
 	 * Get <Source file name, CorpusMap> with product name and version

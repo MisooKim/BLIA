@@ -47,6 +47,7 @@ public class BaseDAO {
 			Class.forName("org.h2.Driver");
 			String connectionURL = "jdbc:h2:file:./db/evaluation";
 			JdbcConnectionPool connectionPool = JdbcConnectionPool.create(connectionURL, "sa", "");
+//			connectionPool.setMaxConnections();
 			evaluationDbConnection = connectionPool.getConnection();
 		}
 	}
