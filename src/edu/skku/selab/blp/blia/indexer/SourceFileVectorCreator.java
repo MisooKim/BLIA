@@ -287,7 +287,7 @@ public class SourceFileVectorCreator {
 				HashMap<String, AnalysisValue> sourceFileTermMap = sourceFileDAO.getTermMap(fileName, version);
 				if (sourceFileTermMap == null) {
 					// debug code
-					logger.debug("[SourceFileVectorCreator.create()] The file name that has no valid terms: %s", fileName);
+					logger.debug("[SourceFileVectorCreator.create()] The file name that has no valid terms: "+ fileName);
 					return;
 				}
 

@@ -42,10 +42,10 @@ public class BLP {
 		
 		dbUtil.openEvaluationDbConnection();
 
-		dbUtil.dropEvaluationTable();
+//		dbUtil.dropEvaluationTable();
 		dbUtil.createEvaluationTable();
 		
-		dbUtil.initializeExperimentResultData();
+//		dbUtil.initializeExperimentResultData();
 		
 		dbUtil.closeConnection();
 	}
@@ -62,6 +62,7 @@ public class BLP {
 			type = args[1].toLowerCase(); //release, commit, commitWithPercent
 		}				
 		// Load properties data to run BLIA
+		
 		long startTime = System.currentTimeMillis();
 		logger.info(propertyFile+" "+type);
 		logger.trace("[START] BLIA Evaluation START");

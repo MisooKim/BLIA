@@ -523,7 +523,11 @@ public class BLIA {
 			//String cur = String.valueOf(percent).split(".")[0];
 			String cur="";
 			
-			Git git = Git.open(new File(prop.getRepoDir().replace("\\.git", "")));
+			String toggle = "\\.git";
+			if(System.getProperty("os.name").equals("Linux"))
+				toggle = "/.git";
+			
+			Git git = Git.open(new File(prop.getRepoDir().replace(toggle, "")));
 			git.checkout().setName(bugList.get(i).getFixedCommitInfos().get(0).getCommitID()).setForce(true).call();
 			version = bugList.get(i).getVersion();
 			
@@ -639,7 +643,11 @@ public class BLIA {
 			//String cur = String.valueOf(percent).split(".")[0];
 			String cur="";
 			
-			Git git = Git.open(new File(prop.getRepoDir().replace("\\.git", "")));
+			String toggle = "\\.git";
+			if(System.getProperty("os.name").equals("Linux"))
+				toggle = "/.git";
+			
+			Git git = Git.open(new File(prop.getRepoDir().replace(toggle, "")));
 			git.checkout().setName(bugList.get(i).getFixedCommitInfos().get(0).getCommitID()).setForce(true).call();
 			version = bugList.get(i).getVersion();
 			

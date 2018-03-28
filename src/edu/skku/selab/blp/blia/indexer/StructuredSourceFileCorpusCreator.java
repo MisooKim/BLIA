@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import org.eclipse.jgit.api.Git;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -171,7 +172,13 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 	public void createForCommit(String version) throws Exception {
 		Property property = Property.getInstance();
 		FileDetector detector = new FileDetector("java");
-		File files[] = detector.detect(property.getRepoDir().replace("\\.git", ""));
+
+		String toggle = "\\.git";
+		if(System.getProperty("os.name").equals("Linux"))
+			toggle = "/.git";		
+		
+		
+		File files[] = detector.detect(property.getRepoDir().replace(toggle, ""));
 		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		MethodDAO methodDAO = new MethodDAO();
 		
@@ -205,7 +212,8 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 				String fileName = "";
 				if (productName.toLowerCase().contains("aspectj")) {
 					String absolutePath = file.getAbsolutePath();
-					String sourceCodeDirName = property.getRepoDir().replace("\\.git", "");
+					
+					String sourceCodeDirName = property.getRepoDir().replace(toggle, "");
 					int index = absolutePath.indexOf(sourceCodeDirName);
 					fileName = absolutePath.substring(index + sourceCodeDirName.length() + 1, absolutePath.length());
 					fileName = fileName.replace("\\", "/");
@@ -226,8 +234,9 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 				
 				int sourceFileID = sourceFileDAO.insertSourceFile(fileName, className);
 				if (BaseDAO.INVALID == sourceFileID) {
-					logger.warn("[StructuredSourceFileCorpusCreator.create()] "+className+" insertSourceFile() failed." );
-					throw new Exception(); 
+					logger.warn("[StructuredSourceFileCorpusCreator.create()] "+className+" "+fileName+" insertSourceFile() failed." );
+					continue;
+//					throw new Exception(); 
 				}
 				
 				int sourceFileVersionID = sourceFileDAO.insertCorpusSet(sourceFileID, version, corpus, totalCoupusCount, lengthScore);

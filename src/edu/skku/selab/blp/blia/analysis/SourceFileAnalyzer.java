@@ -84,7 +84,7 @@ public class SourceFileAnalyzer {
 			
 			HashMap<String, AnalysisValue> sourceFileTermMap = sourceFileDAO.getTermMap(sourceFileVersionID);
 			if (sourceFileTermMap == null) {
-				logger.error("Wrong source file version ID: "+sourceFileVersionID);
+//				logger.error("Wrong source file version ID: "+sourceFileVersionID);
 			}
 			sourceFileAllTermMaps.put(sourceFileVersionID, sourceFileTermMap);
 			
