@@ -26,14 +26,15 @@
 87855 org.eclipse.swt.widgets.Table.java 1
 90018 org.eclipse.swt.custom.CTabFolder.java 1
 87997 org.eclipse.swt.widgets.Table.java 6
+88829 org.eclipse.swt.widgets.Table.java 1
 86631 org.eclipse.swt.graphics.Image.java 1
-81242 org.eclipse.swt.dnd.ClipboardProxy.java 3
 92017 org.eclipse.swt.graphics.Image.java 2
+81242 org.eclipse.swt.dnd.ClipboardProxy.java 3
 88717 org.eclipse.swt.dnd.TreeDragUnderEffect.java 29
 92612 org.eclipse.swt.custom.CTabFolder.java 1
 92181 org.eclipse.swt.custom.CTabFolder.java 1
-91159 org.eclipse.swt.dnd.DropTarget.java 3
 79268 org.eclipse.swt.internal.gnome.GNOME.java 1
+91159 org.eclipse.swt.dnd.DropTarget.java 3
 94467 org.eclipse.swt.widgets.Table.java 4
 94598 org.eclipse.swt.browser.Browser.java 26
 93724 org.eclipse.swt.internal.gtk.OS.java 1
@@ -59,8 +60,8 @@
 112358 org.eclipse.swt.graphics.RGB.java 1
 82277 org.eclipse.swt.widgets.CoolBar.java 2
 92341 org.eclipse.swt.widgets.TreeItem.java 2
-93380 org.eclipse.swt.dnd.DragSource.java 1
 117574 org.eclipse.swt.graphics.GC.java 1
+93380 org.eclipse.swt.dnd.DragSource.java 1
 103976 org.eclipse.swt.widgets.Spinner.java 1
 106289 org.eclipse.swt.widgets.Tree.java 3
 104150 org.eclipse.swt.custom.TableCursor.java 2
@@ -93,7 +94,6 @@
 103863 org.eclipse.swt.widgets.Composite.java 4
 119192 org.eclipse.swt.custom.CCombo.java 2
 108792 org.eclipse.swt.custom.StyledText.java 1
-88829 org.eclipse.swt.widgets.Table.java 1
 Top1: 45, Top5: 80, Top10: 87, Top1Rate: 0.45918367346938777, Top5Rate: 0.8163265306122449, Top10Rate: 0.8877551020408163
 MRR: 0.6165092836292709
-MAP: 0.5043982120631569
+MAP: 0.5043982120631568

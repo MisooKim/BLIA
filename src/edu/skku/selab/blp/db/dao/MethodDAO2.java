@@ -16,22 +16,21 @@ import edu.skku.selab.blp.common.Method;
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
  *
  */
-public class MethodDAO extends BaseDAO {
+public class MethodDAO2 extends BaseDAO {
 
 	/**
 	 * @throws Exception
 	 */
-	public MethodDAO() throws Exception {
+	public MethodDAO2() throws Exception {
 		super();
 	}
 	
 	public int insertMethod(Method method) {
+		String sql = "INSERT INTO MTH_INFO (SF_VER_ID, MTH_NAME, RET_TYPE, PARAMS, HASH_KEY) VALUES (?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("insertMethod");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, method.getSourceFileVersionID());
 			if(method.getName().length() > 126){
 				method.setName(method.getName().substring(0, 126));
@@ -55,11 +54,11 @@ public class MethodDAO extends BaseDAO {
 	
 	public int getMethodID(Method method) {
 		int returnValue = INVALID;
+		String sql = "SELECT MTH_ID FROM MTH_INFO " +
+				"WHERE HASH_KEY = ? AND MTH_NAME = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getMethodID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, method.getHashKey());
 			ps.setString(2, method.getName());
 			
@@ -78,11 +77,10 @@ public class MethodDAO extends BaseDAO {
 	public HashMap<String, Method> getMethods(int sourceFileVersionID) {
 		HashMap<String, Method> methodInfo = new HashMap<String, Method>();
 		
+		String sql = "SELECT MTH_ID, MTH_NAME, RET_TYPE, PARAMS, HASH_KEY FROM MTH_INFO WHERE SF_VER_ID = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getMethods");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, sourceFileVersionID);
 			
 			rs = ps.executeQuery();
@@ -102,11 +100,10 @@ public class MethodDAO extends BaseDAO {
 	public HashMap<Integer, ArrayList<Method>> getAllMethods() {
 		HashMap<Integer, ArrayList<Method>> methodMap = new HashMap<Integer, ArrayList<Method>>();
 		
+		String sql = "SELECT MTH_ID, SF_VER_ID, MTH_NAME, RET_TYPE, PARAMS, HASH_KEY FROM MTH_INFO";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getAllMethods");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -128,12 +125,11 @@ public class MethodDAO extends BaseDAO {
 	}
 	
 	public int deleteAllMethods() {
+		String sql = "DELETE FROM MTH_INFO";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("deleteAllMethods");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {

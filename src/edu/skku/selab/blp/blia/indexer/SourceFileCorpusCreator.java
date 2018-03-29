@@ -20,7 +20,7 @@ import edu.skku.selab.blp.common.SourceFileCorpus;
 import edu.skku.selab.blp.common.FileDetector;
 import edu.skku.selab.blp.common.FileParser;
 import edu.skku.selab.blp.db.dao.BaseDAO;
-import edu.skku.selab.blp.db.dao.SourceFileDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO2;
 import edu.skku.selab.blp.utils.Stem;
 import edu.skku.selab.blp.utils.Stopword;
 
@@ -95,7 +95,7 @@ public class SourceFileCorpusCreator {
 		FileDetector detector = new FileDetector("java");
 		File files[] = detector.detect(property.getSourceCodeDirList());
 		
-		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
 		int count = 0;
 		TreeSet<String> nameSet = new TreeSet<String>();
 		for (int i = 0; i < files.length; i++) {
@@ -114,7 +114,7 @@ public class SourceFileCorpusCreator {
 				}
 				
 				int sourceFileVersionID = sourceFileDAO.insertCorpusSet(sourceFileID, version, corpus,
-						SourceFileDAO.INIT_TOTAL_COUPUS_COUNT, SourceFileDAO.INIT_LENGTH_SCORE);
+						SourceFileDAO2.INIT_TOTAL_COUPUS_COUNT, SourceFileDAO2.INIT_LENGTH_SCORE);
 				if (BaseDAO.INVALID == sourceFileVersionID) {
 					logger.warn("[StructuredSourceFileCorpusCreator.create()] %s insertCorpusSet() failed.\n", fileName);
 					throw new Exception(); 

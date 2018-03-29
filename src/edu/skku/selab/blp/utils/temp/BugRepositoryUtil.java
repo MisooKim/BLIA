@@ -29,7 +29,7 @@ import org.w3c.dom.NodeList;
 
 import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.common.Bug;
-import edu.skku.selab.blp.db.dao.SourceFileDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO2;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)

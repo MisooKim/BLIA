@@ -31,7 +31,7 @@ public class BLP {
 		for (int i = 0; i < productName.length; i++) {
 			dbUtil.openConnetion(productName[i]);
 
-			dbUtil.dropAllAnalysisTables();
+//			dbUtil.dropAllAnalysisTables();
 			dbUtil.createAllAnalysisTables();
 
 			prop.setProductName(productName[i]);

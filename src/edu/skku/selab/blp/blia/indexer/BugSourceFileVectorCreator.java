@@ -15,8 +15,8 @@ import java.util.Iterator;
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.common.Bug;
 import edu.skku.selab.blp.db.AnalysisValue;
-import edu.skku.selab.blp.db.dao.BugDAO;
-import edu.skku.selab.blp.db.dao.SourceFileDAO;
+import edu.skku.selab.blp.db.dao.BugDAO2;
+import edu.skku.selab.blp.db.dao.SourceFileDAO2;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -24,11 +24,11 @@ import edu.skku.selab.blp.db.dao.SourceFileDAO;
  */
 public class BugSourceFileVectorCreator {
 	public void create(String version) throws Exception {
-		BugDAO bugDAO = new BugDAO();
+		BugDAO2 bugDAO = new BugDAO2();
 		HashMap<Integer, Bug> bugs = bugDAO.getBugs();
 		Property property = Property.getInstance();
 		
-		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
 		HashMap<String, Integer> sourceFileTermMap = sourceFileDAO.getTermMap();
 		
 		SourceFileVectorCreator sourceFileVectorCreator = new SourceFileVectorCreator(); 

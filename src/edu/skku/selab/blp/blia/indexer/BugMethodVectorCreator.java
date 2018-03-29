@@ -20,8 +20,8 @@ import edu.skku.selab.blp.common.FileParser;
 import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.db.AnalysisValue;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
-import edu.skku.selab.blp.db.dao.BugDAO;
-import edu.skku.selab.blp.db.dao.SourceFileDAO;
+import edu.skku.selab.blp.db.dao.BugDAO2;
+import edu.skku.selab.blp.db.dao.SourceFileDAO2;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -66,9 +66,9 @@ public class BugMethodVectorCreator extends BugSourceFileVectorCreator {
 	}
 	
 	public void create(String version, HashMap<Integer, ArrayList<IntegratedAnalysisValue>> rankedSuspFilesMap) throws Exception {
-		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
 		HashMap<String, Integer> sourceFileTermMap = sourceFileDAO.getTermMap();
-		BugDAO bugDAO = new BugDAO();
+		BugDAO2 bugDAO = new BugDAO2();
 		
 		String methodTerm = "";
 		int totalTermCount = 0;

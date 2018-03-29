@@ -25,6 +25,7 @@ public class BaseDAO {
 	protected static Connection evaluationDbConnection = null;
 	protected PreparedStatement ps = null;
 	protected ResultSet rs = null;
+	protected static SetOfDAO setOfDAO = null;
 		
 	final public static int INVALID = -1;
 	final static String DEFAULT_DB_NAME = "sample";

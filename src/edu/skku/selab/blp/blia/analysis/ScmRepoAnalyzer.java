@@ -27,10 +27,10 @@ import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
 import edu.skku.selab.blp.db.ExtendedIntegratedAnalysisValue;
 import edu.skku.selab.blp.db.dao.BaseDAO;
-import edu.skku.selab.blp.db.dao.CommitDAO;
-import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
-import edu.skku.selab.blp.db.dao.MethodDAO;
-import edu.skku.selab.blp.db.dao.SourceFileDAO;
+import edu.skku.selab.blp.db.dao.CommitDAO2;
+import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO2;
+import edu.skku.selab.blp.db.dao.MethodDAO2;
+import edu.skku.selab.blp.db.dao.SourceFileDAO2;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -80,9 +80,9 @@ public class ScmRepoAnalyzer {
         }
         
         private void insertDataToDb() throws Exception {
-    		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
-    		MethodDAO methodDAO = new MethodDAO();
-    		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+    		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+    		MethodDAO2 methodDAO = new MethodDAO2();
+    		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
     		
 			// <fileName, analysisValue>
 			HashMap<String, IntegratedAnalysisValue> analysisValues = new HashMap<String, IntegratedAnalysisValue>();
@@ -187,7 +187,7 @@ public class ScmRepoAnalyzer {
     
 	public void analyze(String version) throws Exception {
 		// Do loop from the oldest bug,
-		CommitDAO commitDAO = new CommitDAO();
+		CommitDAO2 commitDAO = new CommitDAO2();
 		
 		// Checked the "filtered". This variable is valid when it is true
 		boolean filtered = true;

@@ -38,13 +38,13 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int insertStructuredBug(Bug bug) {
-		String sql = "INSERT INTO BUG_INFO (BUG_ID, OPEN_DATE, FIXED_DATE, SMR_COR, DESC_COR, CMT_COR, TOT_CNT, VER)" +
-					 " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		// releaseDate format : "2004-10-18 17:40:00"
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("insertStructuredBug");
+			
 			ps.setInt(1, bug.getID());
 			ps.setString(2, bug.getOpenDateString());
 			ps.setString(3, bug.getFixedDateString());
@@ -76,11 +76,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int deleteAllBugs() {
-		String sql = "DELETE FROM BUG_INFO";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getStackTraceClasses");
+			
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -93,10 +94,11 @@ public class BugDAO extends BaseDAO {
 	public HashMap<Integer, Bug> getBugs() {
 		HashMap<Integer, Bug> bugs = new HashMap<Integer, Bug>();
 		
-		String sql = "SELECT BUG_ID, OPEN_DATE, FIXED_DATE, COR, SMR_COR, DESC_COR, TOT_CNT, COR_NORM, SMR_COR_NORM, DESC_COR_NORM, VER FROM BUG_INFO";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getBugs");
+			
 			
 			Bug bug = null;
 			rs = ps.executeQuery();
@@ -179,10 +181,11 @@ public class BugDAO extends BaseDAO {
 	public HashMap<Integer, Double> getAllNorms() {
 		HashMap<Integer, Double> bugNormMap = new HashMap<Integer, Double>();
 		
-		String sql = "SELECT BUG_ID, COR_NORM FROM BUG_INFO ";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getStackTraceClasses");
+			
 
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -197,12 +200,12 @@ public class BugDAO extends BaseDAO {
 	}
 
 	public int getBugCountWithDate(String dateString) {
-		String sql = "SELECT COUNT(BUG_ID) FROM BUG_INFO " +
-				"WHERE FIXED_DATE <= ?";
 		
 		int count = 0;
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getBugCountWithDate");
+			
 			ps.setString(1, dateString);
 			
 			rs = ps.executeQuery();
@@ -219,11 +222,11 @@ public class BugDAO extends BaseDAO {
 	public ArrayList<Bug> getPreviousFixedBugs(String fixedDateString, int exceptedBugID) {
 		ArrayList<Bug> bugs = new ArrayList<Bug>();
 		
-		String sql = "SELECT BUG_ID, OPEN_DATE, FIXED_DATE, COR, SMR_COR, DESC_COR, TOT_CNT, COR_NORM, SMR_COR_NORM, DESC_COR_NORM, VER FROM BUG_INFO " +
-				"WHERE FIXED_DATE <= ? AND BUG_ID != ? ORDER BY FIXED_DATE";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getPreviousFixedBugs");
+			
 			ps.setString(1, fixedDateString);
 			ps.setInt(2, exceptedBugID);
 			
@@ -259,11 +262,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public Bug getBug(int bugID) {
-		String sql = "SELECT OPEN_DATE, FIXED_DATE, COR, SMR_COR, DESC_COR, TOT_CNT, VER FROM BUG_INFO WHERE BUG_ID = ?";
 		Bug bug = null;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getStackTraceClasses");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();
@@ -290,12 +294,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public Bug getDetailBug(int bugID) {		
-		String sql = "SELECT BUG_ID, OPEN_DATE, FIXED_DATE, COR, SMR_COR, DESC_COR, CMT_COR, TOT_CNT, COR_NORM, SMR_COR_NORM, DESC_COR_NORM, VER "
-				+ "FROM BUG_INFO WHERE BUG_ID = ?";
 		Bug bug = new Bug();
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getStackTraceClasses");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();
@@ -327,17 +331,20 @@ public class BugDAO extends BaseDAO {
 
 	
 	public int insertBugTerm(String term) throws SQLException {
-		String sql = "INSERT INTO BUG_TERM_INFO (TERM) VALUES (?)";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getStackTraceClasses");
+			
 			ps.setString(1, term);
 			
 			returnValue = ps.executeUpdate();
 			
-			sql = "SELECT BUG_TERM_ID FROM BUG_TERM_INFO WHERE TERM = ?";
+			String sql = "SELECT BUG_TERM_ID FROM BUG_TERM_INFO WHERE TERM = ?";
+
 			ps = analysisDbConnection.prepareStatement(sql);
+			
 			ps.setString(1, term);
 			
 			rs = ps.executeQuery();
@@ -350,7 +357,8 @@ public class BugDAO extends BaseDAO {
 				e.printStackTrace();
 			}else{
 					
-				sql = "SELECT BUG_TERM_ID FROM BUG_TERM_INFO WHERE TERM = ?";
+				String sql = "SELECT BUG_TERM_ID FROM BUG_TERM_INFO WHERE TERM = ?";
+
 				ps = analysisDbConnection.prepareStatement(sql);
 				ps.setString(1, term);
 				
@@ -367,11 +375,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int deleteAllTerms() {
-		String sql = "DELETE FROM BUG_TERM_INFO";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("deleteAllTerms");
+			
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -389,11 +398,11 @@ public class BugDAO extends BaseDAO {
 	public HashMap<Integer, String> getCorpusMap() {
 		HashMap<Integer, String> corpusMap = new HashMap<Integer, String>();
 		
-		String sql = "SELECT BUG_ID, COR " +
-					"FROM BUG_INFO";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getCorpusMap");
+			
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -414,12 +423,11 @@ public class BugDAO extends BaseDAO {
 	public double getNormValue(int bugID) {
 		double norm = 0;
 		
-		String sql = "SELECT COR_NORM " +
-					"FROM BUG_INFO " +
-					"WHERE BUG_ID = ?";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getNormValue");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();
@@ -437,10 +445,11 @@ public class BugDAO extends BaseDAO {
 	public HashMap<String, Integer> getTermMap() {
 		HashMap<String, Integer> termMap = new HashMap<String, Integer>();
 		
-		String sql = "SELECT TERM, BUG_TERM_ID FROM BUG_TERM_INFO";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getTermMap");
+			
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -453,12 +462,13 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int getAllTermCount() {
-		String sql = "SELECT COUNT(BUG_TERM_ID) FROM BUG_TERM_INFO";
 		
 		int allTermCount = 0;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getAllTermCount");
+			
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				allTermCount = rs.getInt(1);
@@ -470,12 +480,13 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int getBugCount() {
-		String sql = "SELECT COUNT(BUG_ID) FROM BUG_INFO";
 		
 		int bugCount = 0;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getBug");
+			
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				bugCount = rs.getInt(1);
@@ -488,10 +499,11 @@ public class BugDAO extends BaseDAO {
 	
 	public int getSfTermID(String term) {
 		int returnValue = INVALID;
-		String sql = "SELECT SF_TERM_ID FROM SF_TERM_INFO WHERE TERM = ?";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getSfTermID");
+			
 			ps.setString(1, term);
 			
 			rs = ps.executeQuery();
@@ -505,11 +517,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public HashMap<String, AnalysisValue> getSfTermMap(int bugID) {
-		String sql = "SELECT A.TF, A.IDF, B.TERM FROM BUG_SF_TERM_WGT A, SF_TERM_INFO B WHERE A.BUG_ID = ? AND A.SF_TERM_ID = B.SF_TERM_ID";
 		
 		HashMap<String, AnalysisValue> sourceFileTermMap = null;
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getSfTermMap");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();
@@ -532,11 +545,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int insertStackTraceClass(int bugID, String className) {
-		String sql = "INSERT INTO BUG_STRACE_INFO (BUG_ID, STRACE_CLASS) VALUES (?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("insertStackTraceClass");
+			
 			ps.setInt(1, bugID);
 			ps.setString(2, className);
 			
@@ -555,11 +569,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int deleteAllStackTraceClasses() {
-		String sql = "DELETE FROM BUG_STRACE_INFO";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("deleteAllStackTraceClasses");
+			
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -572,12 +587,11 @@ public class BugDAO extends BaseDAO {
 	public ArrayList<String> getStackTraceClasses(int bugID) {
 		ArrayList<String> stackTraceClasses = null;
 
-		String sql = "SELECT STRACE_CLASS "+
-				"FROM BUG_STRACE_INFO " +
-				"WHERE BUG_ID = ?";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getStackTraceClasses");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();
@@ -600,12 +614,12 @@ public class BugDAO extends BaseDAO {
 	public int insertBugSfTermWeight(AnalysisValue bugSfTermWeight) {
 		int termID = getSfTermID(bugSfTermWeight.getTerm());
 		
-		String sql = "INSERT INTO BUG_SF_TERM_WGT (BUG_ID, SF_TERM_ID, TERM_CNT, INV_DOC_CNT, TF, IDF) " +
-				"VALUES (?, ?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("insertBugSfTermWeight");
+			
 			ps.setInt(1, bugSfTermWeight.getID());
 			ps.setInt(2, termID);
 			ps.setInt(3, bugSfTermWeight.getTermCount());
@@ -617,10 +631,11 @@ public class BugDAO extends BaseDAO {
 		} catch (Exception e) {
 			
 			try{
-				sql = "UPDATE BUG_SF_TERM_WGT SET (TERM_CNT, INV_DOC_CNT, TF, IDF) " +
+				String sql = "UPDATE BUG_SF_TERM_WGT SET (TERM_CNT, INV_DOC_CNT, TF, IDF) " +
 						"= (?, ?, ?, ?) WHERE BUG_ID = ? AND SF_TERM_ID = ?";
 			
-				ps = analysisDbConnection.prepareStatement(sql);				
+
+				ps = analysisDbConnection.prepareStatement(sql);		
 				ps.setInt(1, bugSfTermWeight.getTermCount());
 				ps.setInt(2, bugSfTermWeight.getInvDocCount());
 				ps.setDouble(3, bugSfTermWeight.getTf());
@@ -642,12 +657,12 @@ public class BugDAO extends BaseDAO {
 	public int insertBugMthTermWeight(AnalysisValue bugMthTermWeight) {
 		int termID = getSfTermID(bugMthTermWeight.getTerm());
 		
-		String sql = "INSERT INTO BUG_MTH_TERM_WGT (BUG_ID, MTH_TERM_ID, TERM_CNT, INV_DOC_CNT, TF, IDF) " +
-				"VALUES (?, ?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("insertBugMthTermWeight");
+			
 			ps.setInt(1, bugMthTermWeight.getID());
 			ps.setInt(2, termID);
 			ps.setInt(3, bugMthTermWeight.getTermCount());
@@ -664,11 +679,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int deleteAllBugSfTermWeights() {
-		String sql = "DELETE FROM BUG_SF_TERM_WGT";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("deleteAllBugSfTermWeights");
+			
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -679,11 +695,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int deleteAllBugMthTermWeights() {
-		String sql = "DELETE FROM BUG_MTH_TERM_WGT";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("deleteAllBugMthTermWeights");
+			
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -696,14 +713,11 @@ public class BugDAO extends BaseDAO {
 	public AnalysisValue getBugSfTermWeight(int bugID, String term) {
 		AnalysisValue termWeight = null;
 
-		String sql = "SELECT C.TERM_CNT, C.INV_DOC_CNT, C.TF, C.IDF "+
-				"FROM SF_TERM_INFO B, BUG_SF_TERM_WGT C " +
-				"WHERE C.BUG_ID = ? AND " +
-				"B.TERM = ? AND " +
-				"B.SF_TERM_ID = C.SF_TERM_ID";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getBug");
+			
 			ps.setInt(1, bugID);
 			ps.setString(2, term);
 			
@@ -730,14 +744,11 @@ public class BugDAO extends BaseDAO {
 	public AnalysisValue getBugMthTermWeight(int bugID, String term) {
 		AnalysisValue termWeight = null;
 
-		String sql = "SELECT C.TERM_CNT, C.INV_DOC_CNT, C.TF, C.IDF "+
-				"FROM SF_TERM_INFO B, BUG_MTH_TERM_WGT C " +
-				"WHERE C.BUG_ID = ? AND " +
-				"B.TERM = ? AND " +
-				"B.SF_TERM_ID = C.MTH_TERM_ID";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getBug");
+			
 			ps.setInt(1, bugID);
 			ps.setString(2, term);
 			
@@ -763,10 +774,11 @@ public class BugDAO extends BaseDAO {
 	
 	public int getBugTermID(String term) {
 		int returnValue = INVALID;
-		String sql = "SELECT BUG_TERM_ID FROM BUG_TERM_INFO WHERE TERM = ?";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getBug");
+			
 			ps.setString(1, term);
 			
 			rs = ps.executeQuery();
@@ -785,12 +797,12 @@ public class BugDAO extends BaseDAO {
 			termID = getBugTermID(analysisValue.getTerm());
 		}
 		
-		String sql = "INSERT INTO BUG_TERM_WGT (BUG_ID, BUG_TERM_ID, TW) " +
-				"VALUES (?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("insertBugTerm");
+			
 			ps.setInt(1, analysisValue.getID());
 			ps.setInt(2, termID);
 			ps.setDouble(3, analysisValue.getTermWeight());
@@ -798,9 +810,10 @@ public class BugDAO extends BaseDAO {
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
 			try{
-				sql = "UPDATE BUG_TERM_WGT SET (TW) = (?) " +
+				String sql = "UPDATE BUG_TERM_WGT SET (TW) = (?) " +
 						"WHERE BUG_ID = ? AND BUG_TERM_ID = ?";				
 				
+
 				ps = analysisDbConnection.prepareStatement(sql);
 				ps.setDouble(1, analysisValue.getTermWeight());
 				ps.setInt(2, analysisValue.getID());
@@ -815,11 +828,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int deleteAllBugTermWeights() {
-		String sql = "DELETE FROM BUG_TERM_WGT";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("deleteAllBugTermWeights");
+			
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -832,13 +846,11 @@ public class BugDAO extends BaseDAO {
 	public AnalysisValue getBugTermWeight(int bugID, String term) {
 		AnalysisValue returnValue = null;
 
-		String sql = "SELECT C.TW "+
-				"FROM BUG_INFO A, BUG_TERM_INFO B, BUG_TERM_WGT C " +
-				"WHERE A.BUG_ID = ? AND "+
-				"A.BUG_ID = C.BUG_ID AND B.TERM = ? AND B.BUG_TERM_ID = C.BUG_TERM_ID";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getBug");
+			
 			ps.setInt(1, bugID);
 			ps.setString(2, term);
 			
@@ -863,12 +875,11 @@ public class BugDAO extends BaseDAO {
 		ArrayList<AnalysisValue> bugAnalysisValues = null;
 		AnalysisValue bugTermWeight = null;
 
-		String sql = "SELECT B.TERM, C.BUG_TERM_ID, C.TW "+
-				"FROM BUG_TERM_INFO B, BUG_TERM_WGT C " +
-				"WHERE C.BUG_ID = ? AND B.BUG_TERM_ID = C.BUG_TERM_ID ORDER BY C.BUG_TERM_ID";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getBug");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();
@@ -895,14 +906,15 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int insertBugFixedFileInfo(int bugID, String fileName, String version) {
-		String sql = "INSERT INTO BUG_FIX_SF_INFO (BUG_ID, FIXED_SF_VER_ID) VALUES (?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			SourceFileDAO sourceFileDAO = new SourceFileDAO();
+			SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
 			int fixedSourceFileID = sourceFileDAO.getSourceFileVersionID(fileName, version);
 
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("insertBugFixedFileInfo");
+			
 			ps.setInt(1, bugID);
 			ps.setInt(2, fixedSourceFileID);
 			
@@ -915,15 +927,16 @@ public class BugDAO extends BaseDAO {
 	}
 
 	public int insertBugFixedMethodInfo(int bugID, Method method) {
-		String sql = "INSERT INTO BUG_FIX_MTH_INFO (BUG_ID, FIXED_MTH_ID) VALUES (?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			MethodDAO methodDAO = new MethodDAO();
+			MethodDAO2 methodDAO = new MethodDAO2();
 			int fixedMethodID = methodDAO.getMethodID(method);;
 			
 			if (INVALID != fixedMethodID) {
-				ps = analysisDbConnection.prepareStatement(sql);
+				
+			ps = setOfDAO.stmtMap.get("insertBugFixedMethodInfo");
+				
 				ps.setInt(1, bugID);
 				ps.setInt(2, fixedMethodID);
 				
@@ -938,23 +951,23 @@ public class BugDAO extends BaseDAO {
 
 	
 	public int deleteAllBugFixedInfo() {
-		String sql = "DELETE FROM BUG_FIX_SF_INFO";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("deleteAllBugFixedInfo");
+			
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		sql = "DELETE FROM BUG_FIX_MTH_INFO";
+		String sql = "DELETE FROM BUG_FIX_MTH_INFO";
 		returnValue = INVALID;
-		
-		try {
+		try {		
+
 			ps = analysisDbConnection.prepareStatement(sql);
-			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -966,11 +979,11 @@ public class BugDAO extends BaseDAO {
 	public HashSet<SourceFile> getFixedFiles(int bugID) {
 		HashSet<SourceFile> fixedFiles = null;
 		
-		String sql = "SELECT A.SF_NAME, B.VER, C.FIXED_SF_VER_ID FROM SF_INFO A, SF_VER_INFO B, BUG_FIX_SF_INFO C " + 
-				"WHERE C.BUG_ID = ? AND C.FIXED_SF_VER_ID = B.SF_VER_ID AND A.SF_ID = B.SF_ID";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getFixedFiles");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();
@@ -994,43 +1007,14 @@ public class BugDAO extends BaseDAO {
 		return fixedFiles;
 	}
 	
-//	/**
-//	 * 
-//	 * @return <BugID, SourceFileVersionID>
-//	 */
-//	public HashMap<String, Integer> getAllFixedFiles() {
-//		HashMap<String, Integer> fixedFiles = null;
-//		
-//		String sql = "SELECT B.BUG_ID, B.FIXED_SF_VER_ID FROM BUG_INFO A, BUG_FIX_SF_INFO B " + 
-//				"WHERE A.BUG_ID = B.BUG_ID";
-//		
-//		try {
-//			ps = analysisDbConnection.prepareStatement(sql);
-//			
-//			rs = ps.executeQuery();
-//			
-//			while (rs.next()) {
-//				if (null == fixedFiles) {
-//					fixedFiles = new HashMap<String, Integer>();
-//				}
-//
-//				fixedFiles.put(rs.getString("BUG_ID"), rs.getInt("FIXED_SF_VER_ID"));
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return fixedFiles;
-//	}
-	
 	public HashSet<Method> getFixedMethods(int bugID) {
 		HashSet<Method> fixedMethods = null;
 		
-		String sql = "SELECT A.MTH_ID, A.SF_VER_ID, A.MTH_NAME, A.RET_TYPE, A.PARAMS, A.HASH_KEY FROM MTH_INFO A, BUG_FIX_MTH_INFO B " + 
-				"WHERE B.BUG_ID = ? AND B.FIXED_MTH_ID = A.MTH_ID";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getFixedMethods");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();
@@ -1058,11 +1042,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int insertSimilarBugInfo(int bugID, int similarBugID, double similarityScore) {
-		String sql = "INSERT INTO SIMI_BUG_ANAYSIS (BUG_ID, SIMI_BUG_ID, SIMI_BUG_SCORE) VALUES (?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("insertSimilarBugInfo");
+			
 			ps.setInt(1, bugID);
 			ps.setInt(2, similarBugID);
 			ps.setDouble(3, similarityScore);
@@ -1076,11 +1061,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int deleteAllSimilarBugInfo() {
-		String sql = "DELETE FROM SIMI_BUG_ANAYSIS";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("deleteAllSimilarBugInfo");
+			
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -1093,11 +1079,11 @@ public class BugDAO extends BaseDAO {
 	public HashSet<SimilarBugInfo> getSimilarBugInfos(int bugID) {
 		HashSet<SimilarBugInfo> similarBugInfos = null;
 
-		String sql = "SELECT SIMI_BUG_ID, SIMI_BUG_SCORE FROM SIMI_BUG_ANAYSIS " + 
-				"WHERE BUG_ID = ? AND SIMI_BUG_SCORE != 0.0";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getSimilarBugInfos");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();
@@ -1121,12 +1107,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int updateTotalTermCount(int bugID, int totalTermCount) {
-		String sql = "UPDATE BUG_INFO SET TOT_CNT = ? " +
-				"WHERE BUG_ID = ?";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateTotalTermCount");
+			
 			ps.setInt(1, totalTermCount);
 			ps.setInt(2, bugID);
 			
@@ -1139,12 +1125,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int updateMethodTotalTermCount(int bugID, int totalTermCount) {
-		String sql = "UPDATE BUG_INFO SET MTH_TOT_CNT = ? " +
-				"WHERE BUG_ID = ?";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateMethodTotalTermCount");
+			
 			ps.setInt(1, totalTermCount);
 			ps.setInt(2, bugID);
 			
@@ -1157,12 +1143,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int updateNormValues(int bugID, double corpusNorm, double summaryCorpusNorm, double descriptionCorpusNorm) {
-		String sql = "UPDATE BUG_INFO SET COR_NORM = ?, SMR_COR_NORM = ?, DESC_COR_NORM = ? " +
-				"WHERE BUG_ID = ?";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateNormValues");
+			
 			ps.setDouble(1, corpusNorm);
 			ps.setDouble(2, summaryCorpusNorm);
 			ps.setDouble(3, descriptionCorpusNorm);
@@ -1178,12 +1164,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int updateMthNormValues(int bugID, double methodNorm) {
-		String sql = "UPDATE BUG_INFO SET MTH_NORM = ? " +
-				"WHERE BUG_ID = ?";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateMthNormValues");
+			
 			ps.setDouble(1, methodNorm);
 			ps.setInt(2, bugID);
 			
@@ -1196,11 +1182,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int insertComment(int bugID, Comment comment) {
-		String sql = "INSERT INTO BUG_CMT_INFO (BUG_ID, CMT_ID, ATHR, CMT_DATE, CMT_COR) VALUES (?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("insertComment");
+			
 			ps.setInt(1, bugID);
 			ps.setInt(2, comment.getID());
 			ps.setString(3, comment.getAuthor());
@@ -1222,11 +1209,12 @@ public class BugDAO extends BaseDAO {
 	}
 	
 	public int deleteAllComments() {
-		String sql = "DELETE FROM BUG_CMT_INFO";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("deleteAllComments");
+			
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -1239,12 +1227,11 @@ public class BugDAO extends BaseDAO {
 	public ArrayList<Comment> getComments(int bugID) {
 		ArrayList<Comment> comments = null;
 
-		String sql = "SELECT CMT_ID, ATHR, CMT_DATE, CMT_COR "+
-				"FROM BUG_CMT_INFO " +
-				"WHERE BUG_ID = ?";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getComments");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();

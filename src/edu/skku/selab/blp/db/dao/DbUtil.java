@@ -202,12 +202,12 @@ public class DbUtil {
 	}
 	
 	public void initializeAllData() throws Exception {
-		boolean commitDataIncluded = true;
+		boolean commitDataIncluded = false;
 		initializeAllData(commitDataIncluded);
 	}
 	
 	public void initializeAllData(boolean commitDataIncluded) throws Exception {
-		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
 		sourceFileDAO.deleteAllSourceFiles();
 		sourceFileDAO.deleteAllVersions();
 		sourceFileDAO.deleteAllCorpuses();
@@ -215,10 +215,10 @@ public class DbUtil {
 		sourceFileDAO.deleteAllImportedClasses();
 		sourceFileDAO.deleteAllTermWeights();
 		
-		MethodDAO methodDAO = new MethodDAO();
+		MethodDAO2 methodDAO = new MethodDAO2();
 		methodDAO.deleteAllMethods();
 		
-		BugDAO bugDAO = new BugDAO();
+		BugDAO2 bugDAO = new BugDAO2();
 		bugDAO.deleteAllBugs();
 		bugDAO.deleteAllComments();
 		bugDAO.deleteAllTerms();
@@ -230,18 +230,18 @@ public class DbUtil {
 		bugDAO.deleteAllSimilarBugInfo();
 		
 		if (commitDataIncluded) {
-			CommitDAO commitDAO = new CommitDAO();
+			CommitDAO2 commitDAO = new CommitDAO2();
 			commitDAO.deleteAllCommitInfo();
 			commitDAO.deleteAllCommitFileInfo();
 			commitDAO.deleteAllCommitMethodInfo();
 		}
 		
-		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
+		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
 		integratedAnalysisDAO.deleteAllIntegratedAnalysisInfos();
 	}
 	
 	public void initializeAnalysisData() throws Exception {
-		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
+		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
 		integratedAnalysisDAO.deleteAllIntegratedAnalysisInfos();
 	}
 

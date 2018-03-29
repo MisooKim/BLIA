@@ -23,7 +23,7 @@ import edu.skku.selab.blp.db.AnalysisValue;
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
  *
  */
-public class SourceFileDAO extends BaseDAO {
+public class SourceFileDAO2 extends BaseDAO {
 	final static public double INIT_LENGTH_SCORE = 0.0;
 	final static public int INIT_TOTAL_COUPUS_COUNT = 0;
 	
@@ -31,17 +31,16 @@ public class SourceFileDAO extends BaseDAO {
 	/**
 	 * @throws Exception
 	 */
-	public SourceFileDAO() throws Exception {
+	public SourceFileDAO2() throws Exception {
 		super();
 	}
 	
 	public int insertSourceFile(String fileName) {
+		String sql = "INSERT INTO SF_INFO (SF_NAME, CLS_NAME) VALUES (?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("insertSourceFile");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, fileName);
 			ps.setString(2, fileName);
 			
@@ -58,12 +57,11 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int insertSourceFile(String fileName, String className) {
+		String sql = "INSERT INTO SF_INFO (SF_NAME, CLS_NAME) VALUES (?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, fileName);
 			ps.setString(2, className);
 			
@@ -83,12 +81,11 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int deleteAllSourceFiles() {
+		String sql = "DELETE FROM SF_INFO";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -101,11 +98,10 @@ public class SourceFileDAO extends BaseDAO {
 	public HashMap<String, Integer> getSourceFiles() {
 		HashMap<String, Integer> fileInfo = new HashMap<String, Integer>();
 		
+		String sql = "SELECT SF_NAME, SF_ID FROM SF_INFO";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFiles");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -118,12 +114,11 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int getSourceFileCount(String version) {
+		String sql = "SELECT COUNT(SF_VER_ID) FROM SF_INFO A, SF_VER_INFO B WHERE A.SF_ID = B.SF_ID AND B.VER = ?";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileCount");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, version);
 			
 			rs = ps.executeQuery();
@@ -137,13 +132,12 @@ public class SourceFileDAO extends BaseDAO {
 	}
 
 	public int insertVersion(String version, String releaseDate) {
+		String sql = "INSERT INTO VER_INFO (VER, REL_DATE) VALUES (?, ?)";
 		int returnValue = INVALID;
 		
 		// releaseDate format : "2004-10-18 17:40:00"
 		try {
-			
-			ps = setOfDAO.stmtMap.get("insertVersion");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, version);
 			ps.setString(2, releaseDate);
 			
@@ -156,12 +150,11 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int deleteAllVersions() {
+		String sql = "DELETE FROM VER_INFO";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("deleteAllVersions");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -174,11 +167,10 @@ public class SourceFileDAO extends BaseDAO {
 	public HashMap<String, Date> getVersions() {
 		HashMap<String, Date> versions = new HashMap<String, Date>();
 		
+		String sql = "SELECT VER, REL_DATE FROM VER_INFO";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getVersions");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -192,11 +184,11 @@ public class SourceFileDAO extends BaseDAO {
 	
 	public String getSourceFilePath(String fileName) {
 		String sourceFilePath = null;
+		String sql = "SELECT SF_PATH FROM SF_INFO " +
+				"WHERE SF_NAME = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFilePath");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, fileName);
 			
 			rs = ps.executeQuery();
@@ -212,11 +204,11 @@ public class SourceFileDAO extends BaseDAO {
 	
 	public int getSourceFileID(String fileName) {
 		int returnValue = INVALID;
+		String sql = "SELECT SF_ID FROM SF_INFO " +
+				"WHERE SF_NAME = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, fileName);
 			
 			rs = ps.executeQuery();
@@ -232,11 +224,11 @@ public class SourceFileDAO extends BaseDAO {
 	
 	public int getSourceFileID(String fileName, String className) {
 		int returnValue = INVALID;
+		String sql = "SELECT SF_ID FROM SF_INFO " +
+				"WHERE SF_NAME = ? AND CLS_NAME = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, fileName);
 			ps.setString(2, className);
 			
@@ -253,11 +245,11 @@ public class SourceFileDAO extends BaseDAO {
 	
 	public int getSourceFileVersionID(int sourceFileID, String version) {
 		int returnValue = INVALID;
+		String sql = "SELECT SF_VER_ID FROM SF_VER_INFO " +
+				"WHERE SF_ID = ? AND VER = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileVersionID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, sourceFileID);
 			ps.setString(2, version);
 			
@@ -274,11 +266,11 @@ public class SourceFileDAO extends BaseDAO {
 
 	public int getSourceFileVersionID(String fileName, String version) {
 		int returnValue = INVALID;
+		String sql = "SELECT B.SF_VER_ID FROM SF_INFO A, SF_VER_INFO B " +
+				"WHERE A.SF_NAME = ? AND B.VER = ? AND A.SF_ID = B.SF_ID";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileVersionID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, fileName);
 			ps.setString(2, version);
 			
@@ -295,11 +287,11 @@ public class SourceFileDAO extends BaseDAO {
 	
 	public HashSet<String> getSourceFileNames(String version) {
 		HashSet<String> sourceFileNames = null;
+		String sql = "SELECT A.SF_NAME FROM SF_INFO A, SF_VER_INFO B " +
+				"WHERE B.VER = ? AND A.SF_ID = B.SF_ID";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileNames");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, version);
 			
 			rs = ps.executeQuery();
@@ -317,14 +309,12 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public String getSourceFileName(int sourceFileVersionID) {
-		String sourceFileName  = "";
+		String sourceFileName = "";
 		String sql = "SELECT A.SF_NAME FROM SF_INFO A, SF_VER_INFO B " +
 				"WHERE B.SF_VER_ID = ? AND A.SF_ID = B.SF_ID";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileName");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, sourceFileVersionID);
 			
 			rs = ps.executeQuery();
@@ -340,11 +330,11 @@ public class SourceFileDAO extends BaseDAO {
 	
 	public HashMap<String, String> getClassNames(String version) {
 		HashMap<String, String> sourceFileNames = null;
+		String sql = "SELECT A.CLS_NAME, A.SF_NAME FROM SF_INFO A, SF_VER_INFO B " +
+				"WHERE B.VER = ? AND A.SF_ID = B.SF_ID";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getClassNames");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, version);
 			
 			rs = ps.executeQuery();
@@ -366,12 +356,11 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int insertStructuredCorpusSet(int sourceFileID, String version, SourceFileCorpus corpus, int totalCorpusCount, double lengthScore) {
+		String sql = "INSERT INTO SF_VER_INFO (SF_ID, VER, CLS_COR, MTH_COR, VAR_COR, CMT_COR, TOT_CNT, LEN_SCORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("insertStructuredCorpusSet");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, sourceFileID);
 			ps.setString(2, version);
 			ps.setString(3, corpus.getClassPart());
@@ -394,12 +383,11 @@ public class SourceFileDAO extends BaseDAO {
 	}
 
 	public int insertCorpusSet(int sourceFileID, String version, SourceFileCorpus corpus, int totalCorpusCount, double lengthScore) {
+		String sql = "INSERT INTO SF_VER_INFO (SF_ID, VER, COR, CLS_COR, MTH_COR, VAR_COR, CMT_COR, TOT_CNT, LEN_SCORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileVersionID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, sourceFileID);
 			ps.setString(2, version);
 			ps.setString(3, corpus.getContent());
@@ -423,12 +411,11 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int deleteAllCorpuses() {
+		String sql = "DELETE FROM SF_VER_INFO";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileVersionID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -439,13 +426,25 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int deleteAllCorpusesByVersion(String version) {
+		String sql = "UPDATE SF_VER_INFO "
+				+ "SET COR =null, "
+				+ "CLS_COR=null, "
+				+ "MTH_COR=null,"
+				+ "VAR_COR=null,"
+				+ "CMT_COR=null,"
+				+ "TOT_CNT=null,"
+				+ "LEN_SCORE=null,"
+				+ "COR_NORM=null,"
+				+ "CLS_COR_NORM=null,"
+				+ "MTH_COR_NORM=null,"
+				+ "VAR_COR_NORM=null,"
+				+ "CMT_COR_NORM=null "
+				+ "WHERE VER <> ?";
 				
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("deleteAllCorpuses");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, version);
 			
 			returnValue = ps.executeUpdate();
@@ -466,11 +465,12 @@ public class SourceFileDAO extends BaseDAO {
 	public HashMap<String, SourceFileCorpus> getCorpusMap(String version) {
 		HashMap<String, SourceFileCorpus> corpusSets = new HashMap<String, SourceFileCorpus>();
 		
+		String sql = "SELECT A.SF_NAME, B.COR, B.CLS_COR, B.MTH_COR, B.VAR_COR, B.CMT_COR " +
+					"FROM SF_INFO A, SF_VER_INFO B " +
+					"WHERE A.SF_ID = B.SF_ID AND B.VER = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getCorpusMap");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, version);
 			
 			rs = ps.executeQuery();
@@ -496,12 +496,13 @@ public class SourceFileDAO extends BaseDAO {
 	 * @return SourceFileCorpus		Source file corpus
 	 */
 	public SourceFileCorpus getCorpus(int sourceFileVersionID) {
+		String sql = "SELECT COR, CLS_COR, MTH_COR, VAR_COR, CMT_COR, COR_NORM, CLS_COR_NORM, MTH_COR_NORM, VAR_COR_NORM, CMT_COR_NORM  " +
+					"FROM SF_VER_INFO B " +
+					"WHERE SF_VER_ID = ?";
 		
 		SourceFileCorpus corpus = null;
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getCorpus");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, sourceFileVersionID);
 			
 			rs = ps.executeQuery();
@@ -526,12 +527,13 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public double getNormValue(int sourceFileVersionID) {
+		String sql = "SELECT COR_NORM " +
+					"FROM SF_VER_INFO B " +
+					"WHERE SF_VER_ID = ?";
 		
 		double norm = 0;
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getNormValue");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, sourceFileVersionID);
 			
 			rs = ps.executeQuery();
@@ -552,12 +554,13 @@ public class SourceFileDAO extends BaseDAO {
 	 * @return SourceFileCorpus		Source file corpus
 	 */
 	public SourceFileCorpus getNormValues(int sourceFileVersionID) {
+		String sql = "SELECT COR_NORM, CLS_COR_NORM, MTH_COR_NORM, VAR_COR_NORM, CMT_COR_NORM " +
+					"FROM SF_VER_INFO B " +
+					"WHERE SF_VER_ID = ?";
 		
 		SourceFileCorpus corpus = null;
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getNormValue");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, sourceFileVersionID);
 			
 			rs = ps.executeQuery();
@@ -579,11 +582,12 @@ public class SourceFileDAO extends BaseDAO {
 	public HashMap<String, Integer> getSourceFileVersionIDs(String version) {
 		HashMap<String, Integer> sourceFileVersionIDs = new HashMap<String, Integer>();
 		
+		String sql = "SELECT A.SF_NAME, B.SF_VER_ID " +
+					"FROM SF_INFO A, SF_VER_INFO B " +
+					"WHERE A.SF_ID = B.SF_ID AND B.VER = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileVersionID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, version);
 			
 			rs = ps.executeQuery();
@@ -599,11 +603,12 @@ public class SourceFileDAO extends BaseDAO {
 	public HashMap<String, Integer> getTotalCorpusLengths(String version) {
 		HashMap<String, Integer> totalCorpusLengths = new HashMap<String, Integer>();
 		
+		String sql = "SELECT A.SF_NAME, B.TOT_CNT " +
+					"FROM SF_INFO A, SF_VER_INFO B " +
+					"WHERE A.SF_ID = B.SF_ID AND B.VER = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getTotalCorpusLengths");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, version);
 			
 			rs = ps.executeQuery();
@@ -617,12 +622,13 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int updateLengthScore(String fileName, String version, double lengthScore) {
+		String sql = "UPDATE SF_VER_INFO SET LEN_SCORE = ? " +
+				"WHERE SF_ID IN (SELECT A.SF_ID FROM SF_INFO A, SF_VER_INFO B WHERE  A.SF_ID = B.SF_ID " +
+				"AND A.SF_NAME = ? AND B.VER = ?)";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("updateLengthScore");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setDouble(1, lengthScore);
 			ps.setString(2, fileName);
 			ps.setString(3, version);
@@ -636,12 +642,13 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int updateTotalCoupusCount(String fileName, String version, int totalCorpusCount) {
+		String sql = "UPDATE SF_VER_INFO SET TOT_CNT = ? " +
+				"WHERE SF_ID IN (SELECT A.SF_ID FROM SF_INFO A, SF_VER_INFO B WHERE A.SF_ID = B.SF_ID " +
+				"AND A.SF_NAME = ? AND B.VER = ?)";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("updateTotalCoupusCount");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, totalCorpusCount);
 			ps.setString(2, fileName);
 			ps.setString(3, version);
@@ -655,12 +662,13 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int updateNormValue(String fileName, String version, double corpusNorm) {
+		String sql = "UPDATE SF_VER_INFO SET COR_NORM = ? " +
+				"WHERE SF_ID IN (SELECT A.SF_ID FROM SF_INFO A, SF_VER_INFO B WHERE A.SF_ID = B.SF_ID " +
+				"AND A.SF_NAME = ? AND B.VER = ?)";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("updateNormValue");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setDouble(1, corpusNorm);
 			ps.setString(2, fileName);
 			ps.setString(3, version);
@@ -675,12 +683,13 @@ public class SourceFileDAO extends BaseDAO {
 	
 	public int updateNormValues(String fileName, String version,
 			double corpusNorm, double classNorm, double methodNorm, double variableNorm, double commentNorm) {
+		String sql = "UPDATE SF_VER_INFO SET COR_NORM = ?, CLS_COR_NORM = ?, MTH_COR_NORM = ?, VAR_COR_NORM = ?, CMT_COR_NORM = ? " +
+				"WHERE SF_ID IN (SELECT A.SF_ID FROM SF_INFO A, SF_VER_INFO B WHERE A.SF_ID = B.SF_ID " +
+				"AND A.SF_NAME = ? AND B.VER = ?)";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("updateNormValue");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setDouble(1, corpusNorm);
 			ps.setDouble(2, classNorm);
 			ps.setDouble(3, methodNorm);
@@ -701,11 +710,12 @@ public class SourceFileDAO extends BaseDAO {
 	public HashMap<String, Double> getLengthScores(String version) {
 		HashMap<String, Double> lengthScores = new HashMap<String, Double>();
 		
+		String sql = "SELECT A.SF_NAME, B.LEN_SCORE " +
+					"FROM SF_INFO A, SF_VER_INFO B " +
+					"WHERE A.SF_ID = B.SF_ID AND B.VER = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getLengthScores");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, version);
 			
 			rs = ps.executeQuery();
@@ -721,11 +731,12 @@ public class SourceFileDAO extends BaseDAO {
 	public double getLengthScore(int sourceFileVersionID) {
 		double lengthScore = INIT_LENGTH_SCORE;
 
+		String sql = "SELECT LEN_SCORE " +
+					"FROM SF_VER_INFO " +
+					"WHERE SF_VER_ID = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getLengthScore");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, sourceFileVersionID);
 			
 			rs = ps.executeQuery();
@@ -739,12 +750,11 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int insertTerm(String term) {
+		String sql = "INSERT INTO SF_TERM_INFO (TERM) VALUES (?)";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("insertTerm");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, term);
 			
 			returnValue = ps.executeUpdate();
@@ -762,12 +772,11 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int deleteAllTerms() {
+		String sql = "DELETE FROM SF_TERM_INFO";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("deleteAllTerms");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -780,11 +789,10 @@ public class SourceFileDAO extends BaseDAO {
 	public HashMap<String, Integer> getTermMap() {
 		HashMap<String, Integer> fileInfo = new HashMap<String, Integer>();
 		
+		String sql = "SELECT TERM, SF_TERM_ID FROM SF_TERM_INFO";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getTermMap");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -798,11 +806,10 @@ public class SourceFileDAO extends BaseDAO {
 	
 	public int getTermID(String term) {
 		int returnValue = INVALID;
+		String sql = "SELECT SF_TERM_ID FROM SF_TERM_INFO WHERE TERM = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getTermID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, term);
 			
 			rs = ps.executeQuery();
@@ -816,14 +823,13 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int insertImportedClasses(int sourceFileVersionID, ArrayList<String> importedClasses) {
+		String sql = "INSERT INTO SF_IMP_INFO (SF_VER_ID, IMP_CLASS) VALUES (?, ?)";
 		int returnValue = INVALID;
 		
 		for (int i = 0; i < importedClasses.size(); i++) {
 			try {
 				String importedClass = importedClasses.get(i);
-				
-			ps = setOfDAO.stmtMap.get("insertImportedClasses");
-				
+				ps = analysisDbConnection.prepareStatement(sql);
 				ps.setInt(1, sourceFileVersionID);
 				ps.setString(2, importedClass);
 				
@@ -847,12 +853,11 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int deleteAllImportedClasses() {
+		String sql = "DELETE FROM SF_IMP_INFO";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("deleteAllImportedClasses");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -865,11 +870,13 @@ public class SourceFileDAO extends BaseDAO {
 	public HashMap<String, ArrayList<String>> getAllImportedClasses(String version) {
 		HashMap<String, ArrayList<String>> importedClassesMap = new HashMap<String, ArrayList<String>>();
 		
+		String sql = "SELECT A.SF_NAME, C.IMP_CLASS " +
+					"FROM SF_INFO A, SF_VER_INFO B, SF_IMP_INFO C " +
+					"WHERE A.SF_ID = B.SF_ID AND " +
+					"B.SF_VER_ID = C.SF_VER_ID AND B.VER = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getAllImportedClasses");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, version);
 			
 			rs = ps.executeQuery();
@@ -894,11 +901,13 @@ public class SourceFileDAO extends BaseDAO {
 	public ArrayList<String> getImportedClasses(String version, String fileName) {
 		ArrayList<String> importedClasses = null;
 		
+		String sql = "SELECT C.IMP_CLASS " +
+					"FROM SF_INFO A, SF_VER_INFO B, SF_IMP_INFO C " +
+					"WHERE A.SF_ID = B.SF_ID AND " +
+					"B.SF_VER_ID = C.SF_VER_ID AND B.VER = ? AND A.SF_NAME = ?";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getImportedClasses");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, version);
 			ps.setString(2, fileName);
 			
@@ -921,12 +930,12 @@ public class SourceFileDAO extends BaseDAO {
 		int fileVersionID = getSourceFileVersionID(termWeight.getName(), termWeight.getVersion());
 		int termID = getTermID(termWeight.getTerm());
 		
+		String sql = "INSERT INTO SF_TERM_WGT (SF_VER_ID, SF_TERM_ID, TERM_CNT, INV_DOC_CNT, TF, IDF) " +
+				"VALUES (?, ?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("insertTerm");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, fileVersionID);
 			ps.setInt(2, termID);
 			ps.setInt(3, termWeight.getTermCount());
@@ -943,12 +952,12 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int updateTermWeight(AnalysisValue termWeight) {
+		String sql = "UPDATE SF_TERM_WGT SET TERM_CNT = ?, INV_DOC_CNT = ?, TF = ?, IDF = ?" +
+				"WHERE SF_VER_ID = ? AND SF_TERM_ID = ?";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("updateTermWeight");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, termWeight.getTermCount());
 			ps.setInt(2, termWeight.getInvDocCount());
 			ps.setDouble(3, termWeight.getTf());
@@ -965,12 +974,11 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int deleteAllTermWeights() {
+		String sql = "DELETE FROM SF_TERM_WGT";
 		int returnValue = INVALID;
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getSourceFileVersionID");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -983,11 +991,14 @@ public class SourceFileDAO extends BaseDAO {
 	public AnalysisValue getTermWeight(String fileName, String version, String term) {
 		AnalysisValue returnValue = null;
 
+		String sql = "SELECT D.TERM_CNT, D.INV_DOC_CNT, D.TF, D.IDF "+
+				"FROM SF_INFO A, SF_VER_INFO B, SF_TERM_INFO C, SF_TERM_WGT D " +
+				"WHERE A.SF_NAME = ? AND A.SF_ID = B.SF_ID AND " +
+				"B.VER = ? AND B.SF_VER_ID = D.SF_VER_ID AND C.TERM = ? AND " +
+				"C.SF_TERM_ID = D.SF_TERM_ID";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getTermWeight");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, fileName);
 			ps.setString(2, version);
 			ps.setString(3, term);
@@ -1016,11 +1027,14 @@ public class SourceFileDAO extends BaseDAO {
 	public HashMap<String, AnalysisValue> getTermMap(String fileName, String version) {
 		HashMap<String, AnalysisValue> termMap = null;
 
+		String sql = "SELECT C.TERM, D.SF_VER_ID, D.SF_TERM_ID, D.TERM_CNT, D.INV_DOC_CNT, D.TF, D.IDF "+
+				"FROM SF_INFO A, SF_VER_INFO B, SF_TERM_INFO C, SF_TERM_WGT D " +
+				"WHERE A.SF_NAME = ? AND A.SF_ID = B.SF_ID AND " +
+				"B.VER = ? AND B.SF_VER_ID = D.SF_VER_ID AND " +
+				"C.SF_TERM_ID = D.SF_TERM_ID";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getTermMap");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setString(1, fileName);
 			ps.setString(2, version);
 			
@@ -1056,11 +1070,12 @@ public class SourceFileDAO extends BaseDAO {
 	public HashMap<String, AnalysisValue> getTermMap(int sourceFileVersionID) {
 		HashMap<String, AnalysisValue> termMap = null;
 
+		String sql = "SELECT C.TERM, D.SF_VER_ID, D.SF_TERM_ID, D.TERM_CNT, D.INV_DOC_CNT, D.TF, D.IDF "+
+				"FROM SF_TERM_INFO C, SF_TERM_WGT D " +
+				"WHERE D.SF_VER_ID = ? AND C.SF_TERM_ID = D.SF_TERM_ID";
 		
 		try {
-			
-			ps = setOfDAO.stmtMap.get("getTermMap");
-			
+			ps = analysisDbConnection.prepareStatement(sql);
 			ps.setInt(1, sourceFileVersionID);
 			
 			rs = ps.executeQuery();

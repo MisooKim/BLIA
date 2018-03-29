@@ -16,7 +16,7 @@ import org.junit.Test;
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.db.dao.DbUtil;
-import edu.skku.selab.blp.db.dao.SourceFileDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO2;
 import edu.skku.selab.blp.evaluation.Evaluator;
 import edu.skku.selab.blp.utils.Util;
 

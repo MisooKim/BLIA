@@ -33,7 +33,7 @@ import edu.udo.cs.wvtool.wordlist.WVTWordList;
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.db.AnalysisValue;
-import edu.skku.selab.blp.db.dao.BugDAO;
+import edu.skku.selab.blp.db.dao.BugDAO2;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -73,7 +73,7 @@ public class BugVectorCreator {
 		wordList.storePlain(new FileWriter(bugTermListFile));
 //		wordList.storePlain(new BufferedWriter(new OutputStreamWriter(System.out)));
 		
-		BugDAO bugDAO = new BugDAO();
+		BugDAO2 bugDAO = new BugDAO2();
 		HashMap<Integer, Integer> bugWordIndexMap = new HashMap<Integer, Integer>(); 
 		BufferedReader reader = new BufferedReader(new FileReader(bugTermListFile));
 		String line = null;

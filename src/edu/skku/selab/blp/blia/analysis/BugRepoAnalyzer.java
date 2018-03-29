@@ -26,9 +26,9 @@ import edu.skku.selab.blp.common.SourceFile;
 import edu.skku.selab.blp.db.AnalysisValue;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
 import edu.skku.selab.blp.db.SimilarBugInfo;
-import edu.skku.selab.blp.db.dao.BugDAO;
-import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
-import edu.skku.selab.blp.db.dao.SourceFileDAO;
+import edu.skku.selab.blp.db.dao.BugDAO2;
+import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO2;
+import edu.skku.selab.blp.db.dao.SourceFileDAO2;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -54,7 +54,7 @@ public class BugRepoAnalyzer {
     }
     
     private void prepareData() throws Exception {
-		BugDAO bugDAO = new BugDAO();
+		BugDAO2 bugDAO = new BugDAO2();
 		fixedFilesMap = new HashMap<Integer, HashSet<SourceFile>>(); 
 		similarBugInfosMap = new HashMap<Integer, HashSet<SimilarBugInfo>>();
 		for (int i = 0; i < bugs.size(); i++) {
@@ -87,8 +87,8 @@ public class BugRepoAnalyzer {
         }
         
         private void calculateSimilarScore(Bug bug) throws Exception {
-    		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();	
-    		SourceFileDAO sourceFileDAO = new SourceFileDAO(); 
+    		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();	
+    		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2(); 
     		
     		int bugID = bug.getID();
     		HashMap<Integer, Double> similarScores = new HashMap<Integer, Double>(); 
@@ -185,7 +185,7 @@ public class BugRepoAnalyzer {
 	}
 	
 	public void computeSimilarity() throws Exception {
-		BugDAO bugDAO = new BugDAO();
+		BugDAO2 bugDAO = new BugDAO2();
 		HashMap<Integer, ArrayList<AnalysisValue>> bugVectorsExceptComments = getVectorsExceptComments();
 		HashMap<Integer, ArrayList<AnalysisValue>> bugVectors = getVectors();
 		
@@ -217,7 +217,7 @@ public class BugRepoAnalyzer {
 	}
 	
 	public void computeSimilarityForCommitWithPercent() throws Exception {
-		BugDAO bugDAO = new BugDAO();
+		BugDAO2 bugDAO = new BugDAO2();
 		HashMap<Integer, ArrayList<AnalysisValue>> bugVectorsExceptComments = getVectorsExceptCommentsForCommitWithPercent();
 		HashMap<Integer, ArrayList<AnalysisValue>> bugVectors = getVectors();
 
@@ -302,7 +302,7 @@ public class BugRepoAnalyzer {
 	 * @throws IOException
 	 */
 	public HashMap<Integer, ArrayList<AnalysisValue>> getVectors() throws Exception {
-		BugDAO bugDAO = new BugDAO();
+		BugDAO2 bugDAO = new BugDAO2();
 		HashMap<Integer, ArrayList<AnalysisValue>> bugVectors = new HashMap<Integer, ArrayList<AnalysisValue>>();
 		for (int i = 0; i < bugs.size(); i++) {
 			int bugID = bugs.get(i).getID();
@@ -319,7 +319,7 @@ public class BugRepoAnalyzer {
 	 * @throws IOException
 	 */
 	public HashMap<Integer, ArrayList<AnalysisValue>> getVectorsExceptComments() throws Exception {
-		BugDAO bugDAO = new BugDAO();
+		BugDAO2 bugDAO = new BugDAO2();
 		HashMap<Integer, ArrayList<AnalysisValue>> bugVectors = new HashMap<Integer, ArrayList<AnalysisValue>>();
 		
 		for(int i = 0 ; i<bugs.size(); i++){
@@ -352,7 +352,7 @@ public class BugRepoAnalyzer {
 	}
 
 	public HashMap<Integer, ArrayList<AnalysisValue>> getVectorsExceptCommentsForCommitWithPercent() throws Exception {
-		BugDAO bugDAO = new BugDAO();
+		BugDAO2 bugDAO = new BugDAO2();
 		HashMap<Integer, ArrayList<AnalysisValue>> bugVectors = new HashMap<Integer, ArrayList<AnalysisValue>>();
 		
 		int start = Math.round((float)(bugs.size()*Property.getInstance().getStartPercent()));
@@ -448,9 +448,9 @@ public class BugRepoAnalyzer {
         }
         
         private void calculateSimilarScore(Bug bug) throws Exception {
-    		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
-    		SourceFileDAO sourceFileDAO = new SourceFileDAO(); 
-			BugDAO bugDAO = new BugDAO();
+    		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+    		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2(); 
+			BugDAO2 bugDAO = new BugDAO2();
     		
     		int bugID = bug.getID();
     		HashMap<Integer, Double> similarScores = new HashMap<Integer, Double>(); 

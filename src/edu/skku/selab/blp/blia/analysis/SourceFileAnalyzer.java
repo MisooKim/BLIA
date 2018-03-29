@@ -25,9 +25,9 @@ import edu.skku.selab.blp.common.BugCorpus;
 import edu.skku.selab.blp.common.SourceFileCorpus;
 import edu.skku.selab.blp.db.AnalysisValue;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
-import edu.skku.selab.blp.db.dao.BugDAO;
-import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
-import edu.skku.selab.blp.db.dao.SourceFileDAO;
+import edu.skku.selab.blp.db.dao.BugDAO2;
+import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO2;
+import edu.skku.selab.blp.db.dao.SourceFileDAO2;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -71,8 +71,8 @@ public class SourceFileAnalyzer {
 	 * 
 	 */
 	public void analyze(String version, boolean useStructuredInfo) throws Exception {
-		SourceFileDAO sourceFileDAO = new SourceFileDAO();
-		BugDAO bugDAO = new BugDAO();
+		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		BugDAO2 bugDAO = new BugDAO2();
 		sourceFileVersionIDs = sourceFileDAO.getSourceFileVersionIDs(version);
 		sourceFileAllTermMaps = new HashMap<Integer, HashMap<String, AnalysisValue>>();
 		sourceFileCorpusMap = new HashMap<Integer, SourceFileCorpus>();
@@ -134,10 +134,10 @@ public class SourceFileAnalyzer {
         }
         
     	private void computeSimilarity(Bug bug, String version) throws Exception {
-    		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
-    		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+    		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+    		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
     		
-    		BugDAO bugDAO = new BugDAO();
+    		BugDAO2 bugDAO = new BugDAO2();
     		HashMap<String, AnalysisValue> bugSfTermMap = bugDAO.getSfTermMap(bug.getID());
     		
     		Iterator<String> sourceFileVersionIDIter = sourceFileVersionIDs.keySet().iterator();
@@ -181,8 +181,8 @@ public class SourceFileAnalyzer {
     	}
     	
     	private void computeSimilarityWithStructuredInfo(Bug bug, String version) throws Exception {
-    		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
-    		BugDAO bugDAO = new BugDAO();
+    		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+    		BugDAO2 bugDAO = new BugDAO2();
     		HashMap<String, AnalysisValue> bugSfTermMap = bugDAO.getSfTermMap(bug.getID());
     		
     		TreeSet<Double> vsmScoreSet = new TreeSet<Double>();

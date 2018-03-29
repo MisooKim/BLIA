@@ -24,7 +24,7 @@ import edu.skku.selab.blp.db.ExtendedIntegratedAnalysisValue;
  */
 public class IntegratedAnalysisDAO extends BaseDAO {
 
-	static final Logger logger = LoggerFactory.getLogger(IntegratedAnalysisDAO.class);
+	static final Logger logger = LoggerFactory.getLogger(IntegratedAnalysisDAO2.class);
 	public final static int INVALID_SCORE = -1;
 
 	/**
@@ -35,19 +35,19 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 	}
 	
 	public int insertAnalysisVaule(IntegratedAnalysisValue integratedAnalysisValue) {
-		String sql = "INSERT INTO INT_ANALYSIS (BUG_ID, SF_VER_ID, VSM_SCORE, SIMI_SCORE, BL_SCORE, STRACE_SCORE, COMM_SCORE, MID_SF_SCORE, BLIA_SF_SCORE) "+
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			SourceFileDAO sourceFileDAO = new SourceFileDAO();
+			SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
 			int sourceFileVersionID = integratedAnalysisValue.getSourceFileVersionID();
 			
 			if (INVALID == sourceFileVersionID) {
 				sourceFileVersionID = sourceFileDAO.getSourceFileVersionID(integratedAnalysisValue.getFileName(), integratedAnalysisValue.getVersion());
 			}
 			
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("insertAnalysisVaule");
+			
 			ps.setInt(1, integratedAnalysisValue.getBugID());
 			ps.setInt(2, sourceFileVersionID);
 			ps.setDouble(3, integratedAnalysisValue.getVsmScore());
@@ -68,12 +68,12 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 	
 	
 	public int insertMethodAnalysisVaule(ExtendedIntegratedAnalysisValue integratedMethodAnalysisValue) {
-		String sql = "INSERT INTO INT_MTH_ANALYSIS (BUG_ID, MTH_ID, VSM_SCORE, COMM_SCORE, BLIA_MTH_SCORE) "+
-				"VALUES (?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("insertMethodAnalysisVaule");
+			
 			ps.setInt(1, integratedMethodAnalysisValue.getBugID());
 			ps.setInt(2, integratedMethodAnalysisValue.getMethodID());
 			ps.setDouble(3, integratedMethodAnalysisValue.getVsmScore());
@@ -89,11 +89,12 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 	}
 	
 	public int updateVsmScore(IntegratedAnalysisValue integratedAnalysisValue) {
-		String sql = "UPDATE INT_ANALYSIS SET VSM_SCORE = ? WHERE BUG_ID = ? AND SF_VER_ID = ?";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateVsmScore");
+			
 			ps.setDouble(1, integratedAnalysisValue.getVsmScore());
 			ps.setInt(2, integratedAnalysisValue.getBugID());
 			ps.setInt(3, integratedAnalysisValue.getSourceFileVersionID());
@@ -107,11 +108,12 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 	}
 	
 	public int updateMethodVsmScore(ExtendedIntegratedAnalysisValue integratedAnalysisValue) {
-		String sql = "UPDATE INT_MTH_ANALYSIS SET VSM_SCORE = ? WHERE BUG_ID = ? AND MTH_ID = ?";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateMethodVsmScore");
+			
 			ps.setDouble(1, integratedAnalysisValue.getVsmScore());
 			ps.setInt(2, integratedAnalysisValue.getBugID());
 			ps.setInt(3, integratedAnalysisValue.getMethodID());
@@ -125,11 +127,12 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 	}
 	
 	public int updateSimilarScore(IntegratedAnalysisValue integratedAnalysisValue) {
-		String sql = "UPDATE INT_ANALYSIS SET SIMI_SCORE = ? WHERE BUG_ID = ? AND SF_VER_ID = ?";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateSimilarScore");
+			
 			ps.setDouble(1, integratedAnalysisValue.getSimilarityScore());
 			ps.setInt(2, integratedAnalysisValue.getBugID());
 			ps.setInt(3, integratedAnalysisValue.getSourceFileVersionID());
@@ -142,11 +145,12 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 		return returnValue;
 	}
 	public int updateBugLocatorScore(IntegratedAnalysisValue integratedAnalysisValue) {
-		String sql = "UPDATE INT_ANALYSIS SET BL_SCORE = ? WHERE BUG_ID = ? AND SF_VER_ID = ?";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateBugLocatorScore");
+			
 			ps.setDouble(1, integratedAnalysisValue.getBugLocatorScore());
 			ps.setInt(2, integratedAnalysisValue.getBugID());
 			ps.setInt(3, integratedAnalysisValue.getSourceFileVersionID());
@@ -160,12 +164,13 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 	}
 	
 	public int updateBliaSourceFileScore(IntegratedAnalysisValue integratedAnalysisValue) {
-		String sql = "UPDATE INT_ANALYSIS SET BL_SCORE = ?, MID_SF_SCORE = ?, BLIA_SF_SCORE = ? WHERE BUG_ID = ? AND SF_VER_ID = ?";
 		int returnValue = INVALID;
 		
 //		System.out.printf("Bug ID: %d, SourceFileVerID: %d\n", integratedAnalysisValue.getBugID(), integratedAnalysisValue.getSourceFileVersionID());
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateBliaSourceFileScore");
+			
 			ps.setDouble(1, integratedAnalysisValue.getBugLocatorScore());
 			ps.setDouble(2, integratedAnalysisValue.getMiddleSourceFileScore());
 			ps.setDouble(3, integratedAnalysisValue.getBliaSourceFileScore());
@@ -181,14 +186,15 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 	}
 	
 	public int updateBliaMethodScore(ExtendedIntegratedAnalysisValue integratedMethodAnalysisValue) {
-		String sql = "UPDATE INT_MTH_ANALYSIS SET BLIA_MTH_SCORE = ? WHERE BUG_ID = ? AND MTH_ID = ?";
 		int returnValue = INVALID;
 		
 //		System.out.printf("[updateBliaMethodScore()] Bug ID: %d, MethodID: %d, BLIA method score: %f\n", integratedMethodAnalysisValue.getBugID(),
 //				integratedMethodAnalysisValue.getMethodID(),
 //				integratedMethodAnalysisValue.getBliaMethodScore());
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateBliaMethodScore");
+			
 			ps.setDouble(1, integratedMethodAnalysisValue.getBliaMethodScore());
 			ps.setDouble(2, integratedMethodAnalysisValue.getBugID());
 			ps.setInt(3, integratedMethodAnalysisValue.getMethodID());
@@ -202,11 +208,12 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 	}
 	
 	public int updateStackTraceScore(IntegratedAnalysisValue integratedAnalysisValue) {
-		String sql = "UPDATE INT_ANALYSIS SET STRACE_SCORE = ? WHERE BUG_ID = ? AND SF_VER_ID = ?";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateStackTraceScore");
+			
 			ps.setDouble(1, integratedAnalysisValue.getStackTraceScore());
 			ps.setInt(2, integratedAnalysisValue.getBugID());
 			ps.setInt(3, integratedAnalysisValue.getSourceFileVersionID());
@@ -220,11 +227,12 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 	}
 	
 	public int updateMiddleSourceFileScore(IntegratedAnalysisValue integratedAnalysisValue) {
-		String sql = "UPDATE INT_ANALYSIS SET MID_SF_SCORE = ? WHERE BUG_ID = ? AND SF_VER_ID = ?";
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateMiddleSourceFileScore");
+			
 			ps.setDouble(1, integratedAnalysisValue.getMiddleSourceFileScore());
 			ps.setInt(2, integratedAnalysisValue.getBugID());
 			ps.setInt(3, integratedAnalysisValue.getSourceFileVersionID());
@@ -238,7 +246,6 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 	}
 	
 	public int updateCommitLogScore(IntegratedAnalysisValue integratedAnalysisValue) throws Exception {
-		String sql = "UPDATE INT_ANALYSIS SET COMM_SCORE = ? WHERE BUG_ID = ? AND SF_VER_ID = ?";
 		int returnValue = INVALID;
 		
 		int sourceFileVersionID = integratedAnalysisValue.getSourceFileVersionID();
@@ -250,7 +257,7 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 			}
 			String version = integratedAnalysisValue.getVersion();
 			
-			SourceFileDAO sourceFileDAO = new SourceFileDAO();
+			SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
 			sourceFileVersionID = sourceFileDAO.getSourceFileVersionID(fileName, version);
 			
 			if (INVALID == sourceFileVersionID) {
@@ -261,7 +268,9 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 		}
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("updateCommitLogScore");
+			
 			ps.setDouble(1, integratedAnalysisValue.getCommitLogScore());
 			ps.setInt(2, integratedAnalysisValue.getBugID());
 			ps.setInt(3, integratedAnalysisValue.getSourceFileVersionID());
@@ -321,7 +330,9 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 		int returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("fixFileName");
+			
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -335,7 +346,7 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 		returnValue = INVALID;
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -349,11 +360,11 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 		HashMap<Integer, ExtendedIntegratedAnalysisValue> integratedMethodAnalysisValues = null;
 		ExtendedIntegratedAnalysisValue resultValue = null;
 
-		String sql = "SELECT A.MTH_ID, A.VSM_SCORE, A.COMM_SCORE, A.BLIA_MTH_SCORE FROM INT_MTH_ANALYSIS A " +
-				"WHERE A.BUG_ID = ?";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getMethodAnalysisValues");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();
@@ -383,12 +394,11 @@ public class IntegratedAnalysisDAO extends BaseDAO {
 		HashMap<Integer, IntegratedAnalysisValue> integratedAnalysisValues = null;
 		IntegratedAnalysisValue resultValue = null;
 
-		String sql = "SELECT A.SF_VER_ID, A.VSM_SCORE, A.SIMI_SCORE, A.BL_SCORE, A.STRACE_SCORE, A.COMM_SCORE, A.MID_SF_SCORE, A.BLIA_SF_SCORE "+
-				"FROM INT_ANALYSIS A " +
-				"WHERE A.BUG_ID = ?";
 		
 		try {
-			ps = analysisDbConnection.prepareStatement(sql);
+			
+			ps = setOfDAO.stmtMap.get("getAnalysisValues");
+			
 			ps.setInt(1, bugID);
 			
 			rs = ps.executeQuery();

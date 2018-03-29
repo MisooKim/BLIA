@@ -41,7 +41,7 @@ import edu.skku.selab.blp.common.CommitInfo;
 import edu.skku.selab.blp.common.ExtendedCommitInfo;
 import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.common.MethodVisitor;
-import edu.skku.selab.blp.db.dao.CommitDAO;
+import edu.skku.selab.blp.db.dao.CommitDAO2;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -203,7 +203,7 @@ public class GitCommitLogCollector implements ICommitLogCollector {
 		  .findGitDir() // scan up the file system tree
 		  .build();
 		
-		CommitDAO commitDAO = new CommitDAO();
+		CommitDAO2 commitDAO = new CommitDAO2();
 		
 		if (collectForcely) {
 			commitDAO.deleteAllCommitInfo();
