@@ -9,11 +9,16 @@ package edu.skku.selab.blp.blia.indexer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
@@ -28,12 +33,15 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.Edit.Type;
 import org.eclipse.jgit.diff.EditList;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
@@ -41,7 +49,7 @@ import edu.skku.selab.blp.common.CommitInfo;
 import edu.skku.selab.blp.common.ExtendedCommitInfo;
 import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.common.MethodVisitor;
-import edu.skku.selab.blp.db.dao.CommitDAO2;
+import edu.skku.selab.blp.db.dao.CommitDAO;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -50,12 +58,13 @@ import edu.skku.selab.blp.db.dao.CommitDAO2;
 public class GitCommitLogCollector implements ICommitLogCollector {
 	private String repoDir;
 	private boolean DEBUG_MODE = false;
-	
+
 	/**
 	 * 
 	 */
 	public GitCommitLogCollector(String repoDir) {
 		this.repoDir = repoDir;
+
 	}
 	
 	private CompilationUnit getCompilationUnit(String source) {
@@ -106,6 +115,7 @@ public class GitCommitLogCollector implements ICommitLogCollector {
 			df.format(diff);
 			String diffText = out.toString("UTF-8");
 			
+			
 			ArrayList<Method> foundMethods = new ArrayList<Method>();
 			FileHeader diffHeader = df.toFileHeader(diff);
 			EditList editList = diffHeader.toEditList();
@@ -152,6 +162,7 @@ public class GitCommitLogCollector implements ICommitLogCollector {
 			return null;
 		}
 	}
+		
 	
 	private void extractMethodInfo(ArrayList<Method> commitMethodList, int actualModifiedStartLine, int actualModifiedEndLine,
 			MethodVisitor visitor, CompilationUnit cu) {
@@ -203,7 +214,7 @@ public class GitCommitLogCollector implements ICommitLogCollector {
 		  .findGitDir() // scan up the file system tree
 		  .build();
 		
-		CommitDAO2 commitDAO = new CommitDAO2();
+		CommitDAO commitDAO = new CommitDAO();
 		
 		if (collectForcely) {
 			commitDAO.deleteAllCommitInfo();
@@ -242,9 +253,13 @@ public class GitCommitLogCollector implements ICommitLogCollector {
 				ExtendedCommitInfo extendedcommitInfo = new ExtendedCommitInfo();
 				extendedcommitInfo.setCommitID(currentCommit.getId().name());
 				extendedcommitInfo.setCommitter(currentCommit.getCommitterIdent().getName());
-				extendedcommitInfo.setMessage(currentCommit.getShortMessage());
-				extendedcommitInfo.setCommitDate(commitDate);
+//				extendedcommitInfo.setMessage(currentCommit.getShortMessage());
+//				extendedcommitInfo.setMessage(currentCommit.getFullMessage());
+				String msg = currentCommit.getFullMessage();	
 
+				extendedcommitInfo.setMessage(msg);
+				extendedcommitInfo.setCommitDate(commitDate);
+				
 				// debug code
 //				System.out.printf("Committer: %s, Time: %s, Msg: %s\n",
 //						commitInfo.getCommitter(),
@@ -253,15 +268,39 @@ public class GitCommitLogCollector implements ICommitLogCollector {
 //				System.out.printf(">> Commit ID: %s\n", commitInfo.getCommitID());
 				
 				// finally get the list of changed files
+				HashMap<String, String> hunkMap = new HashMap<String, String>(); 
 				List<DiffEntry> diffs = git.diff().setNewTree(newTreeIter).setOldTree(oldTreeIter).call();
 				for (DiffEntry entry : diffs) {
 					int commitType = convertCommitType(entry.getChangeType());
 					String updatedFileName = entry.getPath(DiffEntry.Side.NEW);
+					
 				
 					// ONLLY java files added to save computing time and space
 					if (updatedFileName.contains(".java")) {
 						extendedcommitInfo.addCommitFile(commitType, updatedFileName);
+						String hunk = getHunks(currentCommit, entry, git);
+						if(hunk != null){
+							String[] data = hunk.split("\n");
+							int cnt = -2;
+							int unrel = 0;
+							for(int a = 0 ; a<data.length; a++){
+								String value = data[a];
+								if(value.charAt(0) == '+' || value.charAt(0) == '-')
+									cnt++;
+								
+								if(value.equals("+") || value.equals("-") 
+										|| value.contains("+import ") || value.contains("-import "))
+									unrel++;
+								
+							}
+							if(cnt != unrel){
+								hunkMap.put(updatedFileName, hunk);
+							}
+//							else
+//								System.out.println(updatedFileName+"\n"+hunk);
+						}
 						
+//						System.out.println(updatedFileName+" "+hunk+"\n\n");
 						// debug code
 //						System.out.printf("ChagngeType: %d, Path: %s\n", commitType, updatedFileName);
 						
@@ -274,6 +313,8 @@ public class GitCommitLogCollector implements ICommitLogCollector {
 						}
 					}
 				}
+
+				extendedcommitInfo.setHunks(hunkMap);
 				
 				if (extendedcommitInfo.getAllCommitFilesWithoutCommitType().size() > 0) {
 					commitDAO.insertCommitInfo(extendedcommitInfo);
@@ -284,6 +325,47 @@ public class GitCommitLogCollector implements ICommitLogCollector {
 		repository.close();
 	}
 	
+	private String getHunks(RevCommit revCommit, DiffEntry diff, Git git) {
+		if (ChangeType.MODIFY != diff.getChangeType()) {
+			return null;
+		}
+		
+		try {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			DiffFormatter df = new DiffFormatter(out);
+			df.setRepository(git.getRepository());
+			
+//			String oldPath = diff.getOldPath();
+			String newPath = diff.getNewPath();
+			if (!newPath.endsWith(".java")) {
+				return null;
+			}
+//			System.out.println("FileName : " + newPath);
+			
+			RevTree tree = revCommit.getTree();
+			ObjectReader newObjectReader = git.getRepository().newObjectReader();
+			TreeWalk treeWalk = TreeWalk.forPath(newObjectReader, newPath, tree);
+			MethodVisitor visitor = null;
+			CompilationUnit cu = null;
+			String newSource = null;
+			if (treeWalk != null) {
+				// use the blob id to read the file's data
+				byte[] data = newObjectReader.open(treeWalk.getObjectId(0)).getBytes();
+				newSource = new String(data);
+				cu = getCompilationUnit(newSource);
+				visitor = new MethodVisitor();
+				cu.accept(visitor);
+			}
+			
+			df.format(diff);
+			String diffText = out.toString("UTF-8");
+			return diffText;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	private int convertCommitType(ChangeType changeType) {
 		int commitType = -1;
 		switch (changeType) {

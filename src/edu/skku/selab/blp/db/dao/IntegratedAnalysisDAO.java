@@ -22,15 +22,15 @@ import edu.skku.selab.blp.db.ExtendedIntegratedAnalysisValue;
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
  *
  */
-public class IntegratedAnalysisDAO2 extends BaseDAO {
+public class IntegratedAnalysisDAO extends BaseDAO {
 
-	static final Logger logger = LoggerFactory.getLogger(IntegratedAnalysisDAO2.class);
+	static final Logger logger = LoggerFactory.getLogger(IntegratedAnalysisDAO.class);
 	public final static int INVALID_SCORE = -1;
 
 	/**
 	 * @throws Exception
 	 */
-	public IntegratedAnalysisDAO2() throws Exception {
+	public IntegratedAnalysisDAO() throws Exception {
 		super();
 	}
 	
@@ -40,7 +40,7 @@ public class IntegratedAnalysisDAO2 extends BaseDAO {
 		int returnValue = INVALID;
 		
 		try {
-			SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+			SourceFileDAO sourceFileDAO = new SourceFileDAO();
 			int sourceFileVersionID = integratedAnalysisValue.getSourceFileVersionID();
 			
 			if (INVALID == sourceFileVersionID) {
@@ -250,7 +250,7 @@ public class IntegratedAnalysisDAO2 extends BaseDAO {
 			}
 			String version = integratedAnalysisValue.getVersion();
 			
-			SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+			SourceFileDAO sourceFileDAO = new SourceFileDAO();
 			sourceFileVersionID = sourceFileDAO.getSourceFileVersionID(fileName, version);
 			
 			if (INVALID == sourceFileVersionID) {

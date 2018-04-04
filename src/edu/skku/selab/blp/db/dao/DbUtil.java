@@ -96,6 +96,23 @@ public class DbUtil {
 
 				"CREATE MEMORY TABLE COMM_INFO(COMM_ID VARCHAR(127) PRIMARY KEY HASH, COMM_DATE DATETIME, MSG VARCHAR, COMMITTER VARCHAR(63)); " +
 				
+				
+
+				"CREATE MEMORY TABLE COMM_HUNK(COMM_ID VARCHAR(127), COMM_SF VARCHAR(255), HUNK VARCHAR); " +
+				"CREATE UNIQUE INDEX COMP_IDX_COMM_HUNK ON COMM_HUNK(COMM_ID, COMM_SF); " +				
+				
+				"CREATE MEMORY TABLE COMM_HUNK_INFO(HUNK_ID INT PRIMARY KEY HASH AUTO_INCREMENT, COMM_ID VARCHAR(127), COMM_SF VARCHAR(255),"
+				+ " HUNK_COR VARCHAR, TOT_CNT INT, HUNK_COR_NORM DOUBLE); " +
+				"CREATE UNIQUE INDEX COMP_IDX_COMM_HUNK_INFO ON COMM_HUNK_INFO(COMM_ID, COMM_SF); " +
+								
+				"CREATE MEMORY TABLE COMM_TERM_INFO (COMM_TERM_ID INT PRIMARY KEY HASH AUTO_INCREMENT, TERM VARCHAR(255)); " + 
+				"CREATE UNIQUE HASH INDEX IDX_COMM_TERM ON COMM_TERM_INFO(TERM); " +
+								
+				"CREATE MEMORY TABLE COMM_TERM_WGT (COMM_ID INT, COMM_TERM_ID INT, TERM_CNT INT, INV_DOC_CNT INT, TF DOUBLE, IDF DOUBLE); " +
+				"CREATE UNIQUE INDEX COMP_IDX_COMM_TERM_WGT ON COMM_TERM_WGT(COMM_ID, COMM_TERM_ID); " +
+				
+				
+				
 				"CREATE MEMORY TABLE COMM_SF_INFO(COMM_ID VARCHAR(127), COMM_SF VARCHAR(255), COMM_TYPE INT); " +
 				"CREATE INDEX IDX_COMM_SF_INFO ON COMM_SF_INFO(COMM_ID); " +
 				
@@ -172,7 +189,14 @@ public class DbUtil {
 				"DROP TABLE COMM_INFO; " +
 				"DROP TABLE COMM_SF_INFO; " +
 				"DROP TABLE COMM_MTH_INFO; " +
-				"DROP TABLE VER_INFO; ";
+				"DROP TABLE VER_INFO; "
+				
+				+ "DROP TABLE COMM_HUNK;"
+				+ "DROP TABLE COMM_HUNK_INFO;"
+				+ "DROP TABLE COMM_TERM_INFO;"
+				+ "DROP TABLE COMM_TERM_WGT;";
+		
+		
 		
 		int returnValue = BaseDAO.INVALID;
 		try {
@@ -207,7 +231,7 @@ public class DbUtil {
 	}
 	
 	public void initializeAllData(boolean commitDataIncluded) throws Exception {
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		sourceFileDAO.deleteAllSourceFiles();
 		sourceFileDAO.deleteAllVersions();
 		sourceFileDAO.deleteAllCorpuses();
@@ -215,10 +239,10 @@ public class DbUtil {
 		sourceFileDAO.deleteAllImportedClasses();
 		sourceFileDAO.deleteAllTermWeights();
 		
-		MethodDAO2 methodDAO = new MethodDAO2();
+		MethodDAO methodDAO = new MethodDAO();
 		methodDAO.deleteAllMethods();
 		
-		BugDAO2 bugDAO = new BugDAO2();
+		BugDAO bugDAO = new BugDAO();
 		bugDAO.deleteAllBugs();
 		bugDAO.deleteAllComments();
 		bugDAO.deleteAllTerms();
@@ -230,18 +254,18 @@ public class DbUtil {
 		bugDAO.deleteAllSimilarBugInfo();
 		
 		if (commitDataIncluded) {
-			CommitDAO2 commitDAO = new CommitDAO2();
+			CommitDAO commitDAO = new CommitDAO();
 			commitDAO.deleteAllCommitInfo();
 			commitDAO.deleteAllCommitFileInfo();
 			commitDAO.deleteAllCommitMethodInfo();
 		}
 		
-		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
 		integratedAnalysisDAO.deleteAllIntegratedAnalysisInfos();
 	}
 	
 	public void initializeAnalysisData() throws Exception {
-		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
 		integratedAnalysisDAO.deleteAllIntegratedAnalysisInfos();
 	}
 

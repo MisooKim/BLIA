@@ -25,9 +25,9 @@ import edu.skku.selab.blp.common.Bug;
 import edu.skku.selab.blp.common.SourceFile;
 import edu.skku.selab.blp.db.ExperimentResult;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
-import edu.skku.selab.blp.db.dao.BugDAO2;
+import edu.skku.selab.blp.db.dao.BugDAO;
 import edu.skku.selab.blp.db.dao.ExperimentResultDAO;
-import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO2;
+import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
 import edu.skku.selab.blp.utils.Util;
 
 /**
@@ -83,7 +83,7 @@ public class Evaluator {
 		long startTime = System.currentTimeMillis();
 		logger.trace("[STARTED] Evaluator.evaluate().");
 		
-		BugDAO2 bugDAO = new BugDAO2();
+		BugDAO bugDAO = new BugDAO();
 		bugs = bugDAO.getAllBugs(true);
 		
 		realFixedFilesMap = new HashMap<Integer, HashSet<SourceFile>>();
@@ -105,7 +105,7 @@ public class Evaluator {
 	}
 	
 	private ArrayList<IntegratedAnalysisValue> getRankedValues(int bugID, int limit) throws Exception {
-		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
 		ArrayList<IntegratedAnalysisValue> rankedValues = null;
 		if (experimentResult.getAlgorithmName().equalsIgnoreCase(Evaluator.ALG_BUG_LOCATOR)) {
 			rankedValues = integratedAnalysisDAO.getBugLocatorRankedValues(bugID, limit);

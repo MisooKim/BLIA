@@ -18,7 +18,7 @@ import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.blia.indexer.SourceFileCorpusCreator;
 import edu.skku.selab.blp.blia.indexer.SourceFileVectorCreator;
 import edu.skku.selab.blp.db.dao.DbUtil;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 import edu.skku.selab.blp.utils.Util;
 
 /**

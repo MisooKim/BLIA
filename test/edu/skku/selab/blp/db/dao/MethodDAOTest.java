@@ -59,7 +59,7 @@ public class MethodDAOTest {
 	}
 	
 	private void prepareTestingData() throws Exception {
-		MethodDAO2 methodDAO = new MethodDAO2();
+		MethodDAO methodDAO = new MethodDAO();
 
 
 		for (int i = 0; i < 4; ++i) {
@@ -79,7 +79,7 @@ public class MethodDAOTest {
 
 	@Test
 	public void verifyGetMethods() throws Exception{
-		MethodDAO2 methodDAO = new MethodDAO2();
+		MethodDAO methodDAO = new MethodDAO();
 		
 		int sourceFileVersionID = 1;
 		HashMap<String, Method> methodMap = methodDAO.getMethods(sourceFileVersionID);
@@ -112,7 +112,7 @@ public class MethodDAOTest {
 
 	@Test
 	public void verifyGetAllMethods() throws Exception{
-		MethodDAO2 methodDAO = new MethodDAO2();
+		MethodDAO methodDAO = new MethodDAO();
 		
 		HashMap<Integer, ArrayList<Method>> methodMap = methodDAO.getAllMethods();
 		ArrayList<Method> methods = methodMap.get(1);

@@ -22,8 +22,8 @@ import edu.skku.selab.blp.common.FileDetector;
 import edu.skku.selab.blp.common.FileParser;
 import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.db.dao.BaseDAO;
-import edu.skku.selab.blp.db.dao.MethodDAO2;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.MethodDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -88,12 +88,12 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 		Property property = Property.getInstance();
 		FileDetector detector = new FileDetector("java");
 		File files[] = detector.detect(property.getSourceCodeDirList());
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
-		MethodDAO2 methodDAO = new MethodDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+		MethodDAO methodDAO = new MethodDAO();
 		
 		String productName = property.getProductName();
-		int totalCoupusCount = SourceFileDAO2.INIT_TOTAL_COUPUS_COUNT;
-		double lengthScore = SourceFileDAO2.INIT_LENGTH_SCORE;
+		int totalCoupusCount = SourceFileDAO.INIT_TOTAL_COUPUS_COUNT;
+		double lengthScore = SourceFileDAO.INIT_LENGTH_SCORE;
 
 		// debug code
 //		System.out.printf("Source code dir: %s\n", property.getSourceCodeDir());
@@ -179,14 +179,14 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 		
 		
 		File files[] = detector.detect(property.getRepoDir().replace(toggle, ""));
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
-		MethodDAO2 methodDAO = new MethodDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+		MethodDAO methodDAO = new MethodDAO();
 		sourceFileDAO.deleteAllCorpusesByVersion(version);
 		methodDAO.deleteAllMethods();
 		
 		String productName = property.getProductName();
-		int totalCoupusCount = SourceFileDAO2.INIT_TOTAL_COUPUS_COUNT;
-		double lengthScore = SourceFileDAO2.INIT_LENGTH_SCORE;
+		int totalCoupusCount = SourceFileDAO.INIT_TOTAL_COUPUS_COUNT;
+		double lengthScore = SourceFileDAO.INIT_LENGTH_SCORE;
 
 		// debug code
 //		System.out.printf("Source code dir: %s\n", property.getSourceCodeDir());

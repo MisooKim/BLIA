@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import edu.skku.selab.blp.common.CommitInfo;
 import edu.skku.selab.blp.common.ExtendedCommitInfo;
-import edu.skku.selab.blp.db.dao.CommitDAO2;
+import edu.skku.selab.blp.db.dao.CommitDAO;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -58,7 +58,7 @@ public class CommitDAOTest {
 		dbUtil.initializeAllData();
 		dbUtil.closeConnection();
 		
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		
 		// preparation phase
 		sourceFileDAO.deleteAllSourceFiles();
@@ -103,7 +103,7 @@ public class CommitDAOTest {
 		commitInfo2.addCommitFile(CommitInfo.MODIFY_COMMIT, fileName4);
 		commitInfo2.addCommitFile(CommitInfo.DELETE_COMMIT, fileName5);
 
-		CommitDAO2 commitDAO = new CommitDAO2();		
+		CommitDAO commitDAO = new CommitDAO();		
 		commitDAO.deleteAllCommitInfo();
 		assertNotEquals("CommitInfo insertion failed!", BaseDAO.INVALID, commitDAO.insertCommitInfo(commitInfo1));
 		assertNotEquals("CommitInfo insertion failed!", BaseDAO.INVALID, commitDAO.insertCommitInfo(commitInfo2));

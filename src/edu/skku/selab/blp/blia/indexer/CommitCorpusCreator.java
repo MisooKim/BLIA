@@ -28,8 +28,8 @@ import edu.skku.selab.blp.utils.Stopword;
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
  *
  */
-public class SourceFileCorpusCreator {
-	static final Logger logger = LoggerFactory.getLogger(SourceFileCorpusCreator.class);
+public class CommitCorpusCreator {
+	static final Logger logger = LoggerFactory.getLogger(CommitCorpusCreator.class);
 	public static String stemContent(String contents[]) {
 		StringBuffer contentBuf = new StringBuffer();
 		for (int i = 0; i < contents.length; i++) {

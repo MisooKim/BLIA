@@ -22,12 +22,12 @@ import edu.skku.selab.blp.common.Method;
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
  *
  */
-public class CommitDAO2 extends BaseDAO {
+public class CommitDAO extends BaseDAO {
 
 	/**
 	 * @throws Exception
 	 */
-	public CommitDAO2() throws Exception {
+	public CommitDAO() throws Exception {
 		super();
 	}
 	
@@ -84,6 +84,23 @@ public class CommitDAO2 extends BaseDAO {
 					
 					returnValue = ps.executeUpdate();
 				}
+			}
+			
+			HashMap<String, String> hunkMap = extendedCommitInfo.getHunks();
+			Iterator<String> hunkIter = hunkMap.keySet().iterator();
+			
+			while (hunkIter.hasNext()) {
+				String fixedFile = hunkIter.next();
+				String hunk = hunkMap.get(fixedFile);				
+				sql = "INSERT INTO COMM_HUNK (COMM_ID, COMM_SF, HUNK) VALUES (?, ?, ?)";
+				
+				ps = analysisDbConnection.prepareStatement(sql);
+				ps.setString(1, extendedCommitInfo.getCommitID());
+				ps.setString(2, fixedFile);
+				ps.setString(3, hunk);
+				
+				returnValue = ps.executeUpdate();
+				
 			}
 			
 		} catch (Exception e) {

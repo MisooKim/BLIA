@@ -16,12 +16,12 @@ import edu.skku.selab.blp.common.Method;
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
  *
  */
-public class MethodDAO2 extends BaseDAO {
+public class MethodDAO extends BaseDAO {
 
 	/**
 	 * @throws Exception
 	 */
-	public MethodDAO2() throws Exception {
+	public MethodDAO() throws Exception {
 		super();
 	}
 	

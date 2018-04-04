@@ -10,12 +10,17 @@ package edu.skku.selab.blp;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Properties;
+
+import edu.skku.selab.blp.db.dao.SetOfDAO;
 
 
 public class Property {
@@ -50,11 +55,31 @@ public class Property {
 	private Calendar until = null;
 	private String repoDir;
 	private double candidateLimitRate = 1.0;
-	
+
+	protected static SetOfDAO set = null;
+	protected static HashMap<String, PreparedStatement> stmtMap = new HashMap<String, PreparedStatement> ();
 
 	private static double startPercent = 0;
 	private static double endPercent = 0;
 	
+	public static HashMap<String, PreparedStatement> getStmtMap() {
+		return stmtMap;
+	}
+
+	public static SetOfDAO getSet() {
+		return set;
+	}
+
+	public static void setSet(SetOfDAO set) {
+		Property.set = set;
+	}
+
+
+	public static void setStmtMap() throws SQLException {
+		set.setStmtMap();
+		stmtMap = set.getStmtMap();
+	}
+
 	public double getStartPercent() {
 		return startPercent;
 	}
@@ -141,7 +166,7 @@ public class Property {
 	}
 	
 
-	Property(String file) {
+	public Property(String file) throws Exception {
 		propertyFileName = file;
 		
 		THREAD_COUNT = Integer.parseInt(Property.readProperty("THREAD_COUNT"));
@@ -151,7 +176,10 @@ public class Property {
 		NEW_BUG_COMMENTS_INCLUDED = Property.readProperty("NEW_BUG_COMMENTS_INCLUDED").equalsIgnoreCase("TRUE");
 		startPercent = Double.parseDouble(Property.readProperty("START_PERCENT"));
 		endPercent = Double.parseDouble(Property.readProperty("END_PERCENT"));
-		
+
+//		if(set == null){
+//			set = new SetOfDAO();
+//		}
 	}
 	
 	

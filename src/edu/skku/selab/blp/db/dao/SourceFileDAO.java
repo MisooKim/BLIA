@@ -23,7 +23,7 @@ import edu.skku.selab.blp.db.AnalysisValue;
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
  *
  */
-public class SourceFileDAO2 extends BaseDAO {
+public class SourceFileDAO extends BaseDAO {
 	final static public double INIT_LENGTH_SCORE = 0.0;
 	final static public int INIT_TOTAL_COUPUS_COUNT = 0;
 	
@@ -31,7 +31,7 @@ public class SourceFileDAO2 extends BaseDAO {
 	/**
 	 * @throws Exception
 	 */
-	public SourceFileDAO2() throws Exception {
+	public SourceFileDAO() throws Exception {
 		super();
 	}
 	

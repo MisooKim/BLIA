@@ -47,9 +47,9 @@ import edu.skku.selab.blp.common.CommitInfo;
 import edu.skku.selab.blp.common.ExtendedCommitInfo;
 import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.db.dao.BaseDAO;
-import edu.skku.selab.blp.db.dao.BugDAO2;
-import edu.skku.selab.blp.db.dao.MethodDAO2;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.BugDAO;
+import edu.skku.selab.blp.db.dao.MethodDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 import edu.skku.selab.blp.utils.Splitter;
 import edu.skku.selab.blp.utils.Stem;
 import edu.skku.selab.blp.utils.Stopword;
@@ -103,9 +103,9 @@ public class BugCorpusCreator {
 		if (!file.exists())
 			file.mkdir();
 		
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
-		BugDAO2 bugDAO = new BugDAO2();
-		MethodDAO2 methodDAO = new MethodDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+		BugDAO bugDAO = new BugDAO();
+		MethodDAO methodDAO = new MethodDAO();
 		Bug bug;
 		Iterator<Bug> bugIter = list.iterator();
 		
@@ -540,9 +540,9 @@ public class BugCorpusCreator {
 		if (!file.exists())
 			file.mkdir();
 		
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
-		BugDAO2 bugDAO = new BugDAO2();
-		MethodDAO2 methodDAO = new MethodDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+		BugDAO bugDAO = new BugDAO();
+		MethodDAO methodDAO = new MethodDAO();
 		
 			
 			// test code

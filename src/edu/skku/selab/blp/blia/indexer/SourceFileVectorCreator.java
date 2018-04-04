@@ -23,7 +23,7 @@ import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.common.SourceFileCorpus;
 import edu.skku.selab.blp.db.AnalysisValue;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -46,7 +46,7 @@ public class SourceFileVectorCreator {
 	 * @throws IOException
 	 */
 	public Hashtable<String, Integer> getInverseDocCountTable(String version) throws Exception {
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		HashMap<String, SourceFileCorpus> corpusSets = sourceFileDAO.getCorpusMap(version);
 		
 		Iterator<String> fileNameIter = corpusSets.keySet().iterator();
@@ -87,7 +87,7 @@ public class SourceFileVectorCreator {
 	 * @throws Exception
 	 */
 	public void computeLengthScore(String version) throws Exception {
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		Property property = Property.getInstance();
 		
 		int max = 0x80000000;
@@ -189,7 +189,7 @@ public class SourceFileVectorCreator {
 		// set total word count
 		property.setWordCount(inverseDocCountTable.size());	
 		
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 
 		// insert corpus
 		String term = "";
@@ -279,7 +279,7 @@ public class SourceFileVectorCreator {
         }
         
         private void insertDataToDb() throws Exception {
-        	SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+        	SourceFileDAO sourceFileDAO = new SourceFileDAO();
         	
 //			if (fileName.equalsIgnoreCase("org.eclipse.swt.internal.win32.NMCUSTOMDRAW.java")) {
 				Integer totalTermCount = totalCorpusLengths.get(fileName);
@@ -353,7 +353,7 @@ public class SourceFileVectorCreator {
 	 * @see edu.skku.selab.blia.indexer.IVectorCreator#create()
 	 */
 	public void create(String version) throws Exception {
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		totalCorpusLengths = sourceFileDAO.getTotalCorpusLengths(version);
 		sourceFileCorpusMap = sourceFileDAO.getCorpusMap(version);
 		fileCount = sourceFileDAO.getSourceFileCount(version);

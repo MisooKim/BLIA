@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import edu.skku.selab.blp.db.dao.BugDAO2;
-import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO2;
-import edu.skku.selab.blp.db.dao.MethodDAO2;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.BugDAO;
+import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
+import edu.skku.selab.blp.db.dao.MethodDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 import edu.skku.selab.blp.blia.indexer.BugMethodVectorCreator;
 import edu.skku.selab.blp.blia.indexer.SourceFileCorpusCreator;
 import edu.skku.selab.blp.Property;
@@ -54,9 +54,9 @@ public class MethodAnalyzer extends SourceFileAnalyzer {
 	 * 
 	 */
 	public void analyze() throws Exception {
-		MethodDAO2 methodDAO = new MethodDAO2();
-		BugDAO2 bugDAO = new BugDAO2();
-		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+		MethodDAO methodDAO = new MethodDAO();
+		BugDAO bugDAO = new BugDAO();
+		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
 		
 		methodMap = methodDAO.getAllMethods();
 		bugNormMap = bugDAO.getAllNorms();
@@ -106,18 +106,18 @@ public class MethodAnalyzer extends SourceFileAnalyzer {
         }
         
     	private void computeSimilarity(Bug bug) throws Exception {
-    		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+    		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
     		ArrayList<IntegratedAnalysisValue> integratedAnalysisValues = rankedSuspFilesMap.get(bug.getID());
-    		BugDAO2 bugDAO = new BugDAO2();
+    		BugDAO bugDAO = new BugDAO();
     		
     		int bugID = bug.getID();
     		for (int i = 0; i < integratedAnalysisValues.size(); ++i) {
     			int sourceFileVersionID = integratedAnalysisValues.get(i).getSourceFileVersionID();
     			ArrayList<Method> methods = methodMap.get(sourceFileVersionID);
     			if (methods == null) {
-    				SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
-    				logger.error("MethodAnalyzer.computeSimilarity()> File name without methods: %s, SF_VER_ID: %d\n",
-    						sourceFileDAO.getSourceFileName(sourceFileVersionID), sourceFileVersionID);
+    				SourceFileDAO sourceFileDAO = new SourceFileDAO();
+    				logger.error("MethodAnalyzer.computeSimilarity()> File name without methods: "+sourceFileDAO.getSourceFileName(sourceFileVersionID)
+    						+", SF_VER_ID: "+sourceFileVersionID);
     				continue;
     			}
     			for (int j = 0; j < methods.size(); ++j) {
@@ -136,8 +136,7 @@ public class MethodAnalyzer extends SourceFileAnalyzer {
     					if (analysisValue != null) {
     						AnalysisValue methodTermAnalysisValue = bugDAO.getBugMthTermWeight(bugID, terms[k]);
     						if (methodTermAnalysisValue == null) {
-    							logger.error("MethodAnalyzer.computeSimilarity()> Can't find bugID: %s, term: %s\n",
-    									bugID, terms[k]);
+    							logger.error("MethodAnalyzer.computeSimilarity()> Can't find bugID:"+bugID+", term: "+terms[k]);
     							return;
     						}
     						double methodTermWeight = methodTermAnalysisValue.getTf() * methodTermAnalysisValue.getIdf();

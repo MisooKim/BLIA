@@ -25,7 +25,7 @@ public class BaseDAO {
 	protected static Connection evaluationDbConnection = null;
 	protected PreparedStatement ps = null;
 	protected ResultSet rs = null;
-	protected static SetOfDAO setOfDAO = null;
+	protected static HashMap<String, PreparedStatement> stmtMap = null;
 		
 	final public static int INVALID = -1;
 	final static String DEFAULT_DB_NAME = "sample";
@@ -33,12 +33,17 @@ public class BaseDAO {
 	
 	public BaseDAO() throws Exception {
 		
-		Property property = Property.getInstance(); 
+		Property property = Property.getInstance();
 		
 		String dbName = BaseDAO.DEFAULT_DB_NAME;
 		if (property != null) {
 			dbName = property.getProductName();
 		}
+		
+//		if(stmtMap == null && property.getSet() != null){
+//			property.setStmtMap();
+//			stmtMap = property.getStmtMap();
+//		}
 
 		openConnection(dbName);
 	}

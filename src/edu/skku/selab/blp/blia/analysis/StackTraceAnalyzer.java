@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.common.Bug;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
-import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO2;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
 
 /**
@@ -66,8 +66,8 @@ public class StackTraceAnalyzer {
         }
         
         private void insertDataToDb() throws Exception {
-    		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
-    		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+    		SourceFileDAO sourceFileDAO = new SourceFileDAO();
+    		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
         	
 			String version = bug.getVersion();
 			HashMap<String, IntegratedAnalysisValue> stackTraceAnalysisValues = new HashMap<String, IntegratedAnalysisValue>();
@@ -142,7 +142,7 @@ public class StackTraceAnalyzer {
     }
 	
 	public void analyze() throws Exception {
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		
 		classNamesMap = new HashMap<String, HashMap<String, String>>();
 		for (int i = 0; i < bugs.size(); i++) {

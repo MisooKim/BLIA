@@ -22,9 +22,9 @@ import org.slf4j.LoggerFactory;
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.db.ExtendedIntegratedAnalysisValue;
-import edu.skku.selab.blp.db.dao.BugDAO2;
+import edu.skku.selab.blp.db.dao.BugDAO;
 import edu.skku.selab.blp.db.dao.ExperimentResultDAO;
-import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO2;
+import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
 import edu.skku.selab.blp.utils.Util;
 
 /**
@@ -60,7 +60,7 @@ public class EvaluatorForMethodLevel extends Evaluator {
 		long startTime = System.currentTimeMillis();
 		logger.trace("[STARTED] Evaluator.evaluate().");				
 		
-		BugDAO2 bugDAO = new BugDAO2();
+		BugDAO bugDAO = new BugDAO();
 		bugs = bugDAO.getAllBugs(true);
 		
 		realFixedMethodsMap = new HashMap<Integer, HashSet<Method>>();
@@ -82,7 +82,7 @@ public class EvaluatorForMethodLevel extends Evaluator {
 	}
 	
 	private ArrayList<ExtendedIntegratedAnalysisValue> getRankedValues(int bugID, int limit) throws Exception {
-		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
 		ArrayList<ExtendedIntegratedAnalysisValue> rankedValues = null;
 		if (experimentResult.getAlgorithmName().equalsIgnoreCase(EvaluatorForMethodLevel.ALG_BLIA_METHOD)) {
 			rankedValues = integratedAnalysisDAO.getBliaMethodRankedValues(bugID, limit);

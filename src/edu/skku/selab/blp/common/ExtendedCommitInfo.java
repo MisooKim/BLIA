@@ -17,14 +17,22 @@ import java.util.TreeSet;
  */
 public class ExtendedCommitInfo extends CommitInfo {
 	private HashMap<String, ArrayList<Method>> commitMethodMap;
+	private HashMap<String, String> hunks;
 	
-	/**
-	 * 
-	 */
+	
+	public HashMap<String, String> getHunks() {
+		return hunks;
+	}
+
+	public void setHunks(HashMap<String, String> hunks) {
+		this.hunks = hunks;
+	}
+
 	public ExtendedCommitInfo() {
 		super();
 		setCommitMethodMap(new HashMap<String, ArrayList<Method>>());
-	}
+		setHunks(new HashMap<String, String>());
+	}	
 	
 	public ExtendedCommitInfo(CommitInfo commitInfo) {
 		this.setCommitID(commitInfo.getCommitID());
@@ -46,6 +54,13 @@ public class ExtendedCommitInfo extends CommitInfo {
 			fixedMethodList.add(fixedMethod);
 		}
 	}
+	
+	public void addHunks(String fixedFile, String hunk){
+		if (!getHunks().containsKey(fixedFile)) {
+			getHunks().put(fixedFile, hunk);
+		}
+	}
+
 
 	public ArrayList<Method> getFixedMethodList(String fixedFile) {
 		return commitMethodMap.get(fixedFile);

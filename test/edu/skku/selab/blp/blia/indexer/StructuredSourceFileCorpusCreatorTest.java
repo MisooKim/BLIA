@@ -16,7 +16,7 @@ import org.junit.Test;
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.db.dao.DbUtil;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)

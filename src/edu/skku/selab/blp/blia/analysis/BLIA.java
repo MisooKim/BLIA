@@ -28,10 +28,10 @@ import edu.skku.selab.blp.blia.indexer.StructuredSourceFileCorpusCreator;
 import edu.skku.selab.blp.common.Bug;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
 import edu.skku.selab.blp.db.ExtendedIntegratedAnalysisValue;
-import edu.skku.selab.blp.db.dao.BugDAO2;
+import edu.skku.selab.blp.db.dao.BugDAO;
 import edu.skku.selab.blp.db.dao.DbUtil;
-import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO2;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 import edu.skku.selab.blp.utils.Util;
 import logging.Foo;
 
@@ -110,7 +110,7 @@ public class BLIA {
 	}
 	
 	public void preAnalyze() throws Exception {
-		BugDAO2 bugDAO = new BugDAO2();
+		BugDAO bugDAO = new BugDAO();
 		boolean orderedByFixedDate = true;
 		bugs = bugDAO.getAllBugs(orderedByFixedDate);
 
@@ -146,7 +146,7 @@ public class BLIA {
 	
     private void calculateBliaSourceFileScore(int bugID, boolean includeStackTrace) throws Exception {
 //		HashMap<Integer, IntegratedAnalysisValue> integratedAnalysisValues = integratedAnalysisValuesMap.get(bugID);
-    	IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+    	IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
     	
 //    	System.out.printf("Before integratedAnalysisDAO.getAnalysisValues() \n");
 		HashMap<Integer, IntegratedAnalysisValue> integratedAnalysisValues = integratedAnalysisDAO.getAnalysisValues(bugID);
@@ -183,7 +183,7 @@ public class BLIA {
     
     private void calculateBliaMethodScore(int bugID) throws Exception {
 //		HashMap<Integer, IntegratedAnalysisValue> integratedAnalysisValues = integratedAnalysisValuesMap.get(bugID);
-    	IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+    	IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
     	
 //    	System.out.printf("Before integratedAnalysisDAO.getAnalysisValues() \n");
 		HashMap<Integer, ExtendedIntegratedAnalysisValue> integratedMethodAnalysisValues = integratedAnalysisDAO.getMethodAnalysisValues(bugID);
@@ -215,7 +215,7 @@ public class BLIA {
 	
 	public void analyze(String version, boolean includeStackTrace, boolean includeMethodAnalyze) throws Exception {
 		if (null == bugs) {
-			BugDAO2 bugDAO = new BugDAO2();
+			BugDAO bugDAO = new BugDAO();
 			bugs = bugDAO.getAllBugs(false);			
 		}
 		

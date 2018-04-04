@@ -29,8 +29,8 @@ import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.common.SourceFile;
 import edu.skku.selab.blp.db.AnalysisValue;
 import edu.skku.selab.blp.db.SimilarBugInfo;
-import edu.skku.selab.blp.db.dao.BugDAO2;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.BugDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -137,7 +137,7 @@ public class BugDAOTest {
 		bug3.setCorpus(bugCorpus3);
 		bug3.setVersion(version);
 		
-		BugDAO2 bugDAO = new BugDAO2();
+		BugDAO bugDAO = new BugDAO();
 		
 		bugDAO.deleteAllBugs();
 		assertNotEquals("Bug insertion failed!", BaseDAO.INVALID, bugDAO.insertStructuredBug(bug1));
@@ -154,7 +154,7 @@ public class BugDAOTest {
 	
 	@Test
 	public void verifyGetBug() throws Exception {
-		BugDAO2 bugDAO = new BugDAO2();
+		BugDAO bugDAO = new BugDAO();
 		HashMap<Integer, Bug> bugs = bugDAO.getBugs();
 		
 		Bug foundBug1 = bugs.get(bugID1);
@@ -219,7 +219,7 @@ public class BugDAOTest {
 
 	@Test
 	public void verifyGetBugSfTermVector() throws Exception {
-		BugDAO2 bugDAO = new BugDAO2();
+		BugDAO bugDAO = new BugDAO();
 
 		bugDAO.deleteAllTerms();
 		assertNotEquals("Term insertion failed!", BaseDAO.INVALID, bugDAO.insertBugTerm(term1));
@@ -231,7 +231,7 @@ public class BugDAOTest {
 		
 		// preparation phase
 		bugDAO.deleteAllBugSfTermWeights();
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		sourceFileDAO.deleteAllTerms();
 		sourceFileDAO.insertTerm(term1);
 		sourceFileDAO.insertTerm(term2);
@@ -250,7 +250,7 @@ public class BugDAOTest {
 
 	@Test
 	public void verifyGetBugTermWeight() throws Exception {
-		BugDAO2 bugDAO = new BugDAO2();
+		BugDAO bugDAO = new BugDAO();
 		
 		bugDAO.deleteAllTerms();
 		assertNotEquals("Term insertion failed!", BaseDAO.INVALID, bugDAO.insertBugTerm(term1));
@@ -267,8 +267,8 @@ public class BugDAOTest {
 
 	@Test
 	public void verifyGetFixedFiles() throws Exception {
-		BugDAO2 bugDAO = new BugDAO2();
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		BugDAO bugDAO = new BugDAO();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		
 		// preparation phase
 		sourceFileDAO.deleteAllSourceFiles();
@@ -324,8 +324,8 @@ public class BugDAOTest {
 	
 	@Test
 	public void verifyGetFixedMethods() throws Exception {
-		BugDAO2 bugDAO = new BugDAO2();
-		MethodDAO2 methodDAO = new MethodDAO2();
+		BugDAO bugDAO = new BugDAO();
+		MethodDAO methodDAO = new MethodDAO();
 		
 		int bugID = 213;
 		long methodID[] = { -1, -1, -1 };
@@ -369,7 +369,7 @@ public class BugDAOTest {
 	
 	@Test
 	public void verifyGetSimilarBugInfos() throws Exception {
-		BugDAO2 bugDAO = new BugDAO2();
+		BugDAO bugDAO = new BugDAO();
 		
 		bugDAO.deleteAllSimilarBugInfo();
 		assertNotEquals("BugFixedFileInfo insertion failed!", BaseDAO.INVALID, bugDAO.insertSimilarBugInfo(bugID1, bugID2, similarityScore1));
@@ -399,7 +399,7 @@ public class BugDAOTest {
 	
 	@Test
 	public void verifyGetStackTraceClasses() throws Exception {
-		BugDAO2 bugDAO = new BugDAO2();
+		BugDAO bugDAO = new BugDAO();
 
 		bugDAO.deleteAllStackTraceClasses();
 		String className1 = "edu.skku.blp.blia.className1";

@@ -16,7 +16,7 @@ import org.junit.Test;
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.blia.analysis.BLIA;
 import edu.skku.selab.blp.db.dao.DbUtil;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 import edu.skku.selab.blp.evaluation.Evaluator;
 import edu.skku.selab.blp.utils.Util;
 
@@ -102,7 +102,9 @@ public class EvaluatorTest {
 	
 	@Test
 	public void verifyEvaluateBLIAOnce() throws Exception {
-		Property prop = Property.loadInstance();
+		String propertyFile = "blp.properties";
+		Property prop = new Property(propertyFile);
+		prop = prop.loadInstanceForJar(propertyFile);
 
 		boolean useStrucrutedInfo = true;
 		

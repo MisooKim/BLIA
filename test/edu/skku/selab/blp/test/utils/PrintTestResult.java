@@ -19,8 +19,8 @@ import edu.skku.selab.blp.common.BugCorpus;
 import edu.skku.selab.blp.common.SourceFile;
 import edu.skku.selab.blp.db.ExtendedIntegratedAnalysisValue;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
-import edu.skku.selab.blp.db.dao.BugDAO2;
-import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO2;
+import edu.skku.selab.blp.db.dao.BugDAO;
+import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
 import edu.skku.selab.blp.utils.Stem;
 
 /**
@@ -87,8 +87,8 @@ public class PrintTestResult {
 
 	@Test
 	public void printResult() throws Exception {
-		BugDAO2 bugDAO = new BugDAO2();
-		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+		BugDAO bugDAO = new BugDAO();
+		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
 		
 		HashMap<Integer, Bug> allBugs = bugDAO.getBugs();
 		FileWriter resultWriter = new FileWriter("ExperimentResult.txt");

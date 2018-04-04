@@ -22,7 +22,7 @@ import org.junit.Test;
 
 import edu.skku.selab.blp.common.SourceFileCorpus;
 import edu.skku.selab.blp.db.AnalysisValue;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -81,7 +81,7 @@ public class SourceFileDAOTest {
 	}
 	
 	private void prepareTestingData() throws Exception {
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		
 		sourceFileDAO.deleteAllSourceFiles();
 		assertNotEquals("fileName1 insertion failed!", BaseDAO.INVALID, sourceFileDAO.insertSourceFile(fileName1));
@@ -177,7 +177,7 @@ public class SourceFileDAOTest {
 
 	@Test
 	public void verifyGetSourceFileAnalysisValue() throws Exception {
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		
 		sourceFileDAO.deleteAllTermWeights();
 		int termCount = 5;
@@ -199,7 +199,7 @@ public class SourceFileDAOTest {
 	
 	@Test
 	public void verifyGetImportedClasses() throws Exception {
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		
 		String importedClass1 = "edu.skku.blia.class1";
 		String importedClass2 = "edu.skku.blia.class2";

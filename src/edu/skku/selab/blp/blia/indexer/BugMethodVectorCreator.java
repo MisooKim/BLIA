@@ -20,8 +20,8 @@ import edu.skku.selab.blp.common.FileParser;
 import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.db.AnalysisValue;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
-import edu.skku.selab.blp.db.dao.BugDAO2;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.BugDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -66,9 +66,9 @@ public class BugMethodVectorCreator extends BugSourceFileVectorCreator {
 	}
 	
 	public void create(String version, HashMap<Integer, ArrayList<IntegratedAnalysisValue>> rankedSuspFilesMap) throws Exception {
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		HashMap<String, Integer> sourceFileTermMap = sourceFileDAO.getTermMap();
-		BugDAO2 bugDAO = new BugDAO2();
+		BugDAO bugDAO = new BugDAO();
 		
 		String methodTerm = "";
 		int totalTermCount = 0;
@@ -91,8 +91,8 @@ public class BugMethodVectorCreator extends BugSourceFileVectorCreator {
 				int sourceFileVersionID = integratedAnalysisValues.get(i).getSourceFileVersionID();
 				ArrayList<Method> methods = methodMap.get(sourceFileVersionID);
 				if (methods == null) {
-					logger.error("BugMethodVectorCreator.create()> File name without methods: %s, SF_VER_ID: %d\n",
-							sourceFileDAO.getSourceFileName(sourceFileVersionID), sourceFileVersionID);
+					logger.error("BugMethodVectorCreator.create()> File name without methods: "+sourceFileDAO.getSourceFileName(sourceFileVersionID)+
+							", SF_VER_ID: "+ sourceFileVersionID);
 					continue;
 				}
 				

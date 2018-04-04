@@ -20,8 +20,8 @@ import org.junit.Test;
 import edu.skku.selab.blp.common.SourceFileCorpus;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
 import edu.skku.selab.blp.db.ExtendedIntegratedAnalysisValue;
-import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO2;
-import edu.skku.selab.blp.db.dao.SourceFileDAO2;
+import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
+import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -55,7 +55,7 @@ public class IntegratedAnalysisDAOTest {
 
 		String fileName1 = "test_10.java";
 		String fileName2 = "test_11.java";
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		
 		sourceFileDAO.deleteAllSourceFiles();
 		assertNotEquals("fileName1 insertion failed!", BaseDAO.INVALID, sourceFileDAO.insertSourceFile(fileName1));
@@ -96,7 +96,7 @@ public class IntegratedAnalysisDAOTest {
 
 	@Test
 	public void verifyGetAnalysisValues() throws Exception {
-		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
 		
 		integratedAnalysisDAO.deleteAllIntegratedAnalysisInfos();
 		int bugID1 = 101;
@@ -128,7 +128,7 @@ public class IntegratedAnalysisDAOTest {
 		assertEquals("analysisValues size is wrong.", 1, analysisValues.size());
 		
 		
-		SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+		SourceFileDAO sourceFileDAO = new SourceFileDAO();
 		int sourceFileVersionID = sourceFileDAO.getSourceFileVersionID(fileName1, version1);
 		IntegratedAnalysisValue analysisValue = analysisValues.get(sourceFileVersionID); 
 		assertNotNull("analysisValue can't be found.", analysisValue);
@@ -144,7 +144,7 @@ public class IntegratedAnalysisDAOTest {
 	
 	@Test
 	public void verifyGetMethodAnalysisValues() throws Exception {
-		IntegratedAnalysisDAO2 integratedAnalysisDAO = new IntegratedAnalysisDAO2();
+		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
 		
 		integratedAnalysisDAO.deleteAllIntegratedAnalysisInfos();
 		int bugID1 = 101;

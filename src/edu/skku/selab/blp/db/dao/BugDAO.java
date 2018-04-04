@@ -28,12 +28,12 @@ import edu.skku.selab.blp.db.SimilarBugInfo;
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
  *
  */
-public class BugDAO2 extends BaseDAO {
+public class BugDAO extends BaseDAO {
 
 	/**
 	 * @throws Exception
 	 */
-	public BugDAO2() throws Exception {
+	public BugDAO() throws Exception {
 		super();
 	}
 	
@@ -899,7 +899,7 @@ public class BugDAO2 extends BaseDAO {
 		int returnValue = INVALID;
 		
 		try {
-			SourceFileDAO2 sourceFileDAO = new SourceFileDAO2();
+			SourceFileDAO sourceFileDAO = new SourceFileDAO();
 			int fixedSourceFileID = sourceFileDAO.getSourceFileVersionID(fileName, version);
 
 			ps = analysisDbConnection.prepareStatement(sql);
@@ -919,7 +919,7 @@ public class BugDAO2 extends BaseDAO {
 		int returnValue = INVALID;
 		
 		try {
-			MethodDAO2 methodDAO = new MethodDAO2();
+			MethodDAO methodDAO = new MethodDAO();
 			int fixedMethodID = methodDAO.getMethodID(method);;
 			
 			if (INVALID != fixedMethodID) {

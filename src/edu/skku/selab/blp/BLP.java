@@ -31,7 +31,7 @@ public class BLP {
 		for (int i = 0; i < productName.length; i++) {
 			dbUtil.openConnetion(productName[i]);
 
-//			dbUtil.dropAllAnalysisTables();
+			dbUtil.dropAllAnalysisTables();
 			dbUtil.createAllAnalysisTables();
 
 			prop.setProductName(productName[i]);
@@ -42,10 +42,10 @@ public class BLP {
 		
 		dbUtil.openEvaluationDbConnection();
 
-//		dbUtil.dropEvaluationTable();
+		dbUtil.dropEvaluationTable();
 		dbUtil.createEvaluationTable();
 		
-//		dbUtil.initializeExperimentResultData();
+		dbUtil.initializeExperimentResultData();
 		
 		dbUtil.closeConnection();
 	}
@@ -55,7 +55,7 @@ public class BLP {
 	 */
 	public static void main(String[] args) throws Exception {
 		String propertyFile = "blp.properties";
-		String type = "commit";
+		String type = "release";
 		if(args.length > 0){
 			propertyFile = args[0];
 //			propertyFile = "c:\\blp.properties";
@@ -106,15 +106,15 @@ public class BLP {
 		evaluator1.evaluate();
 		logger.trace("Finish Evaluator for File Level");
 
-		if(prop.isMethodLevel()){
-			logger.trace("Start Evaluator for Method Level");
-			Evaluator evaluator2 = new EvaluatorForMethodLevel(prop.getProductName(),
-					EvaluatorForMethodLevel.ALG_BLIA_METHOD, algorithmDescription, prop.getAlpha(),
-					prop.getBeta(), prop.getGamma(), prop.getPastDays(),
-					prop.getCandidateLimitRate());
-			evaluator2.evaluate();
-			logger.trace("Finish Evaluator for Method Level");
-		}
+//		if(prop.isMethodLevel()){
+//			logger.trace("Start Evaluator for Method Level");
+//			Evaluator evaluator2 = new EvaluatorForMethodLevel(prop.getProductName(),
+//					EvaluatorForMethodLevel.ALG_BLIA_METHOD, algorithmDescription, prop.getAlpha(),
+//					prop.getBeta(), prop.getGamma(), prop.getPastDays(),
+//					prop.getCandidateLimitRate());
+//			evaluator2.evaluate();
+//			logger.trace("Finish Evaluator for Method Level");
+//		}
 		logger.trace("[DONE] BLIA Evaluation FINISH(Total "+Util.getElapsedTimeSting(startTime)+"  sec)");
 	}
 
